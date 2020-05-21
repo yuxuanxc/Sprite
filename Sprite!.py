@@ -25,7 +25,7 @@ ROOM_WIDTH = 23
 ROOM_HEIGHT  = 16
 TILE_SIZE = 30
 
-player_y, player_x = 2, 5
+player_y, player_x = 7, 17
 game_over = False
 
 PLAYER = {
@@ -53,6 +53,7 @@ player_image = PLAYER[player_direction][player_frame]
 player_offset_x, player_offset_y = 0, 0
 
 #MAP#
+
 GAME_MAP = [["Room 0 - where unused objects are kept", 0, 0, False, False]]
 
 GAME_MAP  += [
@@ -65,10 +66,12 @@ GAME_MAP  += [
 objects = {
     0: [image('grass')],
     1: [image('wall')],
-    2: [image('stones')],
-    3: [image('raccoon')],
-    4: [image('raccoonhouse')],
-    5: [image('wall')]
+    2: [image('wall1')],
+    3: [image('longwall')],
+    4: [image('stones')],
+    5: [image('shortstones')],
+    6: [image('longstones')],
+    7: [image('raccoon')]
     }
 
 items_player_may_stand_on = [0]
@@ -77,10 +80,19 @@ items_player_may_stand_on = [0]
 
 scenery = {
     #room number: [[object number, y position, x position]...]
-    1: [[3, 4, 9], [4, 3, 11]]
+    1: [[1, 5, 11], [1, 6, 11],
+        [2, 10, 11], [1, 11, 11], [1, 12, 11], [1, 5, 20], [1, 6, 20],
+        [1, 7, 20], [1, 8, 20], [1, 9, 20], [1, 10, 20], [1, 11, 20],
+        [1, 12, 20], [3, 4, 11], [3, 13, 11], [5, 6, 0], [5, 10, 0],
+        [4, 2, 3], [4, 3, 3], [4, 4, 3], [4, 5, 3], [4, 11, 3],
+        [4, 12, 3], [4, 13, 3], [4, 14, 3], [6, 1, 3], [6, 15, 3],
+        [4, 2, 22], [4, 3, 22], [4, 4, 22], [4, 5, 22],[4, 6, 22],
+        [4, 7, 22], [4, 8, 22], [4, 9, 22], [4, 10, 22], [4, 11, 22],
+        [4, 12, 22], [4, 13, 22], [4, 14, 22], [7, 6, 9]]
     }
 
 #MAKE MAP#
+
 def generate_map():
     global room_map, top_left_x, top_left_y
     room_data = GAME_MAP[current_room]
@@ -155,8 +167,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
            
-    clock.tick(11) 
-    pygame.time.delay(40)
+    clock.tick(16) 
 
     generate_map()
     draw()
