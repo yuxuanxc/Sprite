@@ -68,9 +68,7 @@ def draw():
     pygame.draw.rect(screen, (0,128,128), (0, 550, 690, 100))
     
     screen.blit(raccoon, (300, 300))
-    i = 10
-    x = 200
-    y = 200
+    
     for x in range(5, 15):
         screen.blit(door, (x * 30, 210))
         screen.blit(door, (x * 30, 410))
