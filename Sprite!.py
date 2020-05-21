@@ -53,7 +53,6 @@ player_image = PLAYER[player_direction][player_frame]
 player_offset_x, player_offset_y = 0, 0
 
 #MAP#
-
 GAME_MAP = [["Room 0 - where unused objects are kept", 0, 0, False, False]]
 
 GAME_MAP  += [
@@ -82,7 +81,6 @@ scenery = {
     }
 
 #MAKE MAP#
-
 def generate_map():
     global room_map, top_left_x, top_left_y
     room_data = GAME_MAP[current_room]
