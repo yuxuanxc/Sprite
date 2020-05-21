@@ -2,12 +2,13 @@ import pygame
 import os
 
 pygame.init()
+pygame.display.set_caption("Sprite!")
 
+#VARIABLES#
 WIDTH = 690
 HEIGHT = 650
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Sprite!")
 
 current_path = os.path.dirname('Sprite!.py')
 image_path = os.path.join(current_path, 'images')
@@ -15,12 +16,11 @@ image_path = os.path.join(current_path, 'images')
 def image(image):
     return pygame.image.load(os.path.join(image_path, image + '.png'))
 
-raccoon = pygame.image.load(os.path.join(image_path, 'raccoon.png'))
-door = pygame.image.load(os.path.join(image_path, 'door.png'))
-
 top_left_x = 100
 top_left_y = 150
+
 TILE_SIZE = 30
+
 player_y, player_x = 2, 5
 game_over = False
 
@@ -48,6 +48,7 @@ player_frame = 0
 player_image = PLAYER[player_direction][player_frame]
 player_offset_x, player_offset_y = 0, 0
 
+#DISPLAY#
 def draw_image(image, y, x):
     screen.blit(
         image,
@@ -63,26 +64,15 @@ def draw():
     if game_over:
         return
 
-    pygame.draw.rect(screen, (0,128,128), (0, 0, 690, 100))
-    pygame.draw.rect(screen, (0, 128, 0), (0, 100, 690, 450))
-    pygame.draw.rect(screen, (0,128,128), (0, 550, 690, 100))
-    
-    screen.blit(raccoon, (300, 300))
-    
-    for x in range(5, 15):
-        screen.blit(door, (x * 30, 210))
-        screen.blit(door, (x * 30, 410))
-    for y in range(21, 42):
-        screen.blit(door, (150, y * 10))
-        screen.blit(door, (450, y * 10))
+    pygame.draw.rect(screen, (0,0,0), (0, 0, 690, 100))
+    pygame.draw.rect(screen, (0, 0, 0), (0, 100, 690, 450))
+    pygame.draw.rect(screen, (0,0,0), (0, 550, 690, 100))
 
     for y in range(HEIGHT):
         if (player_y == y):
             draw_player()
-        
-    screen.set_clip(None)
     
-#mainloop 
+#mainloop#
 clock = pygame.time.Clock()
 run = True
 while run:
