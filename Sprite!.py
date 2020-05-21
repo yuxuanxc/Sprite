@@ -21,7 +21,7 @@ def sound(sound):
     soundObj = pygame.mixer.Sound(os.path.join(sound_path, sound + '.wav'))
     soundObj.play()
 
-current_room = 1
+current_room = 2
 
 top_left_x = 0
 top_left_y = 100
@@ -30,7 +30,7 @@ ROOM_WIDTH = 23
 ROOM_HEIGHT  = 16
 TILE_SIZE = 30
 
-player_y, player_x = 7, 17
+player_y, player_x = 8, 17
 game_over = False
 
 PLAYER = {
@@ -66,24 +66,29 @@ GAME_MAP = [["Room 0 - where unused objects are kept", 0, 0, False, False]]
 
 GAME_MAP  += [
     #["Room name", Top exit?, Right exit?]
-    ["Raccoon House", False, False] #room 1
+    ["Raccoon House", False, False], #room 1
+    ["Raccoon Treehouse", False, True] #room 2
     ]
 
 #OBJECTS#
 
 objects = {
-    0: [image('grass')],
-    1: [image('wall')],
-    2: [image('wall1')],
-    3: [image('longwall')],
-    4: [image('stones')],
-    5: [image('shortstones')],
-    6: [image('longstones')],
-    7: [image('raccoon')],
-    8: [image('fireplace')],
-    9: [image('charcoal')],
-    10: [image('picture')],
-    11: [image('charcoal')]
+    #Image, Shadow, Description
+    0: [image('grass'), None, None],
+    1: [image('wall'), None, "Wooden walls"],
+    2: [image('wall1'), None, "Wooden walls"],
+    3: [image('longwall'), None, "Wooden walls"],
+    4: [image('stones'), None, "Stones"],
+    5: [image('shortstones'), None, "Stones"],
+    6: [image('longstones'), None, "Stones"],
+    7: [image('raccoon'), None, "A friendly raccoon"],
+    8: [image('fireplace'), None, "A charcoal fireplace"],
+    9: [image('charcoal'), None, "Some charcoal"],
+    10: [image('picture'), None, "A picture of a shiba inu"],
+    11: [image('charcoal'), None, "Some charcoal"],
+    12: [image('treehouse'), None, "A treehouse, with a ladder made from wooden planks"],
+    13: [image('baby-raccoon'), None, "A baby raccoon"],
+    14: [image('tree'), None, "A tree with blue leaves"]
     }
 
 items_player_may_carry = list(range(9, 12))
@@ -101,7 +106,9 @@ scenery = {
         [4, 12, 3], [4, 13, 3], [4, 14, 3], [6, 1, 3], [6, 15, 3],
         [4, 2, 22], [4, 3, 22], [4, 4, 22], [4, 5, 22],[4, 6, 22],
         [4, 7, 22], [4, 8, 22], [4, 9, 22], [4, 10, 22], [4, 11, 22],
-        [4, 12, 22], [4, 13, 22], [4, 14, 22], [7, 6, 9], [8, 4, 6]]
+        [4, 12, 22], [4, 13, 22], [4, 14, 22], [7, 6, 9], [8, 4, 6]],
+    2: [[5, 6, 5], [5, 6, 8], [5, 6, 11], [5, 6, 14], [14, 6, 1], [14, 6, 18], 
+        [5, 7, 0], [5, 7, 2], [5, 7, 18], [5, 7, 19], [12, 7, 6], [13, 7, 17]]
     }
 
 #PROPS#
@@ -206,7 +213,7 @@ def examine_object():
     left_tile_of_item = find_object_start_x()
     if item_player_is_on in [0, 2]:
         return
-    description = "You see: "
+    description = "You see: " + objects[item_player_is_on][2]
     for prop_number, details in props.items():
         if (details[0] == current_room):
             if (details[1] == player_y
