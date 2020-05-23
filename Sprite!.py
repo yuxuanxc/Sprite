@@ -106,11 +106,12 @@ objects = {
     11: [image('ironore'), None, "Iron ore", "iron ore"],
     12: [image('treehouse'), None, "A treehouse, \
 with a ladder made from wooden planks"],
-    13: [image('baby-raccoon'), None, "A baby raccoon"],
+    13: [image('baby_raccoon'), None, "A baby raccoon"],
     14: [image('tree'), None, "A tree with blue leaves"],
     15: [image('mountain'), None, "The base of a mountain"],
     16: [image('ironore'), None, "Something shiny"],
-    17: [image('pickaxe'), None, "Pickaxe", "pickaxe"]
+    17: [image('pickaxe'), None, "Pickaxe", "pickaxe"],
+    18: [image('rocks'), None, "Rocks"]
     }
 
 items_player_may_carry = list(range(9, 12)) + [17]
@@ -122,8 +123,8 @@ scenery = {
     #room number: [[object number, y position, x position]...]
     1: [[14, 4, 7], [14, 4, 10], [14, 4, 13], [14, 4, 16], [14, 5, 19],
         [14, 15, 7], [14, 15, 10], [14, 15, 13], [14, 15, 16], [14, 14, 19],
-        [4, 5, 6], [4, 6, 6], [4, 7, 6], [4, 8, 6], [4, 9, 6],
-        [4, 10, 6], [16, 11, 6], [4, 12, 6], [4, 13, 6], [4, 14, 6],
+        [18, 5, 6], [18, 6, 6], [18, 7, 6], [18, 8, 6], [18, 9, 6],
+        [18, 10, 6], [16, 11, 6], [18, 12, 6], [18, 13, 6], [18, 14, 6],
         [15, 15, 0]],
     5: [[5, 6, 5], [5, 6, 8], [5, 6, 11], [5, 6, 14], [14, 6, 1],
         [14, 6, 18], [5, 7, 0], [5, 7, 2], [5, 7, 18], [5, 7, 19],
