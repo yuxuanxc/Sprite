@@ -105,7 +105,7 @@ objects = {
     10: [image('picture'), None, "A picture of a shiba inu", "picture"],
     11: [image('ironore'), None, "Iron ore", "iron ore"],
     12: [image('treehouse'), None, "A treehouse, \
-with a ladder made from wooden planks"],
+with a staircase made from wooden planks"],
     13: [image('baby_raccoon'), None, "A baby raccoon"],
     14: [image('tree'), None, "A tree with blue leaves"],
     15: [image('mountain'), None, "The base of a mountain"],
