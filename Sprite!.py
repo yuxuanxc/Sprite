@@ -21,7 +21,7 @@ def sound(sound):
     soundObj = pygame.mixer.Sound(os.path.join(sound_path, sound + '.wav'))
     soundObj.play()
 
-current_room = 6
+current_room = 5
 
 top_left_x = 0
 top_left_y = 100
@@ -110,7 +110,8 @@ with a staircase made from wooden planks"],
     18: [image('rocks'), None, "Rocks"],
     19: [image('row_of_trees'), None, "A tree with blue leaves"],
     20: [image('raccoon2'), None, "A raccoon skilled at crafting"],
-    21: [image('table'), None, "A crafting table"]
+    21: [image('table'), None, "A crafting table"],
+    254: [image('transparent'), None, "A tree with blue leaves"]
     }
 
 items_player_may_carry = list(range(9, 12)) + [17]
@@ -134,9 +135,13 @@ scenery = {
         [14, 12, 19], [14, 10, 19], [14, 8, 19], [14, 6, 19], [18, 5, 21],
         [20, 8, 16], [21, 8, 14]
         ],
-    5: [[5, 6, 5], [5, 6, 8], [5, 6, 11], [5, 6, 14], [14, 6, 1],
-        [14, 6, 18], [5, 7, 0], [5, 7, 2], [5, 7, 17], [5, 7, 19],
-        [12, 7, 6], [13, 8, 5]],
+    5: [[254, 9, 0], [254, 11, 0], [254, 13, 0], [254, 15, 0], 
+        [5, 6, 5], [5, 6, 8], [5, 6, 11], [5, 6, 14],
+        [14, 5, 4], [14, 5, 16], [14, 6, 1], [14, 6, 18],
+        [5, 7, 2], [5, 7, 17], [5, 7, 19], [12, 7, 6], [13, 8, 5],
+        [14, 8, 0], [14, 10, 0], [14, 12, 0], [14, 14, 0],
+        [14, 15, 3], [14, 15, 6], [14, 15, 14], [14, 15, 17],
+        [254, 15, 18], [4, 15, 20], [4, 15, 21], [4, 15, 22]],
     6: [[1, 5, 11], [1, 6, 11], [2, 10, 11], [1, 11, 11], [1, 12, 11],
         [1, 5, 20], [1, 6, 20], [1, 7, 20], [1, 8, 20], [1, 9, 20],
         [1, 10, 20], [1, 11, 20], [1, 12, 20], [3, 4, 11], [3, 13, 11],
