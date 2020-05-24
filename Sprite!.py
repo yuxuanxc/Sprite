@@ -76,11 +76,11 @@ GAME_MAP += [
     ["Raccoon Workshop"], #room 4
     ["Raccoon Treehouse"], #room 5
     ["Raccoon House"], #room 6
-    ["Jungle meets beach"], #room 7
+    ["Jungle"], #room 7
     ["Beach"], #room 8
     ["Jungle"], #room 9
-    ["Jungle meets beach"], #room 10
-    ["Beach"], #room 11
+    ["Jungle"], #room 10
+    ["Jungle meets beach"], #room 11
     ["Beach"], #room 12
     ]
 
