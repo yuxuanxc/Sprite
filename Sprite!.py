@@ -21,7 +21,7 @@ def sound(sound):
     soundObj = pygame.mixer.Sound(os.path.join(sound_path, sound + '.wav'))
     soundObj.play()
 
-current_room = 9
+current_room = 11
 
 top_left_x = 0
 top_left_y = 100
@@ -111,11 +111,13 @@ with a staircase made from wooden planks"],
     19: [image('row_of_trees'), None, "A tree with blue leaves"],
     20: [image('raccoon2'), None, "A raccoon skilled at crafting"],
     21: [image('table'), None, "A crafting table"],
+    22: [image('sand'), None, None],
+    23: [image('jungle_sand'), None, None],
     254: [image('transparent'), None, "A tree with blue leaves"]
     }
 
 items_player_may_carry = list(range(9, 12)) + [17]
-items_player_may_stand_on = items_player_may_carry + [0]
+items_player_may_stand_on = items_player_may_carry + [0, 22, 23]
 
 #SCENERY#
 
@@ -135,9 +137,13 @@ scenery = {
         [14, 12, 19], [14, 10, 19], [14, 8, 19], [14, 6, 19], [254, 5, 21],
         [20, 8, 16], [21, 8, 14]
         ],
-    5: [[5, 6, 5], [5, 6, 8], [5, 6, 11], [5, 6, 14], [14, 6, 1],
-        [14, 6, 18], [5, 7, 0], [5, 7, 2], [5, 7, 17], [5, 7, 19],
-        [12, 7, 6], [13, 8, 5]],
+    5: [[254, 9, 0], [254, 11, 0], [254, 13, 0], [254, 15, 0], 
+        [5, 6, 5], [5, 6, 8], [5, 6, 11], [5, 6, 14],
+        [14, 5, 4], [14, 5, 16], [14, 6, 1], [14, 6, 18],
+        [5, 7, 2], [5, 7, 17], [5, 7, 19], [12, 7, 6], [13, 8, 5],
+        [14, 8, 0], [14, 10, 0], [14, 12, 0], [14, 14, 0],
+        [14, 15, 3], [14, 15, 6], [14, 15, 13], [14, 15, 16], [14, 15, 19]
+        ],
     6: [[1, 5, 11], [1, 6, 11], [2, 10, 11], [1, 11, 11], [1, 12, 11],
         [1, 5, 20], [1, 6, 20], [1, 7, 20], [1, 8, 20], [1, 9, 20],
         [1, 10, 20], [1, 11, 20], [1, 12, 20], [3, 4, 11], [3, 13, 11],
@@ -155,11 +161,13 @@ scenery = {
         [14, 12, 0], [254, 13, 3], [14, 14, 0], [254, 5, 19], [14, 6, 19],
         [254, 7, 19], [14, 8, 19], [254, 9, 19], [14, 10, 19], [254, 11, 19],
         [14, 12, 19], [254, 13, 19], [14, 14, 19]],
+    8: [[4, 5, 5]],
     9: [[19, 15, 0], [14, 3, 0], [14, 5, 0], [254, 6, 3], [14, 7, 0],
         [254, 8, 3], [14, 9, 0], [254, 10, 3], [14, 11, 0], [254, 12, 3],
         [14, 13, 0], [254, 14, 3], [254, 1, 19], [254, 2, 19], [14, 3, 19],
         [254, 4, 19], [14, 5, 19], [254, 6, 19], [14, 7, 19]],
-    10: [[19, 4, 0], [19, 15, 0]]
+    10: [[19, 4, 0], [19, 15, 0]],
+    11: [[23, 15, 16]] 
     }
 
 #PROPS#
@@ -265,7 +273,7 @@ def remove_object(item):
 def examine_object():
     item_player_is_on = get_item_under_player()
     left_tile_of_item = find_object_start_x()
-    if item_player_is_on in [0, 2]:
+    if item_player_is_on in [0, 2, 22]:
         return
     description = "You see: " + objects[item_player_is_on][2]
     for prop_number, details in props.items():
@@ -324,16 +332,21 @@ def use_object():
 #MAKE MAP#
 
 def get_floor_type():
-    return 0
+    if current_room in [8, 12]:
+        return 22 # Sand
+    else:
+        return 0 # Grass
 
 def generate_map():
     global room_map, top_left_x, top_left_y
+    floor_type = get_floor_type()
+    
     room_data = GAME_MAP[current_room]
     
-    room_map = [[0] * ROOM_WIDTH]
+    room_map = [[floor_type] * ROOM_WIDTH]
     
     for y in range(ROOM_HEIGHT):
-        room_map.append([0] * ROOM_WIDTH)
+        room_map.append([floor_type] * ROOM_WIDTH)
 
     if current_room in scenery:
         for this_scenery in scenery[current_room]: 
