@@ -21,7 +21,7 @@ def sound(sound):
     soundObj = pygame.mixer.Sound(os.path.join(sound_path, sound + '.wav'))
     soundObj.play()
 
-current_room = 11
+current_room = 12
 
 top_left_x = 0
 top_left_y = 100
@@ -112,11 +112,18 @@ with a staircase made from wooden planks"],
     20: [image('raccoon2'), None, "A raccoon skilled at crafting"],
     21: [image('table'), None, "A crafting table"],
     22: [image('sand'), None, None],
-    23: [image('jungle_sand'), None, None],
+    23: [image('jungle_sand'), None, "Pink sand"],
+    24: [image('jungle_sand_stones'), None, "Stones"],
+    25: [image('sea'), None, "The sea"],
+    26: [image('seashell'), None, "A seashell", "a seashell"],
+    27: [image('palm_tree'), None, "A palm tree"],
+    28: [image('spaceship_broken'), None, "A broken spaceship"],
+    29: [image('oxygen_tank'), None, "An oxygen tank, with a hole on its side"],
+    253: [image('transparent'), None, "Not much to see here"],
     254: [image('transparent'), None, "A tree with blue leaves"]
     }
 
-items_player_may_carry = list(range(9, 12)) + [17]
+items_player_may_carry = list(range(9, 12)) + [17, 26]
 items_player_may_stand_on = items_player_may_carry + [0, 22, 23]
 
 #SCENERY#
@@ -161,13 +168,16 @@ scenery = {
         [14, 12, 0], [254, 13, 3], [14, 14, 0], [254, 5, 19], [14, 6, 19],
         [254, 7, 19], [14, 8, 19], [254, 9, 19], [14, 10, 19], [254, 11, 19],
         [14, 12, 19], [254, 13, 19], [14, 14, 19]],
-    8: [[4, 5, 5]],
+    8: [[25, 15, 16], [27, 7, 2], [26, 10, 4], [29, 8, 9]],
     9: [[19, 15, 0], [14, 3, 0], [14, 5, 0], [254, 6, 3], [14, 7, 0],
         [254, 8, 3], [14, 9, 0], [254, 10, 3], [14, 11, 0], [254, 12, 3],
         [14, 13, 0], [254, 14, 3], [254, 1, 19], [254, 2, 19], [14, 3, 19],
         [254, 4, 19], [14, 5, 19], [254, 6, 19], [14, 7, 19]],
     10: [[19, 4, 0], [19, 15, 0]],
-    11: [[23, 15, 16]] 
+    11: [[24, 15, 0], [23, 15, 16], [14, 15, 1], [14, 15, 4],
+         [14, 4, 0], [14, 4, 3], [14, 4, 6], [14, 4, 13], [14, 4, 16],
+         [253, 4, 19], [253, 4, 20], [253, 4, 21], [253, 4, 22]],
+    12: [[25, 15, 16], [28, 4, 3]]
     }
 
 #PROPS#
@@ -176,7 +186,8 @@ props = {
     #object number: [room, y, x]
     9: [6, 4, 6],
     10: [0, 0, 0],
-    11: [0, 0, 0]
+    11: [0, 0, 0],
+    26: [8, 10, 4]
     }
 
 in_my_pockets = [10, 17]
@@ -390,7 +401,7 @@ def game_loop():
     
     if player_frame > 0:
         player_frame += 1
-        pygame.time.delay(50)
+        pygame.time.delay(40)
         if player_frame == 5:
             player_frame = 0
             player_offset_x = 0
