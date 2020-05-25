@@ -21,7 +21,7 @@ def sound(sound):
     soundObj = pygame.mixer.Sound(os.path.join(sound_path, sound + '.wav'))
     soundObj.play()
 
-current_room = 8
+current_room = 6
 
 top_left_x = 0
 top_left_y = 100
@@ -89,141 +89,162 @@ GAME_MAP += [
 objects = {
     #Object number : [Image, Shadow, Description]
     0: [image('grass'), None, None],
-    1: [image('wall'), None, "Wooden walls"],
-    2: [image('wall1'), None, "Wooden walls"],
-    3: [image('longwall'), None, "Wooden walls"],
-    4: [image('stones'), None, "Stones"],
-    5: [image('shortstones'), None, "Stones"],
-    6: [image('longstones'), None, "Stones"],
-    7: [image('raccoon'), None, "A friendly raccoon"],
-    8: [image('fireplace'), None, "A charcoal fireplace"],
-    9: [image('charcoal'), None, "Some charcoal", "charcoal"],
-    10: [image('letter'), None, "A letter I wrote to myself", "letter to self"],
-    11: [image('ironore'), None, "Iron ore", "iron ore"],
-    12: [image('treehouse'), None, "A treehouse, \
+    1: [image('transparent'), None, None], #dirt
+    2: [image('sand'), None, None],
+    3: [image('jungle_sand'), None, None],
+    4: [image('jungle_sand_stones'), None, "Stones"],
+    5: [image('wall'), None, "Wooden walls"],
+    6: [image('wall_1'), None, "Wooden walls"],
+    7: [image('longwall'), None, "Wooden walls"],
+    8: [image('stones'), None, "Stones"],
+    9: [image('shortstones'), None, "Stones"],
+    10: [image('longstones'), None, "Stones"],
+    11: [image('rocks'), None, "Rocks"],
+    12: [image('tree'), None, "A tree with blue leaves"],
+    13: [image('row_of_trees'), None, "A tree with blue leaves"],
+    14: [image('treehouse'), None, "A treehouse, \
 with a staircase made from wooden planks"],
-    13: [image('baby_raccoon'), None, "A baby raccoon"],
-    14: [image('tree'), None, "A tree with blue leaves"],
-    15: [image('mountain'), None, "The base of a mountain"],
-    16: [image('ironore'), None, "Something shiny", "iron ore"],
-    17: [image('pickaxe'), None, "Pickaxe", "pickaxe"],
-    18: [image('rocks'), None, "Rocks"],
-    19: [image('row_of_trees'), None, "A tree with blue leaves"],
-    20: [image('raccoon2'), None, "A raccoon skilled at crafting"],
-    21: [image('table'), None, "A crafting table"],
-    22: [image('sand'), None, None],
-    23: [image('jungle_sand'), None, "Pink sand"],
-    24: [image('jungle_sand_stones'), None, "Stones"],
-    25: [image('sea'), None, "The sea"],
-    26: [image('seashell'), None, "A seashell", "a seashell"],
-    27: [image('palm_tree'), None, "A palm tree"],
-    28: [image('spaceship_broken'), None, "The remains of my spaceship"],
-    29: [image('oxygen_tank'), None, "An oxygen tank, with a hole on its side",
-         "a leaking oxygen tank"],
-    30: [image('oxygen_tank'), None, "A sealed oxygen tank", "Sealed oxygen tank"],
-    31: [image('glass_container'), None, "A glass container", "a glass container"],
-    32: [image('sulfur'), None, "Sulfur", "sulfur"],
-    33: [image('sticky_plant'), None, "A sticky plant"],
-    34: [image('spaceship'), None, "The spaceship"],
-    35: [image('manual'), None, "The manual to fix the spaceship",
+    15: [image('palm_tree'), None, "A palm tree"],
+    16: [image('sticky_plant'), None, "A sticky plant"],
+    17: [image('mountain'), None, "The base of a mountain"],
+    18: [image('sea'), None, "The sea"],
+    19: [image('raccoon'), None, "A friendly raccoon"],
+    20: [image('raccoon_2'), None, "A raccoon skilled at crafting"],
+    21: [image('baby_raccoon'), None, "A baby raccoon"],
+    22: [image('fireplace'), None, "A charcoal fireplace"],
+    23: [image('table'), None, "A crafting table"],
+    24: [image('spaceship_broken'), None, "The remains of my spaceship"],
+    25: [image('spaceship'), None, "The spaceship"],
+    26: [image('iron_ore'), None, "Something shiny"],
+    27: [image('glass_container'), None, "A glass container"],
+    28: [image('charcoal'), None, "Some charcoal", "charcoal"],
+    29: [image('stick'), None, "A strong and sturdy stick", "stick"],
+    30: [image('stick'), None, "A strong and sturdy stick", "stick"],
+    31: [image('iron_ore'), None, "A piece of iron ore", "iron ore"],
+    32: [image('rocks'), None, "A large piece of stone", "large stone"],
+    33: [image('pickaxe_stone'), None, "A long piece of stone",
+         "long stone"],
+    34: [image('pickaxe'), None, "A pickaxe", "pickaxe"],
+    35: [image('axe'), None, "An axe", "axe"],
+    36: [image('seashell'), None, "A seashell", "a seashell"],
+    37: [image('oxygen_tank'), None, "An oxygen tank, with a hole on \
+its side", "a leaking oxygen tank"],
+    38: [image('oxygen_tank'), None, "A sealed oxygen tank",
+         "Sealed oxygen tank"],
+    39: [image('sulfur'), None, "Sulfur", "sulfur"],
+    40: [image('gunpowder'), None, "Gunpowder", "gunpowder"],
+    41: [image('sticky'), None, "Sticky goo", "sticky goo"],
+    42: [image('letter'), None, "A letter I wrote to myself",
+         "letter to self"],
+    43: [image('manual'), None, "The manual to fix the spaceship",
          "a manual to fix the spaceship"],
-    36: [image('gunpowder'), None, "Gunpowder", "gunpowder"],
-    37: [image('sticky'), None, "Sticky goo", "sticky goo"],
     252: [image('transparent'), None, "The sea"],
     253: [image('transparent'), None, "Not much to see here"],
     254: [image('transparent'), None, "A tree with blue leaves"]
     }
 
-items_player_may_carry = list(range(9, 12)) + [17, 26, 29, 30, 31, 32, 35, 36, 37, 38]
-items_player_may_stand_on = items_player_may_carry + [0, 22, 23]
+items_player_may_carry = list(range(28, 44))
+items_player_may_stand_on = items_player_may_carry + list(range(0, 4))
 
 #SCENERY#
 
 scenery = {
     #room number: [[object number, y position, x position]...]
-    1: [[14, 4, 7], [14, 4, 10], [14, 4, 13], [14, 4, 16], [14, 5, 19],
-        [14, 15, 7], [14, 15, 10], [14, 15, 13], [14, 15, 16], [14, 14, 19],
-        [18, 5, 6], [18, 6, 6], [18, 7, 6], [18, 8, 6], [18, 9, 6],
-        [18, 10, 6], [18, 12, 6], [18, 13, 6], [18, 14, 6],
-        [15, 15, 0]],
-    2: [[19, 4, 0], [19, 15, 0]],
-    3: [[19, 4, 0], [14, 15, 0], [14, 15, 3], [14, 15, 6], [14, 15, 13],
-        [14, 15, 16], [14, 15, 19]],
-    4: [[1, 6, 9], [1, 7, 9], [2, 11, 9], [1, 12, 9], [1, 6, 18], [1, 7, 18],
-        [1, 8, 18], [1, 9, 18], [1, 10, 18], [1, 11, 18], [1, 12, 18],
-        [3, 6, 9], [3, 13, 9], [19, 4, 0], [19, 15, 0], [14, 14, 19],
-        [14, 12, 19], [14, 10, 19], [14, 8, 19], [14, 6, 19], [254, 5, 21],
-        [20, 8, 16], [21, 8, 14]
-        ],
-    5: [[254, 9, 0], [254, 11, 0], [254, 13, 0], [254, 15, 0], 
-        [5, 6, 5], [5, 6, 8], [5, 6, 11], [5, 6, 14],
-        [14, 5, 4], [14, 5, 16], [14, 6, 1], [14, 6, 18],
-        [5, 7, 2], [5, 7, 17], [5, 7, 19], [12, 7, 6], [13, 8, 5],
-        [14, 8, 0], [14, 10, 0], [14, 12, 0], [14, 14, 0],
-        [14, 15, 3], [14, 15, 6], [14, 15, 13], [14, 15, 16], [14, 15, 19]
-        ],
-    6: [[1, 5, 11], [1, 6, 11], [2, 10, 11], [1, 11, 11], [1, 12, 11],
-        [1, 5, 20], [1, 6, 20], [1, 7, 20], [1, 8, 20], [1, 9, 20],
-        [1, 10, 20], [1, 11, 20], [1, 12, 20], [3, 4, 11], [3, 13, 11],
-        [5, 6, 0], [5, 10, 0], [4, 2, 3], [4, 3, 3], [4, 4, 3], [4, 5, 3],
-        [4, 11, 3], [4, 12, 3], [4, 13, 3], [4, 14, 3], [6, 1, 3],
-        [6, 15, 3], [4, 2, 22], [4, 3, 22], [4, 4, 22], [4, 5, 22],
-        [4, 6, 22], [4, 7, 22], [4, 8, 22], [4, 9, 22], [4, 10, 22],
-        [4, 11, 22], [4, 12, 22], [4, 13, 22], [4, 14, 22], [7, 6, 9],
-        [8, 4, 6]],
-    7: [[14, 4, 0], [14, 4, 3], [14, 4, 6], [254, 1, 8], [254, 2, 8],
-        [254, 3, 8], [254, 1, 14], [254, 2, 14], [254, 3, 14], [14, 4, 13],
-        [14, 4, 16], [14, 4, 19], [14, 15, 0], [14, 15, 3], [14, 15, 6],
-        [14, 15, 13], [14, 15, 16], [14, 15, 19], [254, 5, 3], [14, 6, 0],
-        [254, 7, 3], [14, 8, 0], [254, 9, 3], [14, 10, 0], [254, 11, 3],
-        [14, 12, 0], [254, 13, 3], [14, 14, 0], [254, 5, 19], [14, 6, 19],
-        [254, 7, 19], [14, 8, 19], [254, 9, 19], [14, 10, 19], [254, 11, 19],
-        [14, 12, 19], [254, 13, 19], [14, 14, 19]],
-    8: [[25, 15, 16], [27, 7, 0], [27, 7, 5], [27, 7, 9], 
-        [27, 11, 0], [27, 15, 0], [253, 8, 0], [253, 9, 0], [253, 10, 0],
-        [253, 12, 0], [253, 13, 0], [253, 14, 0], [253, 16, 0],
-        [252, 0, 16], [252, 1, 16], [252, 2, 16],
-         [252, 3, 16], [252, 4, 16], [252, 5, 16], [252, 6, 16], [252, 7, 16],
-         [252, 8, 16], [252, 9, 16], [252, 10, 16], [252, 11, 16],
-         [252, 12, 16], [252, 13, 16], [252, 14, 16]],
-    9: [[19, 15, 0], [14, 3, 0], [14, 5, 0], [254, 6, 3], [14, 7, 0],
-        [254, 8, 3], [14, 9, 0], [254, 10, 3], [14, 11, 0], [254, 12, 3],
-        [14, 13, 0], [254, 14, 3], [254, 1, 19], [254, 2, 19], [14, 3, 19],
-        [254, 4, 19], [14, 5, 19], [254, 6, 19], [14, 7, 19]],
-    10: [[19, 4, 0], [19, 15, 0], [33, 5, 5]],
-    11: [[24, 15, 0], [23, 15, 16], [14, 15, 1], [14, 15, 4],
-         [14, 4, 0], [14, 4, 3], [14, 4, 6], [14, 4, 13], [14, 4, 16],
-         [253, 4, 19], [253, 4, 20], [253, 4, 21], [253, 4, 22]],
-    12: [[25, 15, 16], [28, 4, 3], [252, 0, 16], [252, 1, 16], [252, 2, 16],
-         [252, 3, 16], [252, 4, 16], [252, 5, 16], [252, 6, 16], [252, 7, 16],
-         [252, 8, 16], [252, 9, 16], [252, 10, 16], [252, 11, 16],
-         [252, 12, 16], [252, 13, 16], [252, 14, 16],
-         [253, 2, 3], [253, 2, 4], [253, 2, 5], [253, 2, 6],
-         [253, 3, 3], [253, 3, 4], [253, 3, 5], [253, 3, 6]]
+    1: [[11, 5, 6], [11, 6, 6], [11, 7, 6], [11, 8, 6], [11, 9, 6],
+        [11, 10, 6], [11, 12, 6], [11, 13, 6], [11, 14, 6], [12, 4, 7],
+        [12, 4, 10], [12, 4, 13], [12, 4, 16], [12, 5, 19], [12, 15, 7],
+        [12, 15, 10], [12, 15, 13], [12, 15, 16], [12, 14, 19], 
+        [17, 15, 0]],
+    2: [[13, 4, 0], [13, 15, 0]],
+    3: [[12, 15, 0], [12, 15, 3], [12, 15, 6], [12, 15, 13],
+        [12, 15, 16], [12, 15, 19], [13, 4, 0]],
+    4: [[5, 6, 9], [5, 7, 9], [5, 12, 9], [5, 6, 18], [5, 7, 18],
+        [5, 8, 18], [5, 9, 18], [5, 10, 18], [5, 11, 18], [5, 12, 18],
+        [6, 11, 9], [7, 6, 9], [7, 13, 9], [12, 14, 19], [12, 12, 19],
+        [12, 10, 19], [12, 8, 19], [12, 6, 19],[13, 4, 0], [13, 15, 0],
+        [20, 8, 16], [23, 8, 14], [254, 5, 21]],
+    5: [[9, 6, 5], [9, 6, 8], [9, 6, 11], [9, 6, 14], [9, 7, 2],
+        [9, 7, 17], [9, 7, 19],[12, 5, 4], [12, 5, 16], [12, 6, 1],
+        [12, 6, 18], [12, 8, 0], [12, 10, 0], [12, 12, 0],
+        [12, 14, 0], [12, 15, 3], [12, 15, 6], [12, 15, 13],
+        [12, 15, 16], [12, 15, 19], [14, 7, 6], [21, 8, 5], [254, 9, 0],
+        [254, 11, 0], [254, 13, 0], [254, 15, 0]],
+    6: [[5, 5, 11], [5, 6, 11], [5, 11, 11], [5, 12, 11],
+        [5, 5, 20], [5, 6, 20], [5, 7, 20], [5, 8, 20], [5, 9, 20],
+        [5, 10, 20], [5, 11, 20], [5, 12, 20], [6, 10, 11], [7, 4, 11],
+        [7, 13, 11], [8, 2, 22], [8, 3, 22], [8, 4, 22], [8, 5, 22],
+        [8, 6, 22], [8, 7, 22], [8, 8, 22], [8, 9, 22], [8, 10, 22],
+        [8, 11, 22], [8, 12, 22], [8, 13, 22], [8, 14, 22], [9, 6, 0],
+        [9, 10, 0], [8, 2, 3], [8, 3, 3], [8, 4, 3], [8, 5, 3],
+        [8, 11, 3], [8, 12, 3], [8, 13, 3], [8, 14, 3], [10, 1, 3],
+        [10, 15, 3], [19, 6, 9], [22, 4, 6]],
+    7: [[12, 4, 0], [12, 4, 3], [12, 4, 6], [12, 4, 13], [12, 4, 16],
+        [12, 4, 19], [12, 15, 0], [12, 15, 3], [12, 15, 6], [12, 15, 13],
+        [12, 15, 16], [12, 15, 19], [12, 6, 0], [12, 8, 0], [12, 10, 0],
+        [12, 12, 0], [12, 14, 0], [12, 6, 19], [12, 8, 19], [12, 10, 19],
+        [12, 12, 19], [12, 14, 19], [254, 3, 8], [254, 1, 14],
+        [254, 2, 14], [254, 3, 14], [254, 5, 3], [254, 7, 3],
+        [254, 9, 3], [254, 13, 3], [254, 5, 19], [254, 7, 19],
+        [254, 9, 19], [254, 11, 19], [254, 13, 19], [254, 1, 8],
+        [254, 2, 8]],
+    8: [[15, 7, 0], [15, 7, 5], [15, 7, 9], [15, 11, 0], [15, 15, 0],
+        [18, 15, 16], [252, 0, 16], [252, 1, 16], [252, 2, 16],
+        [252, 3, 16], [252, 4, 16], [252, 5, 16], [252, 6, 16],
+        [252, 7, 16], [252, 8, 16], [252, 9, 16], [252, 10, 16],
+        [252, 11, 16], [252, 12, 16], [252, 13, 16], [252, 14, 16],
+        [253, 8, 0], [253, 9, 0], [253, 10, 0], [253, 12, 0],
+        [253, 13, 0], [253, 14, 0], [253, 16, 0]],
+    9: [[12, 3, 0], [12, 5, 0], [12, 7, 0], [12, 9, 0], [12, 11, 0],
+        [12, 13, 0], [12, 3, 19], [12, 5, 19], [12, 7, 19], [13, 15, 0],
+        [254, 6, 3],[254, 8, 3], [254, 10, 3], [254, 12, 3],
+        [254, 14, 3], [254, 1, 19], [254, 2, 19], [254, 4, 19],
+        [254, 6, 19]],
+    10: [[13, 4, 0], [13, 15, 0], [16, 5, 5]],
+    11: [[4, 15, 0], [3, 15, 16], [12, 15, 1], [12, 15, 4], [12, 4, 0],
+         [12, 4, 3], [12, 4, 6], [12, 4, 13], [12, 4, 16], [253, 4, 19],
+         [253, 4, 20], [253, 4, 21], [253, 4, 22]],
+    12: [[10, 15, 0], [18, 15, 16], [24, 4, 3], [252, 0, 16],
+         [252, 1, 16], [252, 2, 16], [252, 3, 16], [252, 4, 16],
+         [252, 5, 16], [252, 6, 16], [252, 7, 16], [252, 8, 16],
+         [252, 9, 16], [252, 10, 16], [252, 11, 16], [252, 12, 16],
+         [252, 13, 16], [252, 14, 16], [253, 2, 3], [253, 2, 4],
+         [253, 2, 5], [253, 2, 6], [253, 3, 3], [253, 3, 4], [253, 3, 5],
+         [253, 3, 6]]
     }
 
 #PROPS#
 
 props = {
-    #object number: [room, y, x]
-    9: [6, 4, 6],
-    10: [0, 0, 0], # Letter to self
-    11: [0, 0, 0],
-    16: [1, 11, 6],
-    26: [8, 10, 8], # Seashell
-    29: [8, 8, 9], # Unsealed oxygen tank
-    30: [0, 0, 0], # Oxygen tank
-    32: [0, 0, 0], # Sulfur
-    35: [12, 4, 3], # Manual under broken spaceship
-    36: [0, 0, 0], # Gunpowder
-    37: [10, 5, 5] # Sticky goo under sticky plant
+   #object number: [room, y, x]
+    26: [1, 11, 6], # Iron ore rock
+    27: [4, 7, 11], # Glass container
+    28: [6, 4, 6], # Charcoal
+    29: [6, 4, 5], # Stick
+    30: [6, 3, 5], # Stick
+    31: [0, 0, 0], # Iron ore
+    32: [9, 10, 4], # Large stone for axe
+    33: [2, 11, 2], # Long stone for pickaxe
+    34: [0, 0, 0], # Pickaxe
+    35: [0, 0, 0], # Axe
+    36: [8, 10, 8], # Seashell
+    37: [8, 8, 9], # Unsealed oxygen tank
+    38: [0, 0, 0], # Oxygen tank
+    39: [0, 0, 0], # Sulfur
+    40: [0, 0, 0], # Gunpowder
+    41: [10, 5, 5], # Sticky goo under sticky plant
+    42: [0, 0, 0], # Letter to self
+    43: [12, 4, 3], # Manual under broken spaceship
     }
 
-in_my_pockets = [10, 17]
+in_my_pockets = [42]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
 RECIPES = [
+    [31, 33, 17],
+    [32, 33, 17],
+    [31, 30, 34],
+    [32, 30, 34]
     ]
 
 def find_object_start_x():
@@ -312,7 +333,7 @@ def remove_object(item):
 def examine_object():
     item_player_is_on = get_item_under_player()
     left_tile_of_item = find_object_start_x()
-    if item_player_is_on in [0, 2, 22]:
+    if item_player_is_on in [0, 1, 2, 3]:
         return
     description = "You see: " + objects[item_player_is_on][2]
     for prop_number, details in props.items():
@@ -374,7 +395,7 @@ def use_object():
 
 def get_floor_type():
     if current_room in [8, 12]:
-        return 22 # Sand
+        return 2 # Sand
     else:
         return 0 # Grass
 
@@ -408,7 +429,7 @@ def generate_map():
         prop_y = prop_info[1]
         prop_x = prop_info[2]
         if (prop_room == current_room and
-            room_map[prop_y][prop_x] in [0, 22]): # Check for floor types
+            room_map[prop_y][prop_x] in [0, 1, 2, 3]): # Check for floor types
             room_map[prop_y][prop_x] = prop_number
             image_here = objects[prop_number][0]
             image_width = image_here.get_width()
