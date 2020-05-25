@@ -21,7 +21,7 @@ def sound(sound):
     soundObj = pygame.mixer.Sound(os.path.join(sound_path, sound + '.wav'))
     soundObj.play()
 
-current_room = 11
+current_room = 8
 
 top_left_x = 0
 top_left_y = 100
@@ -30,7 +30,7 @@ ROOM_WIDTH = 23
 ROOM_HEIGHT  = 16
 TILE_SIZE = 30
 
-player_y, player_x = 8, 17
+player_y, player_x = 8, 7
 game_over = False
 
 PLAYER = {
@@ -98,7 +98,7 @@ objects = {
     7: [image('raccoon'), None, "A friendly raccoon"],
     8: [image('fireplace'), None, "A charcoal fireplace"],
     9: [image('charcoal'), None, "Some charcoal", "charcoal"],
-    10: [image('picture'), None, "A picture of a shiba inu", "picture"],
+    10: [image('letter'), None, "A letter I wrote to myself", "letter to self"],
     11: [image('ironore'), None, "Iron ore", "iron ore"],
     12: [image('treehouse'), None, "A treehouse, \
 with a staircase made from wooden planks"],
@@ -117,15 +117,24 @@ with a staircase made from wooden planks"],
     25: [image('sea'), None, "The sea"],
     26: [image('seashell'), None, "A seashell", "a seashell"],
     27: [image('palm_tree'), None, "A palm tree"],
-    28: [image('spaceship_broken'), None, "A broken spaceship"],
+    28: [image('spaceship_broken'), None, "The remains of my spaceship"],
     29: [image('oxygen_tank'), None, "An oxygen tank, with a hole on its side",
          "a leaking oxygen tank"],
+    30: [image('oxygen_tank'), None, "A sealed oxygen tank", "Sealed oxygen tank"],
+    31: [image('glass_container'), None, "A glass container", "a glass container"],
+    32: [image('sulfur'), None, "Sulfur", "sulfur"],
+    33: [image('sticky_plant'), None, "A sticky plant"],
+    34: [image('spaceship'), None, "The spaceship"],
+    35: [image('manual'), None, "The manual to fix the spaceship",
+         "a manual to fix the spaceship"],
+    36: [image('gunpowder'), None, "Gunpowder", "gunpowder"],
+    37: [image('sticky'), None, "Sticky goo", "sticky goo"],
     252: [image('transparent'), None, "The sea"],
     253: [image('transparent'), None, "Not much to see here"],
     254: [image('transparent'), None, "A tree with blue leaves"]
     }
 
-items_player_may_carry = list(range(9, 12)) + [17, 26, 29]
+items_player_may_carry = list(range(9, 12)) + [17, 26, 29, 30, 31, 32, 35, 36, 37, 38]
 items_player_may_stand_on = items_player_may_carry + [0, 22, 23]
 
 #SCENERY#
@@ -170,7 +179,10 @@ scenery = {
         [14, 12, 0], [254, 13, 3], [14, 14, 0], [254, 5, 19], [14, 6, 19],
         [254, 7, 19], [14, 8, 19], [254, 9, 19], [14, 10, 19], [254, 11, 19],
         [14, 12, 19], [254, 13, 19], [14, 14, 19]],
-    8: [[25, 15, 16], [27, 7, 2], [252, 0, 16], [252, 1, 16], [252, 2, 16],
+    8: [[25, 15, 16], [27, 7, 0], [27, 7, 5], [27, 7, 9], 
+        [27, 11, 0], [27, 15, 0], [253, 8, 0], [253, 9, 0], [253, 10, 0],
+        [253, 12, 0], [253, 13, 0], [253, 14, 0], [253, 16, 0],
+        [252, 0, 16], [252, 1, 16], [252, 2, 16],
          [252, 3, 16], [252, 4, 16], [252, 5, 16], [252, 6, 16], [252, 7, 16],
          [252, 8, 16], [252, 9, 16], [252, 10, 16], [252, 11, 16],
          [252, 12, 16], [252, 13, 16], [252, 14, 16]],
@@ -178,14 +190,16 @@ scenery = {
         [254, 8, 3], [14, 9, 0], [254, 10, 3], [14, 11, 0], [254, 12, 3],
         [14, 13, 0], [254, 14, 3], [254, 1, 19], [254, 2, 19], [14, 3, 19],
         [254, 4, 19], [14, 5, 19], [254, 6, 19], [14, 7, 19]],
-    10: [[19, 4, 0], [19, 15, 0]],
+    10: [[19, 4, 0], [19, 15, 0], [33, 5, 5]],
     11: [[24, 15, 0], [23, 15, 16], [14, 15, 1], [14, 15, 4],
          [14, 4, 0], [14, 4, 3], [14, 4, 6], [14, 4, 13], [14, 4, 16],
          [253, 4, 19], [253, 4, 20], [253, 4, 21], [253, 4, 22]],
     12: [[25, 15, 16], [28, 4, 3], [252, 0, 16], [252, 1, 16], [252, 2, 16],
          [252, 3, 16], [252, 4, 16], [252, 5, 16], [252, 6, 16], [252, 7, 16],
          [252, 8, 16], [252, 9, 16], [252, 10, 16], [252, 11, 16],
-         [252, 12, 16], [252, 13, 16], [252, 14, 16]]
+         [252, 12, 16], [252, 13, 16], [252, 14, 16],
+         [253, 2, 3], [253, 2, 4], [253, 2, 5], [253, 2, 6],
+         [253, 3, 3], [253, 3, 4], [253, 3, 5], [253, 3, 6]]
     }
 
 #PROPS#
@@ -193,11 +207,16 @@ scenery = {
 props = {
     #object number: [room, y, x]
     9: [6, 4, 6],
-    10: [0, 0, 0],
+    10: [0, 0, 0], # Letter to self
     11: [0, 0, 0],
     16: [1, 11, 6],
-    26: [8, 10, 4],
-    29: [8, 8, 9]
+    26: [8, 10, 8], # Seashell
+    29: [8, 8, 9], # Unsealed oxygen tank
+    30: [0, 0, 0], # Oxygen tank
+    32: [0, 0, 0], # Sulfur
+    35: [12, 4, 3], # Manual under broken spaceship
+    36: [0, 0, 0], # Gunpowder
+    37: [10, 5, 5] # Sticky goo under sticky plant
     }
 
 in_my_pockets = [10, 17]
@@ -274,7 +293,6 @@ def drop_object(old_y, old_x):
         sound('drop')
         remove_object(item_carrying)
         pygame.time.delay(300)
-        print(props)
     else:
         show_text("You can't drop that here.", 0)
         pygame.time.delay(300)
@@ -325,12 +343,11 @@ def use_object():
             use_message = standard_responses[this_item]
 
     if item_carrying == 17 and item_player_is_on == 16: #use pickaxe
-        if 11 in in_my_pockets:
-            use_message = "You decide not to take more iron ore"
-        else :
             use_message = "You found iron ore!"
             add_object(11)
             sound('combine')
+            props[item_player_is_on][0] = 0
+            scenery[1].append([18, 11, 6])
 
     for recipe in RECIPES:
         ingredient1 = recipe[0]
