@@ -305,7 +305,7 @@ def display_inventory():
 
 def drop_object(old_y, old_x):
     global room_map, props
-    if room_map[old_y][old_x] in [0]:
+    if room_map[old_y][old_x] in [0, 1, 2, 3]:
         props[item_carrying][0] = current_room
         props[item_carrying][1] = old_y
         props[item_carrying][2] = old_x
