@@ -21,7 +21,7 @@ def sound(sound):
     soundObj = pygame.mixer.Sound(os.path.join(sound_path, sound + '.wav'))
     soundObj.play()
 
-current_room = 6
+current_room = 1
 
 top_left_x = 0
 top_left_y = 100
@@ -30,7 +30,7 @@ ROOM_WIDTH = 23
 ROOM_HEIGHT  = 16
 TILE_SIZE = 30
 
-player_y, player_x = 8, 7
+player_y, player_x = 8, 8
 game_over = False
 
 PLAYER = {
@@ -115,9 +115,9 @@ with a staircase made from wooden planks"],
     23: [image('table'), None, "A crafting table"],
     24: [image('spaceship_broken'), None, "The remains of my spaceship"],
     25: [image('spaceship'), None, "The spaceship"],
-    26: [image('iron_ore'), None, "Something shiny"],
-    27: [image('glass_container'), None, "A glass container"],
-    28: [image('charcoal'), None, "Some charcoal", "charcoal"],
+    26: [image('destroyed_treehouse'), None, "A destroyed tree house"],
+    27: [image('iron_ore'), None, "Something shiny"],
+    28: [image('glass_container'), None, "A glass container"],
     29: [image('stick'), None, "A strong and sturdy stick", "stick"],
     30: [image('stick'), None, "A strong and sturdy stick", "stick"],
     31: [image('iron_ore'), None, "A piece of iron ore", "iron ore"],
@@ -138,12 +138,18 @@ its side", "a leaking oxygen tank"],
          "letter to self"],
     43: [image('manual'), None, "The manual to fix the spaceship",
          "a manual to fix the spaceship"],
+    44: [image('log'), None, "A piece of log", "a log"],
+    45: [image('planks'), None, "A piece of wooden plank", "wooden plank"],
+    46: [image('spoilt_machine'), None, "Navigation system. It is missing a \
+piece of iron", "spoilt system"],
+    47: [image('machine'), None, "Navigation system", "navigation system"],
+    48: [image('charcoal'), None, "Some charcoal", "charcoal"],
     252: [image('transparent'), None, "The sea"],
     253: [image('transparent'), None, "Not much to see here"],
     254: [image('transparent'), None, "A tree with blue leaves"]
     }
 
-items_player_may_carry = list(range(28, 44))
+items_player_may_carry = list(range(29, 49))
 items_player_may_stand_on = items_player_may_carry + list(range(0, 4))
 
 #SCENERY#
@@ -215,10 +221,9 @@ scenery = {
 #PROPS#
 
 props = {
-   #object number: [room, y, x]
-    26: [1, 11, 6], # Iron ore rock
-    27: [4, 7, 11], # Glass container
-    28: [6, 4, 6], # Charcoal
+    #object number: [room, y, x]
+    27: [1, 11, 6], # Iron ore rock
+    28: [4, 7, 11], # Glass container
     29: [6, 4, 5], # Stick
     30: [6, 3, 5], # Stick
     31: [0, 0, 0], # Iron ore
@@ -229,22 +234,28 @@ props = {
     36: [8, 10, 8], # Seashell
     37: [8, 8, 9], # Unsealed oxygen tank
     38: [0, 0, 0], # Oxygen tank
-    39: [0, 0, 0], # Sulfur
+    39: [4, 7, 12], # Sulfur
     40: [0, 0, 0], # Gunpowder
     41: [10, 5, 5], # Sticky goo under sticky plant
     42: [0, 0, 0], # Letter to self
     43: [12, 4, 3], # Manual under broken spaceship
+    44: [0, 0, 0], # Log
+    45: [0, 0, 0], # Plank
+    46: [12, 14, 14], # Navigation system missing a piece of iron
+    47: [0, 0, 0], # Navigation system
+    48: [6, 4, 6], # Charcoal
     }
 
-in_my_pockets = [42]
+in_my_pockets = [42, 34]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
 RECIPES = [
-    [31, 33, 17],
-    [32, 33, 17],
-    [31, 30, 34],
-    [32, 30, 34]
+    [29, 33, 34],
+    [30, 33, 34],
+    [29, 32, 35],
+    [30, 32, 35],
+    [31, 46, 47]
     ]
 
 def find_object_start_x():
@@ -355,7 +366,7 @@ def use_object():
 
     use_message = "You fiddle around with it but don't get anywhere."
     standard_responses = {
-        9: "Hot!"
+        28: "Hot!"
         }
 
     item_player_is_on = get_item_under_player()
@@ -363,13 +374,31 @@ def use_object():
         if this_item in standard_responses:
             use_message = standard_responses[this_item]
 
-    if item_carrying == 17 and item_player_is_on == 16: #use pickaxe
-            use_message = "You found iron ore!"
-            add_object(11)
-            sound('combine')
-            props[item_player_is_on][0] = 0
-            scenery[1].append([18, 11, 6])
+    if item_carrying == 34 and item_player_is_on == 27: # use pickaxe
+        use_message = "You found a piece of iron ore!"
+        add_object(31)
+        sound('combine')
+        props[item_player_is_on][0] = 0
+        scenery[1].append([11, 11, 6])
 
+    if item_carrying == 35: # use axe
+        if item_player_is_on in [12, 13]:
+            use_message = "You chopped off a piece of log"
+            add_object(44)
+            sound('combine')
+        elif item_player_is_on == 14:
+            use_message = "You chopped off a piece of plank"
+            add_object(45)
+            sound('combine')
+            scenery[5].remove([14, 7, 6])
+            scenery[5].append([26, 7, 6])
+
+    if item_carrying == 44 and item_player_is_on == 23: # use crafting table
+        use_message = "You crafted planks from the log"
+        add_object(45)
+        remove_object(44)
+        sound('combine')
+        
     for recipe in RECIPES:
         ingredient1 = recipe[0]
         ingredient2 = recipe[1]
@@ -624,7 +653,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
            
-    clock.tick(28)
+    clock.tick(40)
 
     generate_map()
     draw()
