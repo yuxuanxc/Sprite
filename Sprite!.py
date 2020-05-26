@@ -21,7 +21,7 @@ def sound(sound):
     soundObj = pygame.mixer.Sound(os.path.join(sound_path, sound + '.wav'))
     soundObj.play()
 
-current_room = 4
+current_room = 12
 
 top_left_x = 0
 top_left_y = 100
@@ -59,6 +59,8 @@ player_offset_x, player_offset_y = 0, 0
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+
+plank, navigation_system, gunpowder, oxygen_tank = False, False, False, False 
 
 #MAP#
 
@@ -117,7 +119,7 @@ with a staircase made from wooden planks"],
     25: [image('spaceship'), None, "The spaceship"],
     26: [image('destroyed_treehouse'), None, "A destroyed tree house"],
     27: [image('iron_ore'), None, "Something shiny"],
-    28: [image('glass_container'), None, "A glass container"],
+    28: [image('charcoal'), None, "Some charcoal", "charcoal"],
     29: [image('stick'), None, "A strong and sturdy stick", "stick"],
     30: [image('stick'), None, "A strong and sturdy stick", "stick"],
     31: [image('iron_ore'), None, "A piece of iron ore", "iron ore"],
@@ -143,32 +145,33 @@ its side", "a leaking oxygen tank"],
     46: [image('spoilt_machine'), None, "Navigation system. It is missing a \
 piece of iron", "spoilt system"],
     47: [image('machine'), None, "Navigation system", "navigation system"],
-    48: [image('charcoal'), None, "Some charcoal", "charcoal"],
-    49: [image('mixture_1'), None, "Mixture of sulfur and seashell.\
+    48: [image('mixture_1'), None, "Mixture of sulfur and seashell.\
 Needs charcoal to make gunpowder",
          "a mixture"],
-    50: [image('mixture_2'), None, "Mixture of sulfur and charcoal.\
+    49: [image('mixture_2'), None, "Mixture of sulfur and charcoal.\
 Needs seashell to make gunpowder",
          "a mixture"],
-    51: [image('mixture_3'), None, "Mixture of charcoal and seashell.\
+    50: [image('mixture_3'), None, "Mixture of charcoal and seashell.\
 Needs sulfur to make gunpowder",
          "a mixture"],
+    250: [image('transparent'), None,"Not much to see here"],
+    251: [image('transparent'), None, "The mountain"],
     252: [image('transparent'), None, "The sea"],
     253: [image('transparent'), None, "Not much to see here"],
     254: [image('transparent'), None, "A tree with blue leaves"]
     }
 
-items_player_may_carry = list(range(29, 51))
+items_player_may_carry = list(range(28, 51))
 items_player_may_stand_on = items_player_may_carry + list(range(0, 4))
 
 #SCENERY#
 
 scenery = {
     #room number: [[object number, y position, x position]...]
-    1: [[11, 5, 6], [11, 6, 6], [11, 7, 6], [11, 8, 6], [11, 9, 6],
-        [11, 10, 6], [11, 12, 6], [11, 13, 6], [11, 14, 6], [12, 4, 7],
-        [12, 4, 10], [12, 4, 13], [12, 4, 16], [12, 5, 19], [12, 15, 7],
-        [12, 15, 10], [12, 15, 13], [12, 15, 16], [12, 14, 19], [17, 15, 0]],
+    1: [[12, 4, 7], [12, 4, 10], [12, 4, 13], [12, 4, 16], [12, 5, 19],
+        [12, 15, 7], [12, 15, 10], [12, 15, 13], [12, 15, 16], [12, 14, 19],
+        [17, 15, 0], [251, 5, 6], [251, 6, 6], [251, 7, 6], [251, 8, 6],
+        [251, 9, 6], [251, 10, 6], [251, 12, 6], [251, 13, 6], [251, 14, 6]],
     2: [[13, 4, 0], [13, 15, 0]],
     3: [[12, 15, 0], [12, 15, 3], [12, 15, 6], [12, 15, 13],
         [12, 15, 16], [12, 15, 19], [13, 4, 0]],
@@ -215,13 +218,13 @@ scenery = {
     11: [[4, 15, 0], [3, 15, 16], [12, 15, 1], [12, 15, 4], [12, 4, 0],
          [12, 4, 3], [12, 4, 6], [12, 4, 13], [12, 4, 16], [253, 4, 19],
          [253, 4, 20], [253, 4, 21], [253, 4, 22]],
-    12: [[10, 15, 0], [18, 15, 16], [24, 4, 3], [252, 0, 16],
+    12: [[10, 15, 0], [18, 15, 16], [24, 5, 3], [252, 0, 16],
          [252, 1, 16], [252, 2, 16], [252, 3, 16], [252, 4, 16],
          [252, 5, 16], [252, 6, 16], [252, 7, 16], [252, 8, 16],
          [252, 9, 16], [252, 10, 16], [252, 11, 16], [252, 12, 16],
-         [252, 13, 16], [252, 14, 16], [253, 2, 3], [253, 2, 4],
-         [253, 2, 5], [253, 2, 6], [253, 3, 3], [253, 3, 4], [253, 3, 5],
-         [253, 3, 6]]
+         [252, 13, 16], [252, 14, 16], [250, 3, 3], [250, 3, 4],
+         [250, 3, 5], [250, 3, 6], [250, 4, 3], [250, 4, 4], [250, 4, 5],
+         [250, 4, 6]]
     }
 
 #PROPS#
@@ -229,7 +232,7 @@ scenery = {
 props = {
     #object number: [room, y, x]
     27: [1, 11, 6], # Iron ore rock
-    #28: [4, 7, 11], # Glass container
+    28: [6, 4, 6], # Charcoal
     29: [6, 4, 5], # Stick
     30: [6, 3, 5], # Stick
     31: [0, 0, 0], # Iron ore
@@ -244,34 +247,33 @@ props = {
     40: [0, 0, 0], # Gunpowder
     41: [10, 5, 5], # Sticky goo under sticky plant
     42: [0, 0, 0], # Letter to self
-    43: [12, 4, 3], # Manual under broken spaceship
+    43: [12, 5, 3], # Manual under broken spaceship
     44: [0, 0, 0], # Log
     45: [0, 0, 0], # Plank
     46: [12, 14, 14], # Navigation system missing a piece of iron
     47: [0, 0, 0], # Navigation system
-    48: [6, 4, 6], # Charcoal
-    49: [0, 0, 0], # Sulfur + Seashell mixture
-    50: [0, 0, 0], # Sulfur + Charcoal mixture
-    51: [0, 0, 0], # Charcoal + Seashell mixture
+    48: [0, 0, 0], # Sulfur + Seashell mixture
+    49: [0, 0, 0], # Sulfur + Charcoal mixture
+    50: [0, 0, 0], # Charcoal + Seashell mixture
     }
 
-in_my_pockets = [42, 39, 36, 48]
+in_my_pockets = [42, 45, 47, 40, 38]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
 RECIPES = [
-    [29, 33, 34], # Stick, long stone, pickaxe
-    [30, 33, 34], # Stick, long stone, pickaxe
-    [29, 32, 35], # Stick, large stone, axe
-    [30, 32, 35], # Stick, large stone, axe
-    [31, 46, 47], # Iron ore + navigation system
-    [37, 41, 38], # Unsealed oxygen tank + sticky goo
-    [39, 36, 49], # Sulfur + Seashell = Mixture 1
-    [49, 48, 40], # Mixture 1 + Charcoal = Gunpowder
-    [39, 48, 50], # Sulfur + charcoal = Mixture 2
-    [50, 36, 40], # Mixture 2 + Seashell = Gunpowder
-    [48, 36, 51], # Seashell + Charcoal = Mixture 3
-    [51, 39, 40] # Mixture 3 + Sulfur = Gunpowder
+    [29, 33, 34], # Stick + long stone = pickaxe
+    [30, 33, 34], # Stick + long stone = pickaxe
+    [29, 32, 35], # Stick + large stone = axe
+    [30, 32, 35], # Stick + large stone = axe
+    [31, 46, 47], # Iron ore + spoilt navigation system = navigation system
+    [37, 41, 38], # Unsealed oxygen tank + sticky goo = oxygen tank
+    [39, 36, 48], # Sulfur + Seashell = Mixture 1
+    [48, 28, 40], # Mixture 1 + Charcoal = Gunpowder
+    [39, 28, 49], # Sulfur + charcoal = Mixture 2
+    [49, 36, 40], # Mixture 2 + Seashell = Gunpowder
+    [28, 36, 50], # Charcoal + Seashell = Mixture 3
+    [50, 39, 40] # Mixture 3 + Sulfur = Gunpowder
     ]
 
 def find_object_start_x():
@@ -377,8 +379,8 @@ def examine_object():
 #USE OBJECTS#
 
 def use_object():
-    global room_map, props, item_carrying, selected_item
-    global in_my_pockets, game_over
+    global room_map, props, item_carrying, selected_item, in_my_pockets
+    global plank, navigation_system, gunpowder, oxygen_tank, game_over
 
     use_message = "You fiddle around with it but don't get anywhere."
     standard_responses = {
@@ -413,6 +415,29 @@ def use_object():
         use_message = "You crafted planks from the log"
         add_object(45)
         remove_object(44)
+        sound('combine')
+
+    if item_player_is_on in [24, 250]: # broken spaceship
+        if item_carrying == 45: # fix plank
+            use_message = "You fix the plank to the spaceship"
+            plank = True
+            remove_object(45)
+        elif item_carrying == 47: # fix navigation system
+            use_message = "You fix the navigation system to the spaceship"
+            navigation_system = True
+            remove_object(47)
+        elif item_carrying == 40: # add gunpowder
+            use_message = "You add gunpowder into the rocket booster"
+            gunpowder = True
+            remove_object(40)
+        elif item_carrying == 38: # fix oxygen tank
+            use_message = "You fix the oxygen tank to the spaceship"
+            oxygen_tank = True
+            remove_object(38)
+        if plank == True and navigation_system == True and \
+           gunpowder == True and oxygen_tank == True:
+            scenery[12].remove([24, 5, 3])
+            scenery[12].append([25, 5, 3])
         sound('combine')
 
     for recipe in RECIPES:
