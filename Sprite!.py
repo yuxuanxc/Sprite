@@ -21,7 +21,7 @@ def sound(sound):
     soundObj = pygame.mixer.Sound(os.path.join(sound_path, sound + '.wav'))
     soundObj.play()
 
-current_room = 1
+current_room = 4
 
 top_left_x = 0
 top_left_y = 100
@@ -130,7 +130,7 @@ with a staircase made from wooden planks"],
     37: [image('oxygen_tank'), None, "An oxygen tank, with a hole on \
 its side", "a leaking oxygen tank"],
     38: [image('oxygen_tank'), None, "A sealed oxygen tank",
-         "Sealed oxygen tank"],
+         "sealed oxygen tank"],
     39: [image('sulfur'), None, "Sulfur", "sulfur"],
     40: [image('gunpowder'), None, "Gunpowder", "gunpowder"],
     41: [image('sticky'), None, "Sticky goo", "sticky goo"],
@@ -144,12 +144,21 @@ its side", "a leaking oxygen tank"],
 piece of iron", "spoilt system"],
     47: [image('machine'), None, "Navigation system", "navigation system"],
     48: [image('charcoal'), None, "Some charcoal", "charcoal"],
+    49: [image('mixture_1'), None, "Mixture of sulfur and seashell.\
+Needs charcoal to make gunpowder",
+         "a mixture"],
+    50: [image('mixture_2'), None, "Mixture of sulfur and charcoal.\
+Needs seashell to make gunpowder",
+         "a mixture"],
+    51: [image('mixture_3'), None, "Mixture of charcoal and seashell.\
+Needs sulfur to make gunpowder",
+         "a mixture"],
     252: [image('transparent'), None, "The sea"],
     253: [image('transparent'), None, "Not much to see here"],
     254: [image('transparent'), None, "A tree with blue leaves"]
     }
 
-items_player_may_carry = list(range(29, 49))
+items_player_may_carry = list(range(29, 51))
 items_player_may_stand_on = items_player_may_carry + list(range(0, 4))
 
 #SCENERY#
@@ -159,8 +168,7 @@ scenery = {
     1: [[11, 5, 6], [11, 6, 6], [11, 7, 6], [11, 8, 6], [11, 9, 6],
         [11, 10, 6], [11, 12, 6], [11, 13, 6], [11, 14, 6], [12, 4, 7],
         [12, 4, 10], [12, 4, 13], [12, 4, 16], [12, 5, 19], [12, 15, 7],
-        [12, 15, 10], [12, 15, 13], [12, 15, 16], [12, 14, 19], 
-        [17, 15, 0]],
+        [12, 15, 10], [12, 15, 13], [12, 15, 16], [12, 14, 19], [17, 15, 0]],
     2: [[13, 4, 0], [13, 15, 0]],
     3: [[12, 15, 0], [12, 15, 3], [12, 15, 6], [12, 15, 13],
         [12, 15, 16], [12, 15, 19], [13, 4, 0]],
@@ -171,19 +179,19 @@ scenery = {
         [20, 8, 16], [23, 8, 14], [254, 5, 21]],
     5: [[9, 6, 5], [9, 6, 8], [9, 6, 11], [9, 6, 14], [9, 7, 2],
         [9, 7, 17], [9, 7, 19],[12, 5, 4], [12, 5, 16], [12, 6, 1],
-        [12, 6, 18], [12, 8, 0], [12, 10, 0], [12, 12, 0],
-        [12, 14, 0], [12, 15, 3], [12, 15, 6], [12, 15, 13],
-        [12, 15, 16], [12, 15, 19], [14, 7, 6], [21, 8, 5], [254, 9, 0],
-        [254, 11, 0], [254, 13, 0], [254, 15, 0]],
-    6: [[5, 5, 11], [5, 6, 11], [5, 11, 11], [5, 12, 11],
-        [5, 5, 20], [5, 6, 20], [5, 7, 20], [5, 8, 20], [5, 9, 20],
-        [5, 10, 20], [5, 11, 20], [5, 12, 20], [6, 10, 11], [7, 4, 11],
-        [7, 13, 11], [8, 2, 22], [8, 3, 22], [8, 4, 22], [8, 5, 22],
-        [8, 6, 22], [8, 7, 22], [8, 8, 22], [8, 9, 22], [8, 10, 22],
-        [8, 11, 22], [8, 12, 22], [8, 13, 22], [8, 14, 22], [9, 6, 0],
-        [9, 10, 0], [8, 2, 3], [8, 3, 3], [8, 4, 3], [8, 5, 3],
-        [8, 11, 3], [8, 12, 3], [8, 13, 3], [8, 14, 3], [10, 1, 3],
-        [10, 15, 3], [19, 6, 9], [22, 4, 6]],
+        [12, 6, 18], [12, 8, 0], [12, 10, 0], [12, 12, 0], [12, 14, 0],
+        [12, 15, 3], [12, 15, 6], [12, 15, 13], [12, 15, 16], [12, 15, 19],
+        [14, 7, 6], [21, 8, 5], [254, 9, 0], [254, 11, 0],
+        [254, 13, 0], [254, 15, 0]],
+    6: [[5, 5, 11], [5, 6, 11], [5, 11, 11], [5, 12, 11], [5, 5, 20],
+        [5, 6, 20], [5, 7, 20], [5, 8, 20], [5, 9, 20], [5, 10, 20],
+        [5, 11, 20], [5, 12, 20], [6, 10, 11], [7, 4, 11], [7, 13, 11],
+        [8, 2, 22], [8, 3, 22], [8, 4, 22], [8, 5, 22], [8, 6, 22],
+        [8, 7, 22], [8, 8, 22], [8, 9, 22], [8, 10, 22], [8, 11, 22],
+        [8, 12, 22], [8, 13, 22], [8, 14, 22], [9, 6, 0], [9, 10, 0],
+        [8, 2, 3], [8, 3, 3], [8, 4, 3], [8, 5, 3], [8, 11, 3],
+        [8, 12, 3], [8, 13, 3], [8, 14, 3], [10, 1, 3], [10, 15, 3],
+        [19, 6, 9], [22, 4, 6]],
     7: [[12, 4, 0], [12, 4, 3], [12, 4, 6], [12, 4, 13], [12, 4, 16],
         [12, 4, 19], [12, 15, 0], [12, 15, 3], [12, 15, 6], [12, 15, 13],
         [12, 15, 16], [12, 15, 19], [12, 6, 0], [12, 8, 0], [12, 10, 0],
@@ -194,17 +202,15 @@ scenery = {
         [254, 9, 19], [254, 11, 19], [254, 13, 19], [254, 1, 8],
         [254, 2, 8]],
     8: [[15, 7, 0], [15, 7, 5], [15, 7, 9], [15, 11, 0], [15, 15, 0],
-        [18, 15, 16], [252, 0, 16], [252, 1, 16], [252, 2, 16],
-        [252, 3, 16], [252, 4, 16], [252, 5, 16], [252, 6, 16],
-        [252, 7, 16], [252, 8, 16], [252, 9, 16], [252, 10, 16],
-        [252, 11, 16], [252, 12, 16], [252, 13, 16], [252, 14, 16],
-        [253, 8, 0], [253, 9, 0], [253, 10, 0], [253, 12, 0],
+        [18, 15, 16], [252, 0, 16], [252, 1, 16], [252, 2, 16], [252, 3, 16],
+        [252, 4, 16], [252, 5, 16], [252, 6, 16], [252, 7, 16], [252, 8, 16],
+        [252, 9, 16], [252, 10, 16], [252, 11, 16], [252, 12, 16], [252, 13, 16],
+        [252, 14, 16], [253, 8, 0], [253, 9, 0], [253, 10, 0], [253, 12, 0],
         [253, 13, 0], [253, 14, 0], [253, 16, 0]],
     9: [[12, 3, 0], [12, 5, 0], [12, 7, 0], [12, 9, 0], [12, 11, 0],
         [12, 13, 0], [12, 3, 19], [12, 5, 19], [12, 7, 19], [13, 15, 0],
-        [254, 6, 3],[254, 8, 3], [254, 10, 3], [254, 12, 3],
-        [254, 14, 3], [254, 1, 19], [254, 2, 19], [254, 4, 19],
-        [254, 6, 19]],
+        [254, 6, 3],[254, 8, 3], [254, 10, 3], [254, 12, 3], [254, 14, 3],
+        [254, 1, 19], [254, 2, 19], [254, 4, 19], [254, 6, 19]],
     10: [[13, 4, 0], [13, 15, 0], [16, 5, 5]],
     11: [[4, 15, 0], [3, 15, 16], [12, 15, 1], [12, 15, 4], [12, 4, 0],
          [12, 4, 3], [12, 4, 6], [12, 4, 13], [12, 4, 16], [253, 4, 19],
@@ -223,7 +229,7 @@ scenery = {
 props = {
     #object number: [room, y, x]
     27: [1, 11, 6], # Iron ore rock
-    28: [4, 7, 11], # Glass container
+    #28: [4, 7, 11], # Glass container
     29: [6, 4, 5], # Stick
     30: [6, 3, 5], # Stick
     31: [0, 0, 0], # Iron ore
@@ -244,18 +250,28 @@ props = {
     46: [12, 14, 14], # Navigation system missing a piece of iron
     47: [0, 0, 0], # Navigation system
     48: [6, 4, 6], # Charcoal
+    49: [0, 0, 0], # Sulfur + Seashell mixture
+    50: [0, 0, 0], # Sulfur + Charcoal mixture
+    51: [0, 0, 0], # Charcoal + Seashell mixture
     }
 
-in_my_pockets = [42, 34]
+in_my_pockets = [42, 39, 36, 48]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
 RECIPES = [
-    [29, 33, 34],
-    [30, 33, 34],
-    [29, 32, 35],
-    [30, 32, 35],
-    [31, 46, 47]
+    [29, 33, 34], # Stick, long stone, pickaxe
+    [30, 33, 34], # Stick, long stone, pickaxe
+    [29, 32, 35], # Stick, large stone, axe
+    [30, 32, 35], # Stick, large stone, axe
+    [31, 46, 47], # Iron ore + navigation system
+    [37, 41, 38], # Unsealed oxygen tank + sticky goo
+    [39, 36, 49], # Sulfur + Seashell = Mixture 1
+    [49, 48, 40], # Mixture 1 + Charcoal = Gunpowder
+    [39, 48, 50], # Sulfur + charcoal = Mixture 2
+    [50, 36, 40], # Mixture 2 + Seashell = Gunpowder
+    [48, 36, 51], # Seashell + Charcoal = Mixture 3
+    [51, 39, 40] # Mixture 3 + Sulfur = Gunpowder
     ]
 
 def find_object_start_x():
@@ -398,7 +414,7 @@ def use_object():
         add_object(45)
         remove_object(44)
         sound('combine')
-        
+
     for recipe in RECIPES:
         ingredient1 = recipe[0]
         ingredient2 = recipe[1]
@@ -637,7 +653,7 @@ def show_text(text_to_show, line_number):
         return
 
     text_lines = [15, 50]
-    myfont = pygame.font.SysFont('Arial', 25)
+    myfont = pygame.font.SysFont('Arial', 20)
     textsurface = myfont.render(text_to_show, False, (0, 255, 0))
 
     pygame.draw.rect(screen, (0, 0, 0), (0, text_lines[line_number], 800, 35))
