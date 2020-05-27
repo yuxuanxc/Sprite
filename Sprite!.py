@@ -21,7 +21,7 @@ def sound(sound):
     soundObj = pygame.mixer.Sound(os.path.join(sound_path, sound + '.wav'))
     soundObj.play()
 
-current_room = 12
+current_room = 6
 
 top_left_x = 0
 top_left_y = 100
@@ -60,7 +60,10 @@ player_offset_x, player_offset_y = 0, 0
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-plank, navigation_system, gunpowder, oxygen_tank = False, False, False, False 
+plank, navigation_system, gunpowder, oxygen_tank = False, False, False, False
+
+original_room = [0, 0, 0]
+help_menu = False
 
 #MAP#
 
@@ -154,6 +157,7 @@ Needs seashell to make gunpowder",
     50: [image('mixture_3'), None, "Mixture of charcoal and seashell.\
 Needs sulfur to make gunpowder",
          "a mixture"],
+    51: [image('help'), None, None],
     250: [image('transparent'), None,"Not much to see here"],
     251: [image('transparent'), None, "The mountain"],
     252: [image('transparent'), None, "The sea"],
@@ -362,8 +366,10 @@ def remove_object(item):
 def examine_object():
     item_player_is_on = get_item_under_player()
     left_tile_of_item = find_object_start_x()
+    
     if item_player_is_on in [0, 1, 2, 3]:
         return
+    
     description = "You see: " + objects[item_player_is_on][2]
     for prop_number, details in props.items():
         if (details[0] == current_room):
@@ -616,6 +622,13 @@ def game_loop():
     if keys[pygame.K_u]:
         use_object()
 
+    if keys[pygame.K_h] and [51, 13, 0] not in scenery[current_room]:
+        show_help()
+
+    if keys[pygame.K_RETURN]:
+        if help_menu == True:
+            remove_help()
+
     if room_map[player_y][player_x] not in items_player_may_stand_on:
         player_x = old_player_x
         player_y = old_player_y
@@ -683,6 +696,20 @@ def show_text(text_to_show, line_number):
 
     pygame.draw.rect(screen, (0, 0, 0), (0, text_lines[line_number], 800, 35))
     screen.blit(textsurface,(20, text_lines[line_number]))
+
+def show_help():
+    global help_menu, original_room
+    original_room = scenery[current_room].copy()
+    help_menu = True
+    scenery[current_room].append([51, 13, 0])
+    print(original_room)
+    pygame.time.delay(500)
+
+def remove_help():
+    global help_menu, original_room
+    scenery[current_room] = original_room
+    help_menu = False
+    print(scenery[current_room])
     
 #mainloop#
     
@@ -695,7 +722,7 @@ while run:
             run = False
            
     clock.tick(40)
-
+    
     generate_map()
     draw()
     display_inventory()
