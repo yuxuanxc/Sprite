@@ -30,7 +30,7 @@ ROOM_WIDTH = 23
 ROOM_HEIGHT  = 16
 TILE_SIZE = 30
 
-player_y, player_x = 8, 8
+player_y, player_x = 8, 9
 game_over = False
 
 PLAYER = {
@@ -52,7 +52,7 @@ PLAYER = {
         ]
 }
 
-player_direction = "down"
+player_direction = "up"
 player_frame = 0
 player_image = PLAYER[player_direction][player_frame]
 player_offset_x, player_offset_y = 0, 0
@@ -340,7 +340,7 @@ def display_inventory():
     item_highlighted = in_my_pockets[selected_item]
     description = objects[item_highlighted][2]
 
-    myfont = pygame.font.SysFont('Arial', 20)
+    myfont = pygame.font.SysFont('Verdana', 20)
     textsurface = myfont.render(description, False, WHITE)
 
     screen.blit(textsurface,(20, 600))
@@ -742,7 +742,7 @@ def show_text(text_to_show, line_number):
         return
 
     text_lines = [15, 50]
-    myfont = pygame.font.SysFont('Arial', 20)
+    myfont = pygame.font.SysFont('Verdana', 20)
     textsurface = myfont.render(text_to_show, False, (0, 255, 0))
 
     pygame.draw.rect(screen, (0, 0, 0), (0, text_lines[line_number], 800, 35))
