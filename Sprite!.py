@@ -30,7 +30,7 @@ ROOM_WIDTH = 23
 ROOM_HEIGHT  = 16
 TILE_SIZE = 30
 
-player_y, player_x = 8, 8
+player_y, player_x = 6, 8
 game_over = False
 
 PLAYER = {
@@ -64,6 +64,8 @@ plank, navigation_system, gunpowder, oxygen_tank = False, False, False, False
 
 original_room = [0, 0, 0]
 help_menu = False
+speech_bubble = True
+speech_text = 53
 
 #MAP#
 
@@ -158,6 +160,11 @@ Needs seashell to make gunpowder",
 Needs sulfur to make gunpowder",
          "a mixture"],
     51: [image('help'), None, None],
+    52: [image('speech'), None, None],
+    53: [image('speech_1'), None, None], # raccoon 1
+    54: [image('speech_2'), None, None], # baby raccoon
+    55: [image('speech_3'), None, None], # baby raccoon
+    56: [image('speech_4'), None, None], # raccoon 2
     250: [image('transparent'), None,"Not much to see here"],
     251: [image('transparent'), None, "The mountain"],
     252: [image('transparent'), None, "The sea"],
@@ -198,7 +205,7 @@ scenery = {
         [8, 12, 22], [8, 13, 22], [8, 14, 22], [9, 6, 0], [9, 10, 0],
         [8, 2, 3], [8, 3, 3], [8, 4, 3], [8, 5, 3], [8, 11, 3],
         [8, 12, 3], [8, 13, 3], [8, 14, 3], [10, 1, 3], [10, 15, 3],
-        [19, 6, 9], [22, 4, 6]],
+        [19, 6, 9], [22, 4, 6], [52, 15, 1], [53, 15, 2]],
     7: [[12, 4, 0], [12, 4, 3], [12, 4, 6], [12, 4, 13], [12, 4, 16],
         [12, 4, 19], [12, 15, 0], [12, 15, 3], [12, 15, 6], [12, 15, 13],
         [12, 15, 16], [12, 15, 19], [12, 6, 0], [12, 8, 0], [12, 10, 0],
@@ -331,7 +338,7 @@ def display_inventory():
     item_highlighted = in_my_pockets[selected_item]
     description = objects[item_highlighted][2]
 
-    myfont = pygame.font.SysFont('Arial', 20)
+    myfont = pygame.font.SysFont('Verdana', 20)
     textsurface = myfont.render(description, False, WHITE)
 
     screen.blit(textsurface,(20, 600))
@@ -364,11 +371,23 @@ def remove_object(item):
     display_inventory()
 
 def examine_object():
+    global speech_bubble, speech_text
+    
     item_player_is_on = get_item_under_player()
     left_tile_of_item = find_object_start_x()
     
     if item_player_is_on in [0, 1, 2, 3]:
         return
+
+    if item_player_is_on in [20, 21]: # dialogue with raccoons
+        speech_bubble = True
+        if item_player_is_on == 20: # raccoon 2
+            speech_text = 56
+        elif item_player_is_on == 21: # baby raccoon
+            speech_text = 54
+        scenery[current_room].append([52, 15, 1]) # speech bubble
+        scenery[current_room].append([speech_text, 15, 2])
+        pygame.time.delay(500)
     
     description = "You see: " + objects[item_player_is_on][2]
     for prop_number, details in props.items():
@@ -525,6 +544,7 @@ def game_loop():
     global selected_item, item_carrying
     global player_offset_x, player_offset_y
     global player_frame, player_direction
+    global speech_bubble, speech_text
     
     if player_frame > 0:
         player_frame += 1
@@ -629,6 +649,11 @@ def game_loop():
         if help_menu == True:
             remove_help()
 
+        if speech_bubble:
+            scenery[current_room].remove([speech_text, 15, 2])
+            scenery[current_room].remove([52, 15, 1]) # remove speech bubble
+            speech_bubble = False 
+
     if room_map[player_y][player_x] not in items_player_may_stand_on:
         player_x = old_player_x
         player_y = old_player_y
@@ -666,7 +691,7 @@ def draw():
     screen.set_clip((0, 100, 690, 450))
 
     floor_type = get_floor_type()
-
+    
     for y in range(ROOM_HEIGHT):
         for x in range(ROOM_WIDTH):
             draw_image(objects[floor_type][0], y, x)
@@ -691,7 +716,7 @@ def show_text(text_to_show, line_number):
         return
 
     text_lines = [15, 50]
-    myfont = pygame.font.SysFont('Arial', 20)
+    myfont = pygame.font.SysFont('Verdana', 20)
     textsurface = myfont.render(text_to_show, False, (0, 255, 0))
 
     pygame.draw.rect(screen, (0, 0, 0), (0, text_lines[line_number], 800, 35))
