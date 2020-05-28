@@ -30,7 +30,7 @@ ROOM_WIDTH = 23
 ROOM_HEIGHT  = 16
 TILE_SIZE = 30
 
-player_y, player_x = 6, 8
+player_y, player_x = 8, 9
 game_over = False
 
 PLAYER = {
@@ -52,7 +52,7 @@ PLAYER = {
         ]
 }
 
-player_direction = "down"
+player_direction = "up"
 player_frame = 0
 player_image = PLAYER[player_direction][player_frame]
 player_offset_x, player_offset_y = 0, 0
@@ -379,9 +379,11 @@ def examine_object():
     if item_player_is_on in [0, 1, 2, 3]:
         return
 
-    if item_player_is_on in [20, 21]: # dialogue with raccoons
+    if item_player_is_on in [19, 20, 21]: # dialogue with raccoons
         speech_bubble = True
-        if item_player_is_on == 20: # raccoon 2
+        if item_player_is_on == 19: # raccoon 1
+            speech_text = 53
+        elif item_player_is_on == 20: # raccoon 2
             speech_text = 56
         elif item_player_is_on == 21: # baby raccoon
             speech_text = 54
