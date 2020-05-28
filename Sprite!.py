@@ -30,7 +30,7 @@ ROOM_WIDTH = 23
 ROOM_HEIGHT  = 16
 TILE_SIZE = 30
 
-player_y, player_x = 8, 9
+player_y, player_x = 8, 8
 game_over = False
 
 PLAYER = {
@@ -52,7 +52,7 @@ PLAYER = {
         ]
 }
 
-player_direction = "up"
+player_direction = "down"
 player_frame = 0
 player_image = PLAYER[player_direction][player_frame]
 player_offset_x, player_offset_y = 0, 0
@@ -62,9 +62,9 @@ WHITE = (255, 255, 255)
 
 plank, navigation_system, gunpowder, oxygen_tank = False, False, False, False
 
-original_room = [0, 0, 0]
 help_menu = False
 speech_bubble = True
+manual_page1, manual_page2 = False, False
 speech_text = 53
 
 #MAP#
@@ -162,9 +162,11 @@ Needs sulfur to make gunpowder",
     51: [image('help'), None, None],
     52: [image('speech'), None, None],
     53: [image('speech_1'), None, None], # raccoon 1
-    54: [image('speech_2'), None, None], # baby raccoon
+    #54: [image('speech_2'), None, None], # baby raccoon
     55: [image('speech_3'), None, None], # baby raccoon
     56: [image('speech_4'), None, None], # raccoon 2
+    57: [image('manual_page1'), None, None],
+    58: [image('manual_page2'), None, None],
     250: [image('transparent'), None,"Not much to see here"],
     251: [image('transparent'), None, "The mountain"],
     252: [image('transparent'), None, "The sea"],
@@ -268,7 +270,7 @@ props = {
     50: [0, 0, 0], # Charcoal + Seashell mixture
     }
 
-in_my_pockets = [42, 45, 47, 40, 38]
+in_my_pockets = [42, 43]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
@@ -338,7 +340,7 @@ def display_inventory():
     item_highlighted = in_my_pockets[selected_item]
     description = objects[item_highlighted][2]
 
-    myfont = pygame.font.SysFont('Verdana', 20)
+    myfont = pygame.font.SysFont('Arial', 20)
     textsurface = myfont.render(description, False, WHITE)
 
     screen.blit(textsurface,(20, 600))
@@ -380,16 +382,16 @@ def examine_object():
         return
 
     if item_player_is_on in [19, 20, 21]: # dialogue with raccoons
-        speech_bubble = True
-        if item_player_is_on == 19: # raccoon 1
-            speech_text = 53
-        elif item_player_is_on == 20: # raccoon 2
-            speech_text = 56
-        elif item_player_is_on == 21: # baby raccoon
-            speech_text = 54
-        scenery[current_room].append([52, 15, 1]) # speech bubble
-        scenery[current_room].append([speech_text, 15, 2])
-        pygame.time.delay(500)
+        if speech_bubble == False:
+            if item_player_is_on == 19: # raccoon 1
+                speech_text = 53
+            elif item_player_is_on == 20: # raccoon 2
+                speech_text = 56
+            elif item_player_is_on == 21: # baby raccoon
+                speech_text = 54
+            scenery[current_room].append([52, 15, 1]) # speech bubble
+            scenery[current_room].append([speech_text, 15, 2])
+            speech_bubble = True
     
     description = "You see: " + objects[item_player_is_on][2]
     for prop_number, details in props.items():
@@ -400,14 +402,16 @@ def examine_object():
                 add_object(prop_number)
                 description = "You found " + objects[prop_number][3]
                 sound('combine')
+    
     show_text(description, 0)
-    pygame.time.delay(300)
+    pygame.time.delay(500)
 
 #USE OBJECTS#
 
 def use_object():
     global room_map, props, item_carrying, selected_item, in_my_pockets
     global plank, navigation_system, gunpowder, oxygen_tank, game_over
+    global manual_page1
 
     use_message = "You fiddle around with it but don't get anywhere."
     standard_responses = {
@@ -466,6 +470,11 @@ def use_object():
             scenery[12].remove([24, 5, 3])
             scenery[12].append([25, 5, 3])
         sound('combine')
+
+    if item_player_is_on == 43 or item_carrying == 43:
+        if manual_page1 == False:
+            scenery[current_room].append([57, 15, 0])
+            manual_page1 = True
 
     for recipe in RECIPES:
         ingredient1 = recipe[0]
@@ -546,7 +555,8 @@ def game_loop():
     global selected_item, item_carrying
     global player_offset_x, player_offset_y
     global player_frame, player_direction
-    global speech_bubble, speech_text
+    global help_menu, speech_bubble, speech_text
+    global manual_page1, manual_page2
     
     if player_frame > 0:
         player_frame += 1
@@ -644,17 +654,31 @@ def game_loop():
     if keys[pygame.K_u]:
         use_object()
 
-    if keys[pygame.K_h] and [51, 13, 0] not in scenery[current_room]:
-        show_help()
+    if keys[pygame.K_h] and help_menu == False:
+        scenery[current_room].append([51, 15, 0])
+        help_menu = True
 
     if keys[pygame.K_RETURN]:
-        if help_menu == True:
-            remove_help()
+        if manual_page1:
+            scenery[current_room].remove([57, 15, 0])
+            manual_page1 = False
+            scenery[current_room].append([58, 15, 0])
+            manual_page2 = True
 
-        if speech_bubble:
+        elif manual_page2:
+            scenery[current_room].remove([58, 15, 0])
+            manual_page2 = False
+            
+        elif help_menu:
+            scenery[current_room].remove([51, 15, 0])
+            help_menu = False
+            
+        elif speech_bubble:
             scenery[current_room].remove([speech_text, 15, 2])
             scenery[current_room].remove([52, 15, 1]) # remove speech bubble
-            speech_bubble = False 
+            speech_bubble = False
+            
+        pygame.time.delay(500)
 
     if room_map[player_y][player_x] not in items_player_may_stand_on:
         player_x = old_player_x
@@ -693,7 +717,7 @@ def draw():
     screen.set_clip((0, 100, 690, 450))
 
     floor_type = get_floor_type()
-    
+
     for y in range(ROOM_HEIGHT):
         for x in range(ROOM_WIDTH):
             draw_image(objects[floor_type][0], y, x)
@@ -718,26 +742,12 @@ def show_text(text_to_show, line_number):
         return
 
     text_lines = [15, 50]
-    myfont = pygame.font.SysFont('Verdana', 20)
+    myfont = pygame.font.SysFont('Arial', 20)
     textsurface = myfont.render(text_to_show, False, (0, 255, 0))
 
     pygame.draw.rect(screen, (0, 0, 0), (0, text_lines[line_number], 800, 35))
     screen.blit(textsurface,(20, text_lines[line_number]))
 
-def show_help():
-    global help_menu, original_room
-    original_room = scenery[current_room].copy()
-    help_menu = True
-    scenery[current_room].append([51, 13, 0])
-    print(original_room)
-    pygame.time.delay(500)
-
-def remove_help():
-    global help_menu, original_room
-    scenery[current_room] = original_room
-    help_menu = False
-    print(scenery[current_room])
-    
 #mainloop#
     
 clock = pygame.time.Clock()
