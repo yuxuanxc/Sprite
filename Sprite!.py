@@ -62,11 +62,13 @@ WHITE = (255, 255, 255)
 
 plank, navigation_system, gunpowder, oxygen_tank = False, False, False, False
 
+#TEXT ON SCREEN#
+text_on_screen = True
 help_menu = False
 speech_bubble = True
-manual_page1, manual_page2 = False, False
 speech_text = 53
-text_on_screen = True
+manual_page1, manual_page2 = False, False
+letter_1 = False
 
 #MAP#
 
@@ -168,6 +170,7 @@ Needs sulfur to make gunpowder",
     56: [image('speech_4'), None, None], # raccoon 2
     57: [image('manual_page1'), None, None],
     58: [image('manual_page2'), None, None],
+    59: [image('letter_1'), None, None],
     250: [image('transparent'), None,"Not much to see here"],
     251: [image('transparent'), None, "The mountain"],
     252: [image('transparent'), None, "The sea"],
@@ -271,7 +274,7 @@ props = {
     50: [0, 0, 0], # Charcoal + Seashell mixture
     }
 
-in_my_pockets = [42, 43]
+in_my_pockets = [42]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
@@ -414,13 +417,14 @@ def examine_object():
 def use_object():
     global room_map, props, item_carrying, selected_item, in_my_pockets
     global plank, navigation_system, gunpowder, oxygen_tank, game_over
-    global manual_page1
+    global manual_page1, letter_1
     global text_on_screen 
 
     use_message = "You fiddle around with it but don't get anywhere."
     standard_responses = {
         28: "Hot!",
-        43: "You read the manual."
+        43: "You read the manual.",
+        42: "You read the letter you wrote to yourself."
         }
 
     item_player_is_on = get_item_under_player()
@@ -485,6 +489,12 @@ def use_object():
                 scenery[current_room].append([57, 15, 0])
                 manual_page1 = True
                 text_on_screen = True
+
+    if item_player_is_on == 42 or item_carrying == 42:
+        if text_on_screen == False:
+            scenery[current_room].append([59, 15, 0])
+            letter_1 = True
+            text_on_screen = True
             
     for recipe in RECIPES:
         ingredient1 = recipe[0]
@@ -553,6 +563,41 @@ def generate_map():
             for tile_number in range(1, image_width_in_tiles):
                 room_map[prop_y][prop_x + tile_number] = 255
 
+def close_text_boxes():
+    global text_on_screen
+    global help_menu, speech_bubble
+    global manual_page1, manual_page2
+    global letter_1
+     
+    if manual_page1:
+        scenery[current_room].remove([57, 15, 0])
+        manual_page1 = False
+        scenery[current_room].append([58, 15, 0])
+        manual_page2 = True
+
+    elif manual_page2:
+        scenery[current_room].remove([58, 15, 0])
+        manual_page2 = False
+        text_on_screen = False
+        
+    elif help_menu:
+        scenery[current_room].remove([51, 15, 0])
+        help_menu = False
+        text_on_screen = False
+        
+    elif speech_bubble:
+        scenery[current_room].remove([speech_text, 15, 2])
+        scenery[current_room].remove([52, 15, 1]) # remove speech bubble
+        speech_bubble = False
+        text_on_screen = False
+
+    elif letter_1:
+        scenery[current_room].remove([59, 15, 0])
+        letter_1 = False
+        text_on_screen = False
+            
+    pygame.time.delay(500)
+
 #GAME LOOP#
                 
 def start_room():
@@ -565,7 +610,7 @@ def game_loop():
     global selected_item, item_carrying
     global player_offset_x, player_offset_y
     global player_frame, player_direction
-    global help_menu, speech_bubble, speech_text
+    global help_menu, speech_bubble, speech_text, letter_1
     global manual_page1, manual_page2
     global text_on_screen
     
@@ -611,6 +656,8 @@ def game_loop():
             player_frame = 1
 
     if player_x == ROOM_WIDTH: #goes through door on the right
+        if text_on_screen:
+            close_text_boxes()
         current_room += 1
         generate_map()
         player_x = 0
@@ -620,6 +667,8 @@ def game_loop():
         return
 
     if player_x == -1: #goes through door on the left
+        if text_on_screen:
+            close_text_boxes()
         current_room -= 1
         generate_map()
         player_x = ROOM_WIDTH - 1
@@ -629,6 +678,8 @@ def game_loop():
         return
 
     if player_y == ROOM_HEIGHT: #goes through door at the bottom
+        if text_on_screen:
+            close_text_boxes()
         current_room += MAP_WIDTH
         generate_map()
         player_y = 0
@@ -638,6 +689,8 @@ def game_loop():
         return
     
     if player_y == -1: #goes through door at the top
+        if text_on_screen:
+            close_text_boxes()
         current_room -= MAP_WIDTH
         generate_map()
         player_y = ROOM_HEIGHT - 1
@@ -674,29 +727,7 @@ def game_loop():
             show_text("Please press Enter to continue.", 0)
 
     if keys[pygame.K_RETURN]:
-        if manual_page1:
-            scenery[current_room].remove([57, 15, 0])
-            manual_page1 = False
-            scenery[current_room].append([58, 15, 0])
-            manual_page2 = True
-
-        elif manual_page2:
-            scenery[current_room].remove([58, 15, 0])
-            manual_page2 = False
-            text_on_screen = False
-            
-        elif help_menu:
-            scenery[current_room].remove([51, 15, 0])
-            help_menu = False
-            text_on_screen = False
-            
-        elif speech_bubble:
-            scenery[current_room].remove([speech_text, 15, 2])
-            scenery[current_room].remove([52, 15, 1]) # remove speech bubble
-            speech_bubble = False
-            text_on_screen = False
-            
-        pygame.time.delay(500)
+        close_text_boxes()
 
     if room_map[player_y][player_x] not in items_player_may_stand_on:
         player_x = old_player_x
