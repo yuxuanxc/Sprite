@@ -69,6 +69,14 @@ speech_bubble = True
 speech_text = 53
 manual_page1, manual_page2 = False, False
 letter_1 = False
+wall_of_achievements = False
+achievement = 60
+
+#GAME PROGRESS#
+treehouse_destroyed = False
+planet1_completed = False
+planet2_completed = False
+planet3_completed = False
 
 #MAP#
 
@@ -151,7 +159,7 @@ its side", "a leaking oxygen tank"],
     44: [image('log'), None, "A piece of log", "a log"],
     45: [image('planks'), None, "A piece of wooden plank", "wooden plank"],
     46: [image('spoilt_machine'), None, "Navigation system. It is missing a \
-piece of iron.", "spoilt system"],
+piece of magnet.", "spoilt system"],
     47: [image('machine'), None, "Navigation system", "navigation system"],
     48: [image('mixture_1'), None, "Mixture of sulfur and seashell.\
 Needs charcoal to make gunpowder",
@@ -171,6 +179,8 @@ Needs sulfur to make gunpowder",
     57: [image('manual_page1'), None, None],
     58: [image('manual_page2'), None, None],
     59: [image('letter_1'), None, None],
+    60: [image('wall_of_achievements'), None, None],
+    61: [image('first_achievement'), None, None],
     250: [image('transparent'), None,"Not much to see here"],
     251: [image('transparent'), None, "The mountain"],
     252: [image('transparent'), None, "The sea"],
@@ -267,7 +277,7 @@ props = {
     43: [12, 5, 3], # Manual under broken spaceship
     44: [0, 0, 0], # Log
     45: [0, 0, 0], # Plank
-    46: [12, 14, 14], # Navigation system missing a piece of iron
+    46: [12, 14, 14], # Navigation system missing a piece of magnet
     47: [0, 0, 0], # Navigation system
     48: [0, 0, 0], # Sulfur + Seashell mixture
     49: [0, 0, 0], # Sulfur + Charcoal mixture
@@ -375,6 +385,7 @@ def remove_object(item):
     else:
         item_carrying = in_my_pockets[selected_item]
     display_inventory()
+    pygame.time.delay(500)
 
 def examine_object():
     global speech_bubble, speech_text
@@ -418,7 +429,8 @@ def use_object():
     global room_map, props, item_carrying, selected_item, in_my_pockets
     global plank, navigation_system, gunpowder, oxygen_tank, game_over
     global manual_page1, letter_1
-    global text_on_screen 
+    global text_on_screen
+    global planet1_completed
 
     use_message = "You fiddle around with it but don't get anywhere."
     standard_responses = {
@@ -453,6 +465,7 @@ def use_object():
             sound('combine')
             scenery[5].remove([14, 7, 6])
             scenery[5].append([26, 7, 6])
+            treehouse_destroyed = True
 
     if item_carrying == 44 and item_player_is_on == 23: # use crafting table
         use_message = "You crafted planks from the log"
@@ -481,17 +494,17 @@ def use_object():
            gunpowder == True and oxygen_tank == True:
             scenery[12].remove([24, 5, 3])
             scenery[12].append([25, 5, 3])
+            planet1_completed = True
         sound('combine')
 
-    if item_player_is_on == 43 or item_carrying == 43:
-        if manual_page1 == False:
-            if text_on_screen == False:
+    elif item_player_is_on == 43 or item_carrying == 43:
+        if manual_page1 == False and text_on_screen == False:
                 scenery[current_room].append([57, 15, 0])
                 manual_page1 = True
                 text_on_screen = True
 
-    if item_player_is_on == 42 or item_carrying == 42:
-        if text_on_screen == False:
+    elif item_player_is_on == 42 or item_carrying == 42:
+        if letter_1 == False and text_on_screen == False:
             scenery[current_room].append([59, 15, 0])
             letter_1 = True
             text_on_screen = True
@@ -515,7 +528,6 @@ def use_object():
             sound('combine')
 
     show_text(use_message, 0)
-    pygame.time.delay(500)
 
 #MAKE MAP#
 
@@ -567,7 +579,7 @@ def close_text_boxes():
     global text_on_screen
     global help_menu, speech_bubble
     global manual_page1, manual_page2
-    global letter_1
+    global letter_1, wall_of_achievements, achievement
      
     if manual_page1:
         scenery[current_room].remove([57, 15, 0])
@@ -595,6 +607,11 @@ def close_text_boxes():
         scenery[current_room].remove([59, 15, 0])
         letter_1 = False
         text_on_screen = False
+
+    elif wall_of_achievements:
+        scenery[current_room].remove([achievement, 15, 0])
+        wall_of_achievements = False
+        text_on_screen = False
             
     pygame.time.delay(500)
 
@@ -612,7 +629,7 @@ def game_loop():
     global player_frame, player_direction
     global help_menu, speech_bubble, speech_text, letter_1
     global manual_page1, manual_page2
-    global text_on_screen
+    global text_on_screen, wall_of_achievements, achievement
     
     if player_frame > 0:
         player_frame += 1
@@ -717,11 +734,22 @@ def game_loop():
 
     if keys[pygame.K_u]:
         use_object()
+        pygame.time.delay(500)
 
     if keys[pygame.K_h] and help_menu == False:
         if text_on_screen == False:
             scenery[current_room].append([51, 15, 0])
             help_menu = True
+            text_on_screen = True
+        elif text_on_screen:
+            show_text("Please press Enter to continue.", 0)
+
+    if keys[pygame.K_a] and wall_of_achievements == False:
+        if text_on_screen == False:
+            if treehouse_destroyed == False and planet1_completed:
+                achievement = 61
+            scenery[current_room].append([achievement, 15, 0])
+            wall_of_achievements = True
             text_on_screen = True
         elif text_on_screen:
             show_text("Please press Enter to continue.", 0)
