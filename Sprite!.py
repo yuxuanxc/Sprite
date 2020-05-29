@@ -66,6 +66,7 @@ help_menu = False
 speech_bubble = True
 manual_page1, manual_page2 = False, False
 speech_text = 53
+text_on_screen = True
 
 #MAP#
 
@@ -143,12 +144,12 @@ its side", "a leaking oxygen tank"],
     41: [image('sticky'), None, "Sticky goo", "sticky goo"],
     42: [image('letter'), None, "A letter I wrote to myself",
          "letter to self"],
-    43: [image('manual'), None, "The manual to fix the spaceship",
+    43: [image('manual'), None, "The spaceship manual",
          "a manual to fix the spaceship"],
     44: [image('log'), None, "A piece of log", "a log"],
     45: [image('planks'), None, "A piece of wooden plank", "wooden plank"],
     46: [image('spoilt_machine'), None, "Navigation system. It is missing a \
-piece of iron", "spoilt system"],
+piece of iron.", "spoilt system"],
     47: [image('machine'), None, "Navigation system", "navigation system"],
     48: [image('mixture_1'), None, "Mixture of sulfur and seashell.\
 Needs charcoal to make gunpowder",
@@ -162,8 +163,8 @@ Needs sulfur to make gunpowder",
     51: [image('help'), None, None],
     52: [image('speech'), None, None],
     53: [image('speech_1'), None, None], # raccoon 1
-    #54: [image('speech_2'), None, None], # baby raccoon
-    55: [image('speech_3'), None, None], # baby raccoon
+    54: [image('speech_2'), None, None], # baby raccoon
+    #55: [image('speech_3'), None, None], # baby raccoon
     56: [image('speech_4'), None, None], # raccoon 2
     57: [image('manual_page1'), None, None],
     58: [image('manual_page2'), None, None],
@@ -374,6 +375,7 @@ def remove_object(item):
 
 def examine_object():
     global speech_bubble, speech_text
+    global text_on_screen
     
     item_player_is_on = get_item_under_player()
     left_tile_of_item = find_object_start_x()
@@ -392,6 +394,7 @@ def examine_object():
             scenery[current_room].append([52, 15, 1]) # speech bubble
             scenery[current_room].append([speech_text, 15, 2])
             speech_bubble = True
+            text_on_screen = True
     
     description = "You see: " + objects[item_player_is_on][2]
     for prop_number, details in props.items():
@@ -412,16 +415,21 @@ def use_object():
     global room_map, props, item_carrying, selected_item, in_my_pockets
     global plank, navigation_system, gunpowder, oxygen_tank, game_over
     global manual_page1
+    global text_on_screen 
 
     use_message = "You fiddle around with it but don't get anywhere."
     standard_responses = {
-        28: "Hot!"
+        28: "Hot!",
+        43: "You read the manual."
         }
 
     item_player_is_on = get_item_under_player()
     for this_item in [item_player_is_on, item_carrying]:
         if this_item in standard_responses:
             use_message = standard_responses[this_item]
+
+    if text_on_screen == True:
+        use_message = "Please press Enter to continue."
 
     if item_carrying == 34 and item_player_is_on == 27: # use pickaxe
         use_message = "You found a piece of iron ore!"
@@ -473,9 +481,11 @@ def use_object():
 
     if item_player_is_on == 43 or item_carrying == 43:
         if manual_page1 == False:
-            scenery[current_room].append([57, 15, 0])
-            manual_page1 = True
-
+            if text_on_screen == False:
+                scenery[current_room].append([57, 15, 0])
+                manual_page1 = True
+                text_on_screen = True
+            
     for recipe in RECIPES:
         ingredient1 = recipe[0]
         ingredient2 = recipe[1]
@@ -557,6 +567,7 @@ def game_loop():
     global player_frame, player_direction
     global help_menu, speech_bubble, speech_text
     global manual_page1, manual_page2
+    global text_on_screen
     
     if player_frame > 0:
         player_frame += 1
@@ -655,8 +666,12 @@ def game_loop():
         use_object()
 
     if keys[pygame.K_h] and help_menu == False:
-        scenery[current_room].append([51, 15, 0])
-        help_menu = True
+        if text_on_screen == False:
+            scenery[current_room].append([51, 15, 0])
+            help_menu = True
+            text_on_screen = True
+        elif text_on_screen:
+            show_text("Please press Enter to continue.", 0)
 
     if keys[pygame.K_RETURN]:
         if manual_page1:
@@ -668,15 +683,18 @@ def game_loop():
         elif manual_page2:
             scenery[current_room].remove([58, 15, 0])
             manual_page2 = False
+            text_on_screen = False
             
         elif help_menu:
             scenery[current_room].remove([51, 15, 0])
             help_menu = False
+            text_on_screen = False
             
         elif speech_bubble:
             scenery[current_room].remove([speech_text, 15, 2])
             scenery[current_room].remove([52, 15, 1]) # remove speech bubble
             speech_bubble = False
+            text_on_screen = False
             
         pygame.time.delay(500)
 
