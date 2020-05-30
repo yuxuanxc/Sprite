@@ -15,7 +15,8 @@ image_path = os.path.join(current_path, 'images')
 sound_path = os.path.join(current_path, 'sounds')
 
 def image(image):
-    return pygame.image.load(os.path.join(image_path, image + '.png'))
+    return pygame.image.load(
+        os.path.join(image_path, image + '.png')).convert_alpha()
 
 def sound(sound):
     soundObj = pygame.mixer.Sound(os.path.join(sound_path, sound + '.wav'))
@@ -73,6 +74,7 @@ wall_of_achievements = False
 achievement = 60
 
 #GAME PROGRESS#
+display_help = True
 treehouse_destroyed = False
 planet1_completed = False
 planet2_completed = False
@@ -580,6 +582,7 @@ def close_text_boxes():
     global help_menu, speech_bubble
     global manual_page1, manual_page2
     global letter_1, wall_of_achievements, achievement
+    global display_help
      
     if manual_page1:
         scenery[current_room].remove([57, 15, 0])
@@ -598,6 +601,10 @@ def close_text_boxes():
         text_on_screen = False
         
     elif speech_bubble:
+        if display_help:
+            scenery[current_room].append([51, 15, 0])
+            display_help = False
+            help_menu = True
         scenery[current_room].remove([speech_text, 15, 2])
         scenery[current_room].remove([52, 15, 1]) # remove speech bubble
         speech_bubble = False
@@ -718,10 +725,18 @@ def game_loop():
     if keys[pygame.K_g]:
         pick_up_object()
 
-    if keys[pygame.K_TAB] and len(in_my_pockets) > 0:
+    if keys[pygame.K_q] and len(in_my_pockets) > 0:
         selected_item += 1
-        if selected_item > len(in_my_pockets) -1:
+        if selected_item > len(in_my_pockets) - 1:
             selected_item = 0
+        item_carrying = in_my_pockets[selected_item]
+        display_inventory()
+        pygame.time.delay(300)
+
+    if keys[pygame.K_w] and len(in_my_pockets) > 0:
+        selected_item -= 1
+        if selected_item < 0:
+            selected_item = len(in_my_pockets) - 1
         item_carrying = in_my_pockets[selected_item]
         display_inventory()
         pygame.time.delay(300)
