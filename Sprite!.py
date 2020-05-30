@@ -725,7 +725,7 @@ def game_loop():
     if keys[pygame.K_g]:
         pick_up_object()
 
-    if keys[pygame.K_q] and len(in_my_pockets) > 0:
+    if keys[pygame.K_w] and len(in_my_pockets) > 0:
         selected_item += 1
         if selected_item > len(in_my_pockets) - 1:
             selected_item = 0
@@ -733,7 +733,7 @@ def game_loop():
         display_inventory()
         pygame.time.delay(300)
 
-    if keys[pygame.K_w] and len(in_my_pockets) > 0:
+    if keys[pygame.K_q] and len(in_my_pockets) > 0:
         selected_item -= 1
         if selected_item < 0:
             selected_item = len(in_my_pockets) - 1
