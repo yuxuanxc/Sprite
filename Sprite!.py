@@ -597,6 +597,7 @@ def close_text_boxes():
         baby_raccoon_textbox_2 = False
         text_on_screen = False
         scenery[current_room].remove([52, 15, 1]) # remove speech bubble
+        speech_bubble = False
         
     elif manual_page1:
         scenery[current_room].remove([57, 15, 0])
