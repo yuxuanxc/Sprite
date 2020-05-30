@@ -68,6 +68,7 @@ text_on_screen = True
 help_menu = False
 speech_bubble = True
 speech_text = 53
+baby_raccoon_textbox_1, baby_raccoon_textbox_2 = False, False
 manual_page1, manual_page2 = False, False
 letter_1 = False
 wall_of_achievements = False
@@ -176,7 +177,7 @@ Needs sulfur to make gunpowder",
     52: [image('speech'), None, None],
     53: [image('speech_1'), None, None], # raccoon 1
     54: [image('speech_2'), None, None], # baby raccoon
-    #55: [image('speech_3'), None, None], # baby raccoon
+    55: [image('speech_3'), None, None], # baby raccoon
     56: [image('speech_4'), None, None], # raccoon 2
     57: [image('manual_page1'), None, None],
     58: [image('manual_page2'), None, None],
@@ -363,7 +364,7 @@ def display_inventory():
 
 def drop_object(old_y, old_x):
     global room_map, props
-    if room_map[old_y][old_x] in [0, 1, 2, 3]:
+    if room_map[old_y][old_x] in [0, 1, 2]:
         props[item_carrying][0] = current_room
         props[item_carrying][1] = old_y
         props[item_carrying][2] = old_x
@@ -391,7 +392,7 @@ def remove_object(item):
 
 def examine_object():
     global speech_bubble, speech_text
-    global text_on_screen
+    global text_on_screen, baby_raccoon_textbox_1
     
     item_player_is_on = get_item_under_player()
     left_tile_of_item = find_object_start_x()
@@ -407,6 +408,7 @@ def examine_object():
                 speech_text = 56
             elif item_player_is_on == 21: # baby raccoon
                 speech_text = 54
+                baby_raccoon_textbox_1 = True
             scenery[current_room].append([52, 15, 1]) # speech bubble
             scenery[current_room].append([speech_text, 15, 2])
             speech_bubble = True
@@ -432,7 +434,7 @@ def use_object():
     global plank, navigation_system, gunpowder, oxygen_tank, game_over
     global manual_page1, letter_1
     global text_on_screen
-    global planet1_completed
+    global treehouse_destroyed, planet1_completed
 
     use_message = "You fiddle around with it but don't get anywhere."
     standard_responses = {
@@ -454,7 +456,7 @@ def use_object():
         add_object(31)
         sound('combine')
         props[item_player_is_on][0] = 0
-        scenery[1].append([11, 11, 6])
+        scenery[1].append([251, 11, 6])
 
     if item_carrying == 35: # use axe
         if item_player_is_on in [12, 13]:
@@ -501,9 +503,9 @@ def use_object():
 
     elif item_player_is_on == 43 or item_carrying == 43:
         if manual_page1 == False and text_on_screen == False:
-                scenery[current_room].append([57, 15, 0])
-                manual_page1 = True
-                text_on_screen = True
+            scenery[current_room].append([57, 15, 0])
+            manual_page1 = True
+            text_on_screen = True
 
     elif item_player_is_on == 42 or item_carrying == 42:
         if letter_1 == False and text_on_screen == False:
@@ -578,13 +580,25 @@ def generate_map():
                 room_map[prop_y][prop_x + tile_number] = 255
 
 def close_text_boxes():
-    global text_on_screen
+    global text_on_screen, baby_raccoon_textbox_1, baby_raccoon_textbox_2
     global help_menu, speech_bubble
     global manual_page1, manual_page2
     global letter_1, wall_of_achievements, achievement
     global display_help
      
-    if manual_page1:
+    if baby_raccoon_textbox_1:
+        scenery[current_room].remove([54, 15, 2])
+        baby_raccoon_textbox_1 = False
+        scenery[current_room].append([55, 15, 2])
+        baby_raccoon_textbox_2 = True
+
+    elif baby_raccoon_textbox_2:
+        scenery[current_room].remove([55, 15, 2])
+        baby_raccoon_textbox_2 = False
+        text_on_screen = False
+        scenery[current_room].remove([52, 15, 1]) # remove speech bubble
+        
+    elif manual_page1:
         scenery[current_room].remove([57, 15, 0])
         manual_page1 = False
         scenery[current_room].append([58, 15, 0])
