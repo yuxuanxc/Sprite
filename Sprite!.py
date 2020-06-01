@@ -75,7 +75,6 @@ wall_of_achievements = False
 achievement = 60
 
 #GAME PROGRESS#
-display_help = True
 treehouse_destroyed = False
 planet1_completed = False
 planet2_completed = False
@@ -159,7 +158,7 @@ its side", "a leaking oxygen tank"],
          "letter to self"],
     43: [image('manual'), None, "The spaceship manual",
          "a manual to fix the spaceship"],
-    44: [image('log'), None, "A piece of log", "a log"],
+    44: [image('log'), None, "A piece of log", "a log"], 
     45: [image('planks'), None, "A piece of wooden plank", "wooden plank"],
     46: [image('spoilt_machine'), None, "Navigation system. It is missing a \
 piece of magnet.", "spoilt system"],
@@ -365,14 +364,17 @@ def display_inventory():
 def drop_object(old_y, old_x):
     global room_map, props
     if room_map[old_y][old_x] in [0, 1, 2]:
-        props[item_carrying][0] = current_room
-        props[item_carrying][1] = old_y
-        props[item_carrying][2] = old_x
-        room_map[old_y][old_x] = item_carrying
-        show_text("You have dropped " + objects[item_carrying][3], 0)
-        sound('drop')
-        remove_object(item_carrying)
-        pygame.time.delay(300)
+        if current_room == 11 and old_x > 17:
+            show_text("You can't drop that here.", 0)
+        else:
+            props[item_carrying][0] = current_room
+            props[item_carrying][1] = old_y
+            props[item_carrying][2] = old_x
+            room_map[old_y][old_x] = item_carrying
+            show_text("You have dropped " + objects[item_carrying][3], 0)
+            sound('drop')
+            remove_object(item_carrying)
+            pygame.time.delay(300)
     else:
         show_text("You can't drop that here.", 0)
         pygame.time.delay(300)
@@ -499,9 +501,12 @@ def use_object():
             scenery[12].remove([24, 5, 3])
             scenery[12].append([25, 5, 3])
             planet1_completed = True
-            use_message = "You've fixed the spaceship and you can leave the planet!"
             if treehouse_destroyed == False:
-                show_text("You've earned an achievement! Press [A] to view it.", 1)
+                use_message = "You've fixed the spaceship and you can leave the planet!"
+                show_text("The raccoons gave you a souvenir! Press [A] to view it.", 1)
+            elif treehouse_destroyed:
+                use_message = "You've fixed the spaceship and you can leave! The raccoons"
+                show_text("seem upset about the treehouse and did not give you a souvenir.", 1)
         sound('combine')
 
     elif item_player_is_on == 43 or item_carrying == 43:
@@ -587,7 +592,6 @@ def close_text_boxes():
     global help_menu, speech_bubble, speech_text
     global manual_page1, manual_page2
     global letter_1, wall_of_achievements, achievement
-    global display_help
      
     if baby_raccoon_textbox_1:
         scenery[current_room].remove([54, 15, 2])
@@ -619,10 +623,6 @@ def close_text_boxes():
         text_on_screen = False
         
     elif speech_bubble:
-        if display_help:
-            scenery[current_room].append([51, 15, 0])
-            display_help = False
-            help_menu = True
         scenery[current_room].remove([speech_text, 15, 2])
         scenery[current_room].remove([52, 15, 1]) # remove speech bubble
         speech_bubble = False
