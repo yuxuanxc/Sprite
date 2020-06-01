@@ -148,7 +148,7 @@ with a staircase made from wooden planks"],
     35: [image('axe'), None, "An axe", "axe"],
     36: [image('seashell'), None, "A seashell", "a seashell"],
     37: [image('oxygen_tank'), None, "An oxygen tank, with a hole on \
-its side", "a leaking O2 tank"],
+its side", "leaking O2 tank"],
     38: [image('oxygen_tank'), None, "A sealed oxygen tank",
          "oxygen tank"],
     39: [image('sulfur'), None, "Sulfur", "sulfur"],
