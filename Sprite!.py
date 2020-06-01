@@ -139,10 +139,10 @@ with a staircase made from wooden planks"],
     26: [image('destroyed_treehouse'), None, "A destroyed tree house"],
     27: [image('iron_ore'), None, "Something shiny"],
     28: [image('charcoal'), None, "Some charcoal", "charcoal"],
-    29: [image('stick'), None, "A strong and sturdy stick", "stick"],
-    30: [image('stick'), None, "A strong and sturdy stick", "stick"],
+    29: [image('stick'), None, "A strong and sturdy stick", "a stick"],
+    30: [image('stick'), None, "A strong and sturdy stick", "a stick"],
     31: [image('iron_ore'), None, "A piece of iron ore", "iron ore"],
-    32: [image('rocks'), None, "A large piece of stone", "large stone"],
+    32: [image('rocks'), None, "A large piece of stone", "a large stone"],
     33: [image('pickaxe_stone'), None, "A long piece of stone",
          "long stone"],
     34: [image('pickaxe'), None, "A pickaxe", "pickaxe"],
@@ -433,7 +433,7 @@ def use_object():
     global room_map, props, item_carrying, selected_item, in_my_pockets
     global plank, navigation_system, gunpowder, oxygen_tank, game_over
     global manual_page1, letter_1
-    global text_on_screen
+    global text_on_screen, speech_bubble, speech_text
     global treehouse_destroyed, planet1_completed
 
     use_message = "You fiddle around with it but don't get anywhere."
@@ -499,6 +499,9 @@ def use_object():
             scenery[12].remove([24, 5, 3])
             scenery[12].append([25, 5, 3])
             planet1_completed = True
+            use_message = "You've fixed the spaceship and you can leave the planet!"
+            if treehouse_destroyed == False:
+                show_text("You've earned an achievement! Press [A] to view it.", 1)
         sound('combine')
 
     elif item_player_is_on == 43 or item_carrying == 43:
@@ -581,7 +584,7 @@ def generate_map():
 
 def close_text_boxes():
     global text_on_screen, baby_raccoon_textbox_1, baby_raccoon_textbox_2
-    global help_menu, speech_bubble
+    global help_menu, speech_bubble, speech_text
     global manual_page1, manual_page2
     global letter_1, wall_of_achievements, achievement
     global display_help
@@ -764,7 +767,7 @@ def game_loop():
 
     if keys[pygame.K_u]:
         use_object()
-        pygame.time.delay(500)
+        pygame.time.delay(300)
 
     if keys[pygame.K_h] and help_menu == False:
         if text_on_screen == False:
