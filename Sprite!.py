@@ -48,8 +48,8 @@ PLAYER = {
         ]
 }
 
-current_room = 10
-player_y, player_x = 8, 9
+current_room = 9 # Start at 6
+player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
 player_image = PLAYER[player_direction][player_frame]
@@ -489,6 +489,7 @@ class planet2():
     objects = {
         #Object number : [Image, Shadow, Description]
         0: [image('road_tile'), None, None],
+        1: [image('concrete'), None, None],
         3: [image('ice_bricks'), None, "Bricks from ice"],
         4: [image('ice_bricks_long'), None, "Bricks from ice"],
         5: [image('ice_bricks_short'), None, "Bricks from ice"],
@@ -501,6 +502,19 @@ class planet2():
         12: [image('sea_with_ice_7'), None, None],
         13: [image('sea_with_ice_8'), None, None],
         14: [image('sea_with_ice_9'), None, None],
+        15: [image('spaceship'), None, None],
+        16: [image('penguin_1'), None, None],
+        17: [image('penguin_2'), None, None],
+        18: [image('penguin_3'), None, None],
+        19: [image('penguin_mayor'), None, None],
+        20: [image('gate_left'), None, None],
+        21: [image('gate_right'), None, None],
+        22: [image('crowd_1'), None, None],
+        23: [image('crowd_2'), None, None],
+        24: [image('wall'), None, "Wooden walls"],
+        25: [image('wall_1'), None, "Wooden walls"],
+        26: [image('longwall'), None, "Wooden walls"],
+        27: [image('fence'), None, None],
         42: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
         51: [image('help'), None, None],       
@@ -510,7 +524,7 @@ class planet2():
         }
 
     items_player_may_carry = [42]
-    items_player_may_stand_on = items_player_may_carry + [0]
+    items_player_may_stand_on = items_player_may_carry + [0, 1]
 
     #SCENERY#
 
@@ -523,7 +537,13 @@ class planet2():
             [5, 8, 0], [5, 8, 14], [6, 15, 0], [7, 15, 15], [14, 2, 0]],
         3: [],
         4: [],
-        5: [],
+        5: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
+            [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
+            [24, 14, 0], [26, 15, 0], [26, 15, 13], [26, 3, 0], [26, 3, 12],
+            [24, 3, 10], [24, 3, 11], [24, 3, 22], [24, 4, 22], [24, 5, 22],
+            [24, 11, 22], [24, 12, 22], [24, 13, 22], [24, 14, 22],
+            [16, 4, 3], [17, 4, 5], [18, 4, 7], [19, 5, 11],
+            [22, 12, 1], [23, 12, 13], [27, 5, 2]],
         6: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 1, 14],
             [3, 2, 14], [3, 3, 14], [3, 4, 14], [3, 12, 8], [3, 13, 8],
             [3, 14, 8], [3, 15, 8], [3, 12, 14], [3, 13, 14], [3, 14, 14],
@@ -531,7 +551,7 @@ class planet2():
             [8, 4, 0], [9, 4, 15], [10, 15, 0], [11, 15, 15]],
         7: [],
         8: [],
-        9: [],
+        9: [[15, 10, 5], [20, 5, 0], [21, 5, 14]],
         10: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 5, 8],
              [3, 6, 8], [3, 7, 8], [3, 8, 8], [3, 9, 8], [3, 10, 8],
              [3, 11, 8], [3, 12, 8], [3, 1, 14], [3, 2, 14], [3, 3, 14],
@@ -580,7 +600,10 @@ class planet2():
         show_text(use_message, 0)
     
     def get_floor_type(self):
-        return 0
+        if current_room in (4, 5, 8):
+            return 1
+        else:
+            return 0
 
     def can_drop(self, old_y, old_x):
         return room_map[old_y][old_x] in [0]
