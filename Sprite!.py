@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 6
+current_room = 10
 player_y, player_x = 8, 9
 player_direction = "up"
 player_frame = 0
@@ -488,23 +488,56 @@ class planet2():
 
     objects = {
         #Object number : [Image, Shadow, Description]
+        0: [image('road_tile'), None, None],
+        3: [image('ice_bricks'), None, "Bricks from ice"],
+        4: [image('ice_bricks_long'), None, "Bricks from ice"],
+        5: [image('ice_bricks_short'), None, "Bricks from ice"],
+        6: [image('sea_with_ice_1'), None, None],
+        7: [image('sea_with_ice_2'), None, None],
+        8: [image('sea_with_ice_3'), None, None],
+        9: [image('sea_with_ice_4'), None, None],
+        10: [image('sea_with_ice_5'), None, None],
+        11: [image('sea_with_ice_6'), None, None],
+        12: [image('sea_with_ice_7'), None, None],
+        13: [image('sea_with_ice_8'), None, None],
+        14: [image('sea_with_ice_9'), None, None],
+        42: [image('letter'), None, "A letter I wrote to myself",
+             "letter to self"],
+        51: [image('help'), None, None],       
+        59: [image('letter_1'), None, None],
+        60: [image('wall_of_achievements'), None, None],
+        61: [image('first_achievement'), None, None]
         }
 
-    #items_player_may_carry =
-    #items_player_may_stand_on = items_player_may_carry + 
+    items_player_may_carry = [42]
+    items_player_may_stand_on = items_player_may_carry + [0]
 
     #SCENERY#
 
     scenery = {
         #room number: [[object number, y position, x position]...]
         1: [],
+        2: [[3, 9, 8], [3, 10, 8], [3, 11, 8], [3, 12, 8], [3, 13, 8],
+            [3, 14, 8], [3, 15, 8], [3, 9, 14], [3, 10, 14], [3, 11, 14],
+            [3, 12, 14], [3, 13, 14], [3, 14, 14], [3, 15, 14], [4, 3, 0],
+            [5, 8, 0], [5, 8, 14], [6, 15, 0], [7, 15, 15], [14, 2, 0]],
         3: [],
         4: [],
         5: [],
-        6: [],
+        6: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 1, 14],
+            [3, 2, 14], [3, 3, 14], [3, 4, 14], [3, 12, 8], [3, 13, 8],
+            [3, 14, 8], [3, 15, 8], [3, 12, 14], [3, 13, 14], [3, 14, 14],
+            [3, 15, 14], [5, 5, 0], [5, 11, 0], [5, 5, 14], [5, 11, 14],
+            [8, 4, 0], [9, 4, 15], [10, 15, 0], [11, 15, 15]],
         7: [],
         8: [],
         9: [],
+        10: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 5, 8],
+             [3, 6, 8], [3, 7, 8], [3, 8, 8], [3, 9, 8], [3, 10, 8],
+             [3, 11, 8], [3, 12, 8], [3, 1, 14], [3, 2, 14], [3, 3, 14],
+             [3, 4, 14], [3, 5, 14], [3, 6, 14], [3, 7, 14], [4, 13, 0],
+             [5, 8, 14],
+             [12, 7, 15], [13, 15, 0]],
         11: [],
         12: []
         }
@@ -513,6 +546,7 @@ class planet2():
 
     props = {
         #object number: [room, y, x]
+        42: [0, 0, 0]
         }
 
     RECIPES = [
@@ -520,27 +554,54 @@ class planet2():
 
     #USE OBJECTS#
 
-    #def use_object(self):
+    def use_object(self):
+        global room_map, item_carrying, selected_item, in_my_pockets
+        global text_on_screen, letter_1
+
+        use_message = "You fiddle around with it but don't get anywhere."
+        standard_responses = {
+            42: "You read the letter you wrote to yourself."
+            }
+
+        item_player_is_on = get_item_under_player()
+        for this_item in [item_player_is_on, item_carrying]:
+            if this_item in standard_responses:
+                use_message = standard_responses[this_item]
+
+        if text_on_screen == True:
+            use_message = "Please press Enter to continue."
+
+        if item_player_is_on == 42 or item_carrying == 42:
+            if letter_1 == False and text_on_screen == False:
+                self.scenery[current_room].append([59, 15, 0])
+                letter_1 = True
+                text_on_screen = True
+
+        show_text(use_message, 0)
     
-    #def get_floor_type(self):
+    def get_floor_type(self):
+        return 0
 
-    #def can_drop(self, old_y, old_x):
+    def can_drop(self, old_y, old_x):
+        return room_map[old_y][old_x] in [0]
 
-    #def speak(self):
+    def speak(self):
+        return
 
-    #def close_textboxes(self):
+    def close_textboxes(self):
+        return
     
 #TEXT ON SCREEN#
-text_on_screen = True
+text_on_screen = False
 help_menu = False
-speech_bubble = True
+speech_bubble = False
 speech_text = 53
 letter_1 = False
 wall_of_achievements = False
 achievement = 60
 
 #GAME PROGRESS#
-planet = planet1()
+planet = planet2()
 treehouse_destroyed = False
 planet1_completed = False
 planet2_completed = False
@@ -549,7 +610,7 @@ game_over = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [42, 45, 47, 40, 38]
+in_my_pockets = [42]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
@@ -646,7 +707,7 @@ def examine_object():
     item_player_is_on = get_item_under_player()
     left_tile_of_item = find_object_start_x()
     
-    if item_player_is_on in [0, 1, 2, 3]:
+    if item_player_is_on in [0, 1, 2, 3]: #problem
         return
     
     description = "You see: " + planet.objects[item_player_is_on][2]
