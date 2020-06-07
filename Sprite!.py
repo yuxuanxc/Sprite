@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 12 # Start at 6
+current_room = 2 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -489,7 +489,7 @@ class planet2():
     objects = {
         #Object number : [Image, Shadow, Description]
         0: [image('road_tile'), None, None],
-        1: [image('road_tile'), None, None],
+        1: [image('concrete'), None, None],
         3: [image('ice_bricks'), None, "Bricks from ice"],
         4: [image('ice_bricks_long'), None, "Bricks from ice"],
         5: [image('ice_bricks_short'), None, "Bricks from ice"],
@@ -517,14 +517,21 @@ class planet2():
         27: [image('fence'), None, None],
         28: [image('sea_with_ice_10'), None, None],
         29: [image('pile_of_snow'), None, "Pile of snow"],
-        30: [image('gate_unlocked_1'), None, "A open gate"],
-        31: [image('gate_unlocked_2'), None, "A open gate"],
+        30: [image('gate_unlocked_1'), None, "An open gate"],
+        31: [image('gate_unlocked_2'), None, "An open gate"],
         32: [image('gate_locked'), None, "A gate with a padlock"],
 
-        40: [image('key'), None, "A old and rusty key", "the key"],
+        40: [image('key'), None, "An old and rusty key", "the key"],
         41: [image('shovel'), None, "A shovel", "the shovel"],
         42: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
+        43: [image('shelf_1'), None, "A shelf with assorted items"],
+        44: [image('shelf_2'), None, "A shelf with assorted items"],
+        45: [image('chair'), None, "A chair"],
+        46: [image('chair_2'), None, "A chair"],
+        47: [image('science_table'), None, "A table full of burning hot science equipment"],
+        48: [image('science_table_2'), None, "Home experiments. The equipment is hot!"],
+        49: [image('fishtank'), None, "A fish tank"],
         51: [image('help'), None, None],       
         59: [image('letter_1'), None, None],
         60: [image('wall_of_achievements'), None, None],
@@ -538,7 +545,14 @@ class planet2():
 
     scenery = {
         #room number: [[object number, y position, x position]...]
-        1: [],
+        1: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
+            [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
+            [24, 14, 0], [26, 15, 0], [26, 15, 13], [26, 3, 0], [26, 3, 12],
+            [24, 3, 10], [24, 3, 11], [24, 3, 22], [24, 4, 22], [24, 5, 22],
+            [24, 11, 22], [24, 12, 22], [24, 13, 22], [24, 14, 22],
+            [24, 15, 10], [24, 15, 11], [24, 15, 12], [49, 5, 19],
+            [43, 6, 1], [44, 6, 7], [43, 6, 13], [45, 10, 3], [47, 10, 4],
+            [46, 10, 8], [45, 10, 13], [48, 10, 14], [46, 10, 18]],
         2: [[3, 10, 8], [3, 11, 8], [3, 12, 8], [3, 13, 8], [3, 14, 8],
             [3, 15, 8], [3, 10, 14], [3, 11, 14], [3, 12, 14], [3, 13, 14],
             [3, 14, 14], [3, 15, 14], [4, 3, 0], [5, 9, 0], [5, 9, 14],
@@ -625,7 +639,7 @@ class planet2():
         show_text(use_message, 0)
     
     def get_floor_type(self):
-        if current_room in (4, 5, 8):
+        if current_room in (1, 4, 5, 8):
             return 1
         else:
             return 0
