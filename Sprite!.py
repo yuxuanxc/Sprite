@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 9 # Start at 6
+current_room = 12 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -489,7 +489,7 @@ class planet2():
     objects = {
         #Object number : [Image, Shadow, Description]
         0: [image('road_tile'), None, None],
-        1: [image('concrete'), None, None],
+        1: [image('road_tile'), None, None],
         3: [image('ice_bricks'), None, "Bricks from ice"],
         4: [image('ice_bricks_long'), None, "Bricks from ice"],
         5: [image('ice_bricks_short'), None, "Bricks from ice"],
@@ -515,6 +515,14 @@ class planet2():
         25: [image('wall_1'), None, "Wooden walls"],
         26: [image('longwall'), None, "Wooden walls"],
         27: [image('fence'), None, None],
+        28: [image('sea_with_ice_10'), None, None],
+        29: [image('pile_of_snow'), None, "Pile of snow"],
+        30: [image('gate_unlocked_1'), None, "A open gate"],
+        31: [image('gate_unlocked_2'), None, "A open gate"],
+        32: [image('gate_locked'), None, "A gate with a padlock"],
+
+        40: [image('key'), None, "A old and rusty key", "the key"],
+        41: [image('shovel'), None, "A shovel", "the shovel"],
         42: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
         51: [image('help'), None, None],       
@@ -531,10 +539,10 @@ class planet2():
     scenery = {
         #room number: [[object number, y position, x position]...]
         1: [],
-        2: [[3, 9, 8], [3, 10, 8], [3, 11, 8], [3, 12, 8], [3, 13, 8],
-            [3, 14, 8], [3, 15, 8], [3, 9, 14], [3, 10, 14], [3, 11, 14],
-            [3, 12, 14], [3, 13, 14], [3, 14, 14], [3, 15, 14], [4, 3, 0],
-            [5, 8, 0], [5, 8, 14], [6, 15, 0], [7, 15, 15], [14, 2, 0]],
+        2: [[3, 10, 8], [3, 11, 8], [3, 12, 8], [3, 13, 8], [3, 14, 8],
+            [3, 15, 8], [3, 10, 14], [3, 11, 14], [3, 12, 14], [3, 13, 14],
+            [3, 14, 14], [3, 15, 14], [4, 3, 0], [5, 9, 0], [5, 9, 14],
+            [6, 15, 0], [7, 15, 15], [14, 2, 0]],
         3: [],
         4: [],
         5: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
@@ -555,17 +563,19 @@ class planet2():
         10: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 5, 8],
              [3, 6, 8], [3, 7, 8], [3, 8, 8], [3, 9, 8], [3, 10, 8],
              [3, 11, 8], [3, 12, 8], [3, 1, 14], [3, 2, 14], [3, 3, 14],
-             [3, 4, 14], [3, 5, 14], [3, 6, 14], [3, 7, 14], [4, 13, 0],
-             [5, 8, 14],
-             [12, 7, 15], [13, 15, 0]],
-        11: [],
-        12: []
+             [3, 4, 14], [3, 5, 14], [3, 6, 14], [4, 13, 0],
+             [5, 7, 14], [12, 6, 15], [13, 15, 0]],
+        11: [[4, 7, 0], [4, 13, 0], [28, 15, 0]],
+        12: [[3, 8, 22], [3, 9, 22], [3, 10, 22], [3, 11, 22], [3, 12, 22],
+             [4, 13, 0], [28, 15, 0], [29, 7, 0]]
         }
 
     #PROPS#
 
     props = {
         #object number: [room, y, x]
+        40: [0, 0, 0],
+        41: [10, 12, 9],
         42: [0, 0, 0]
         }
 
@@ -596,6 +606,21 @@ class planet2():
                 self.scenery[current_room].append([59, 15, 0])
                 letter_1 = True
                 text_on_screen = True
+
+        if item_player_is_on == 29 and item_carrying == 41:
+            use_message = "You shovel the snow away to reveal a hidden gate"
+            self.scenery[current_room].remove([29, 7, 0])
+            self.scenery[current_room].append([3, 7, 9])
+            self.scenery[current_room].append([3, 7, 13])
+            self.scenery[current_room].append([5, 7, 0])
+            self.scenery[current_room].append([5, 7, 14])
+            self.scenery[current_room].append([32, 6, 0])
+
+        if item_player_is_on == 32 and item_carrying == 40:
+            use_message = "You unlocked the gate!"
+            self.scenery[current_room].remove([32, 6, 0])
+            self.scenery[current_room].append([30, 6, 0])
+            self.scenery[current_room].append([31, 6, 13])
 
         show_text(use_message, 0)
     
@@ -633,7 +658,7 @@ game_over = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [42]
+in_my_pockets = [40, 41, 42]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
