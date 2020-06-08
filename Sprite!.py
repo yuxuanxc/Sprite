@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 7 # Start at 6
+current_room = 4 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -511,17 +511,26 @@ class planet2():
         21: [image('gate_right'), None, None],
         22: [image('crowd_1'), None, None],
         23: [image('crowd_2'), None, None],
-        24: [image('wall'), None, "Wooden walls"],
-        25: [image('wall_1'), None, "Wooden walls"],
-        26: [image('longwall'), None, "Wooden walls"],
+        24: [image('ice_wall'), None, "Wall made of ice"],
+        25: [image('Ice_wall_1'), None, "Wall made of ice"],
+        26: [image('ice_wall_long'), None, "Wall made of ice"],
         27: [image('fence'), None, None],
         28: [image('sea_with_ice_10'), None, None],
         29: [image('pile_of_snow'), None, "Pile of snow"],
         30: [image('gate_unlocked_1'), None, "An open gate"],
         31: [image('gate_unlocked_2'), None, "An open gate"],
         32: [image('gate_locked'), None, "A gate with a padlock"],
+        33: [image('ice_wall_short'), None, "Wall made of ice"],
+        34: [image('computer'), None, "Row of computers displaying strange \
+images"],
+        35: [image('door_closed'), None, "A door which is locked"],
+        36: [image('research_table_1'), None, "A table full of books and \
+research papers"],
+        37: [image('research_table_2'), None, "A table full of books and \
+research papers"],
 
-        40: [image('key'), None, "An old and rusty key", "A key"],
+        39: [image('access_card'), None, "An access card", "access card"],
+        40: [image('key'), None, "An old and rusty key", "key"],
         41: [image('shovel'), None, "A shovel", "the shovel"],
         42: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
@@ -529,8 +538,10 @@ class planet2():
         44: [image('shelf_2'), None, "A shelf with assorted items"],
         45: [image('chair'), None, "A chair"],
         46: [image('chair_2'), None, "A chair"],
-        47: [image('science_table'), None, "A table full of burning hot science equipment"],
-        48: [image('science_table_2'), None, "Home experiments. The equipment is hot!"],
+        47: [image('science_table'), None, "A table full of burning hot \
+science equipment"],
+        48: [image('science_table_2'), None, "Home experiments. The \
+equipment is hot!"],
         49: [image('fishtank'), None, "A fish tank"],
         50: [image('cupboard'), None, "Cupboards"],
         51: [image('help'), None, None],
@@ -542,10 +553,12 @@ class planet2():
         57: [image('plant_pot'), None, "A potted plant"],
         59: [image('letter_1'), None, None],
         60: [image('wall_of_achievements'), None, None],
-        61: [image('first_achievement'), None, None]
+        61: [image('first_achievement'), None, None],
+
+        254: [image('transparent'), None, "An open gate"]
         }
 
-    items_player_may_carry = [42]
+    items_player_may_carry = list(range(39, 43))
     items_player_may_stand_on = items_player_may_carry + [0, 1]
 
     #SCENERY#
@@ -554,25 +567,27 @@ class planet2():
         #room number: [[object number, y position, x position]...]
         1: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
             [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
-            [24, 14, 0], [26, 15, 0], [26, 15, 13], [26, 3, 0], [26, 3, 12],
-            [24, 3, 10], [24, 3, 11], [24, 3, 22], [24, 4, 22], [24, 5, 22],
+            [24, 14, 0], [26, 15, 0], [26, 3, 0], [24, 4, 22], [24, 5, 22],
             [24, 11, 22], [24, 12, 22], [24, 13, 22], [24, 14, 22],
-            [24, 15, 10], [24, 15, 11], [24, 15, 12], [49, 5, 19],
-            [43, 6, 1], [44, 6, 7], [43, 6, 13], [45, 10, 3], [47, 10, 4],
-            [46, 10, 8], [45, 10, 13], [48, 10, 14], [46, 10, 18]],
+            [49, 5, 19], [43, 6, 1], [44, 6, 7], [43, 6, 13], [45, 10, 3],
+            [47, 10, 4], [46, 10, 8], [45, 10, 13], [48, 10, 14], [46, 10, 18]],
         2: [[3, 10, 8], [3, 11, 8], [3, 12, 8], [3, 13, 8], [3, 14, 8],
             [3, 15, 8], [3, 10, 14], [3, 11, 14], [3, 12, 14], [3, 13, 14],
             [3, 14, 14], [3, 15, 14], [4, 3, 0], [5, 9, 0], [5, 9, 14],
             [6, 15, 0], [7, 15, 15], [14, 2, 0]],
         3: [],
-        4: [],
+        4: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
+            [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
+            [24, 14, 0], [24, 4, 22], [24, 5, 22], [24, 6, 22], [24, 7, 22],
+            [24, 8, 22], [24, 9, 22], [24, 10, 22], [24, 11, 22],
+            [24, 12, 22], [24, 13, 22], [24, 14, 22], [26, 3, 0],
+            [33, 15, 0], [33, 15, 14]],
         5: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
             [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
-            [24, 14, 0], [26, 15, 0], [26, 15, 13], [26, 3, 0], [26, 3, 12],
-            [24, 3, 10], [24, 3, 11], [24, 3, 22], [24, 4, 22], [24, 5, 22],
+            [24, 14, 0], [26, 15, 0], [26, 3, 0], [24, 4, 22], [24, 5, 22],
             [24, 11, 22], [24, 12, 22], [24, 13, 22], [24, 14, 22],
-            [16, 4, 3], [17, 4, 5], [18, 4, 7], [19, 5, 11],
-            [22, 12, 1], [23, 12, 13], [27, 5, 2]],
+            [16, 4, 3], [17, 4, 5], [18, 4, 7], [19, 5, 11], [22, 12, 1],
+            [23, 12, 13], [27, 5, 2]],
         6: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 1, 14],
             [3, 2, 14], [3, 3, 14], [3, 4, 14], [3, 12, 8], [3, 13, 8],
             [3, 14, 8], [3, 15, 8], [3, 12, 14], [3, 13, 14], [3, 14, 14],
@@ -580,12 +595,18 @@ class planet2():
             [8, 4, 0], [9, 4, 15], [10, 15, 0], [11, 15, 15]],
         7: [[24, 4, 22], [24, 5, 22], [24, 6, 22], [24, 7, 22], [24, 8, 22],
             [24, 9, 22], [24, 10, 22], [24, 11, 22], [24, 12, 22], [24, 13, 22],
-            [24, 14, 22], [26, 15, 0], [26, 15, 10], [26, 3, 0], [26, 3, 10],
-            [24, 3, 20], [24, 3, 21], [24, 3, 22], [24, 15, 20], [24, 15, 21],
-            [24, 15, 22],[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 12, 0],
-            [24, 13, 0], [24, 14, 0], [50, 6, 1], [50, 6, 14], [57, 5, 9],
-            [57, 5, 13], [52, 5, 10], [53, 6, 11], [54, 11, 14], [55, 11, 18], [56, 11, 15]],
-        8: [],
+            [24, 14, 22], [26, 15, 0], [26, 3, 0], [24, 4, 0], [24, 5, 0],
+            [24, 6, 0], [24, 12, 0], [24, 13, 0], [24, 14, 0], [50, 6, 1],
+            [50, 6, 14], [57, 5, 9], [57, 5, 13], [52, 5, 10], [53, 6, 11],
+            [54, 11, 14], [55, 11, 18], [56, 11, 15]],
+        8: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
+            [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
+            [24, 14, 0], [24, 4, 22], [24, 5, 22], [24, 6, 22], [24, 7, 22],
+            [24, 8, 22], [24, 9, 22], [24, 10, 22], [24, 11, 22],
+            [24, 12, 22], [24, 13, 22], [24, 14, 22], [33, 3, 0], [33, 3, 14],
+            [33, 15, 0], [33, 15, 14], [34, 4, 2], [34, 4, 4], [34, 4, 6],
+            [34, 4, 15], [34, 4, 17], [34, 4, 19], [35, 3, 9], [36, 13, 2],
+            [37, 13, 18]],
         9: [[15, 10, 5], [20, 5, 0], [21, 5, 14]],
         10: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 5, 8],
              [3, 6, 8], [3, 7, 8], [3, 8, 8], [3, 9, 8], [3, 10, 8],
@@ -594,13 +615,16 @@ class planet2():
              [5, 7, 14], [12, 6, 15], [13, 15, 0]],
         11: [[4, 7, 0], [4, 13, 0], [28, 15, 0]],
         12: [[3, 8, 22], [3, 9, 22], [3, 10, 22], [3, 11, 22], [3, 12, 22],
-             [4, 13, 0], [28, 15, 0], [29, 7, 0]]
+             [4, 13, 0], [28, 15, 0], [29, 7, 0], [254, 1, 9], [254, 2, 9],
+             [254, 3, 9], [254, 4, 9], [254, 5, 9], [254, 6, 0], [254, 1, 13],
+             [254, 2, 13], [254, 3, 13], [254, 4, 13], [254, 5, 13]]
         }
 
     #PROPS#
 
     props = {
         #object number: [room, y, x]
+        39: [8, 5, 2], 
         40: [7, 5, 13],
         41: [10, 12, 9],
         42: [0, 0, 0]
@@ -642,12 +666,19 @@ class planet2():
             self.scenery[current_room].append([5, 7, 0])
             self.scenery[current_room].append([5, 7, 14])
             self.scenery[current_room].append([32, 6, 0])
+            sound('combine')
 
         if item_player_is_on == 32 and item_carrying == 40:
-            use_message = "You unlocked the gate!"
+            use_message = "You used the key to unlock the gate!"
             self.scenery[current_room].remove([32, 6, 0])
             self.scenery[current_room].append([30, 6, 0])
             self.scenery[current_room].append([31, 6, 13])
+            sound('combine')
+
+        if item_player_is_on == 35 and item_carrying == 39:
+            use_message = "You used the access card to unlock the door!"
+            self.scenery[current_room].remove([35, 3, 9])
+            sound('combine')
 
         show_text(use_message, 0)
     
@@ -658,7 +689,7 @@ class planet2():
             return 0
 
     def can_drop(self, old_y, old_x):
-        return room_map[old_y][old_x] in [0]
+        return room_map[old_y][old_x] in [0, 1]
 
     def speak(self):
         return
@@ -1095,7 +1126,7 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-           
+
     clock.tick(40)
     
     generate_map()
