@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 2 # Start at 6
+current_room = 7 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -521,7 +521,7 @@ class planet2():
         31: [image('gate_unlocked_2'), None, "An open gate"],
         32: [image('gate_locked'), None, "A gate with a padlock"],
 
-        40: [image('key'), None, "An old and rusty key", "the key"],
+        40: [image('key'), None, "An old and rusty key", "A key"],
         41: [image('shovel'), None, "A shovel", "the shovel"],
         42: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
@@ -532,7 +532,14 @@ class planet2():
         47: [image('science_table'), None, "A table full of burning hot science equipment"],
         48: [image('science_table_2'), None, "Home experiments. The equipment is hot!"],
         49: [image('fishtank'), None, "A fish tank"],
-        51: [image('help'), None, None],       
+        50: [image('cupboard'), None, "Cupboards"],
+        51: [image('help'), None, None],
+        52: [image('desk'), None, "A desk"],
+        53: [image('chair_3'), None, "A chair"],
+        54: [image('chair_4'), None, "A chair"],
+        55: [image('chair_5'), None, "A chair"],
+        56: [image('table_2'), None, "A table"],
+        57: [image('plant_pot'), None, "A potted plant"],
         59: [image('letter_1'), None, None],
         60: [image('wall_of_achievements'), None, None],
         61: [image('first_achievement'), None, None]
@@ -571,7 +578,13 @@ class planet2():
             [3, 14, 8], [3, 15, 8], [3, 12, 14], [3, 13, 14], [3, 14, 14],
             [3, 15, 14], [5, 5, 0], [5, 11, 0], [5, 5, 14], [5, 11, 14],
             [8, 4, 0], [9, 4, 15], [10, 15, 0], [11, 15, 15]],
-        7: [],
+        7: [[24, 4, 22], [24, 5, 22], [24, 6, 22], [24, 7, 22], [24, 8, 22],
+            [24, 9, 22], [24, 10, 22], [24, 11, 22], [24, 12, 22], [24, 13, 22],
+            [24, 14, 22], [26, 15, 0], [26, 15, 10], [26, 3, 0], [26, 3, 10],
+            [24, 3, 20], [24, 3, 21], [24, 3, 22], [24, 15, 20], [24, 15, 21],
+            [24, 15, 22],[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 12, 0],
+            [24, 13, 0], [24, 14, 0], [50, 6, 1], [50, 6, 14], [57, 5, 9],
+            [57, 5, 13], [52, 5, 10], [53, 6, 11], [54, 11, 14], [55, 11, 18], [56, 11, 15]],
         8: [],
         9: [[15, 10, 5], [20, 5, 0], [21, 5, 14]],
         10: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 5, 8],
@@ -588,7 +601,7 @@ class planet2():
 
     props = {
         #object number: [room, y, x]
-        40: [0, 0, 0],
+        40: [7, 5, 13],
         41: [10, 12, 9],
         42: [0, 0, 0]
         }
@@ -639,7 +652,7 @@ class planet2():
         show_text(use_message, 0)
     
     def get_floor_type(self):
-        if current_room in (1, 4, 5, 8):
+        if current_room in (1, 4, 5, 7, 8):
             return 1
         else:
             return 0
