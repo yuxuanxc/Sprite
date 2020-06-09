@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 3 # Start at 6
+current_room = 5 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -502,15 +502,15 @@ class planet2():
         12: [image('sea_with_ice_7'), None, None],
         13: [image('sea_with_ice_8'), None, None],
         14: [image('sea_with_ice_9'), None, None],
-        15: [image('spaceship'), None, None],
+        15: [image('spaceship'), None, "Your spaceship"],
         16: [image('penguin_1'), None, None],
         17: [image('penguin_2'), None, None],
         18: [image('penguin_3'), None, None],
-        19: [image('penguin_mayor'), None, None],
-        20: [image('gate_left'), None, None],
-        21: [image('gate_right'), None, None],
-        22: [image('crowd_1'), None, None],
-        23: [image('crowd_2'), None, None],
+        19: [image('penguin_mayor'), None, "The Penguin Mayor"],
+        20: [image('gate_left'), None, "A gate"],
+        21: [image('gate_right'), None, "A gate"],
+        22: [image('crowd_1'), None, "A crowd of penguins"],
+        23: [image('crowd_2'), None, "A crowd of penguins"],
         24: [image('ice_wall'), None, "Wall made of ice"],
         25: [image('Ice_wall_1'), None, "Wall made of ice"],
         26: [image('ice_wall_long'), None, "Wall made of ice"],
@@ -562,6 +562,8 @@ equipment is hot!"],
         66: [image('shelf_3'), None, "Some cupboards and shelves"],
         67: [image('fishing_rod'), None, "A collection of fishing rods"],
 
+        252: [image('transparent'), None, "Wall made of ice"],
+        253: [image('transparent'), None, "A crowd of penguins"],
         254: [image('transparent'), None, "An open gate"]
         }
 
@@ -595,10 +597,19 @@ equipment is hot!"],
             [33, 15, 0], [33, 15, 14]],
         5: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
             [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
-            [24, 14, 0], [26, 15, 0], [26, 3, 0], [24, 4, 22], [24, 5, 22],
+            [24, 14, 0], [24, 15, 0], [24, 15, 1], [24, 15, 2], [24, 15, 3],
+            [24, 15, 4], [24, 15, 5], [24, 15, 6], [24, 15, 7], [24, 15, 8],
+            [24, 15, 9], [24, 15, 13], [24, 15, 14], [24, 15, 15], [24, 15, 16],
+            [24, 15, 17], [24, 15, 18], [24, 15, 19], [24, 15, 20], [24, 15, 21],
+            [24, 15, 22], [252, 14, 9], [252, 13, 9], [252, 14, 13], [252, 13, 13], 
+            [26, 3, 0], [24, 4, 22], [24, 5, 22],
             [24, 11, 22], [24, 12, 22], [24, 13, 22], [24, 14, 22],
             [16, 4, 3], [17, 4, 5], [18, 4, 7], [19, 5, 11], [22, 12, 1],
-            [23, 12, 13], [27, 5, 2]],
+            [23, 12, 13], [27, 5, 2], [253, 10, 1], [253, 10, 2], [253, 10, 3],
+            [253, 10, 4], [253, 10, 5], [253, 10, 6], [253, 10, 7], [253, 10, 8],
+            [253, 10, 9], [253, 11, 9], [253, 12, 9], [253, 13, 9], [253, 11, 13],
+            [253, 10, 13], [253, 10, 14], [253, 10, 15], [253, 10, 16], [253, 10, 17],
+            [253, 10, 18], [253, 10, 19], [253, 10, 20]],
         6: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 1, 14],
             [3, 2, 14], [3, 3, 14], [3, 4, 14], [3, 12, 8], [3, 13, 8],
             [3, 14, 8], [3, 15, 8], [3, 12, 14], [3, 13, 14], [3, 14, 14],
