@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 5 # Start at 6
+current_room = 9 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -139,8 +139,6 @@ its side", "leaking O2 tank"],
         39: [image('sulfur'), None, "Sulfur", "sulfur"],
         40: [image('gunpowder'), None, "Gunpowder", "gunpowder"],
         41: [image('sticky'), None, "Sticky goo", "sticky goo"],
-        42: [image('letter'), None, "A letter I wrote to myself",
-             "letter to self"],
         43: [image('manual'), None, "The spaceship manual",
              "a manual to fix the spaceship"],
         44: [image('log'), None, "A piece of log", "a log"], 
@@ -157,7 +155,6 @@ Needs seashell to make gunpowder",
         50: [image('mixture_3'), None, "Mixture of charcoal and seashell.\
 Needs sulfur to make gunpowder",
              "a mixture"],
-        51: [image('help'), None, None],
         52: [image('speech'), None, None],
         53: [image('speech_1'), None, None], # raccoon 1
         54: [image('speech_2'), None, None], # baby raccoon
@@ -165,9 +162,16 @@ Needs sulfur to make gunpowder",
         56: [image('speech_4'), None, None], # raccoon 2
         57: [image('manual_page1'), None, None],
         58: [image('manual_page2'), None, None],
-        59: [image('letter_1'), None, None],
-        60: [image('wall_of_achievements'), None, None],
-        61: [image('first_achievement'), None, None],
+
+        100: [image('letter'), None, "A letter I wrote to myself",
+             "letter to self"],
+        101: [image('help'), None, None],
+        102: [image('letter_1'), None, None],
+        103: [image('wall_of_achievements'), None, None],
+        104: [image('first_achievement'), None, None],
+        #105: [image('second_achievement'), None, None],
+        #106: [image('third_achievement'), None, None],
+        
         250: [image('transparent'), None,"Not much to see here"],
         251: [image('transparent'), None, "The mountain"],
         252: [image('transparent'), None, "The sea"],
@@ -502,20 +506,20 @@ class planet2():
         12: [image('sea_with_ice_7'), None, None],
         13: [image('sea_with_ice_8'), None, None],
         14: [image('sea_with_ice_9'), None, None],
-        15: [image('spaceship'), None, "Your spaceship"],
-        16: [image('penguin_1'), None, None],
-        17: [image('penguin_2'), None, None],
-        18: [image('penguin_3'), None, None],
-        19: [image('penguin_mayor'), None, "The Penguin Mayor"],
-        20: [image('gate_left'), None, "A gate"],
-        21: [image('gate_right'), None, "A gate"],
+        15: [image('sea_with_ice_10'), None, None],
+        16: [image('sea_with_ice_11'), None, None],
+        17: [image('penguin_1'), None, None],
+        18: [image('penguin_2'), None, None],
+        19: [image('penguin_3'), None, None],
+        20: [image('penguin_mayor'), None, "The Penguin Mayor"],
+        21: [image('spaceship'), None, "Your spaceship"],
         22: [image('crowd_1'), None, "A crowd of penguins"],
         23: [image('crowd_2'), None, "A crowd of penguins"],
         24: [image('ice_wall'), None, "Wall made of ice"],
         25: [image('Ice_wall_1'), None, "Wall made of ice"],
         26: [image('ice_wall_long'), None, "Wall made of ice"],
-        27: [image('fence'), None, None],
-        28: [image('sea_with_ice_10'), None, None],
+        27: [image('fence'), None, "A fence"],
+        28: [image('desk'), None, "A desk"],
         29: [image('pile_of_snow'), None, "Pile of snow"],
         30: [image('gate_unlocked_1'), None, "An open gate"],
         31: [image('gate_unlocked_2'), None, "An open gate"],
@@ -528,12 +532,11 @@ images"],
 research papers"],
         37: [image('research_table_2'), None, "A table full of books and \
 research papers"],
-
-        39: [image('access_card'), None, "An access card", "access card"],
-        40: [image('key'), None, "An old and rusty key", "key"],
-        41: [image('shovel'), None, "A shovel", "the shovel"],
-        42: [image('letter'), None, "A letter I wrote to myself",
-             "letter to self"],
+        38: [image('steam_machine'), None, "A machine which is left running"],
+        39: [image('gate_left'), None, "A gate"],
+        40: [image('gate_right'), None, "A gate"],
+        41: [image('fishing_rod'), None, "A collection of fishing rods"],
+        42: [image('whiteboard'), None, "A whiteboard filled with calculations"],
         43: [image('shelf_1'), None, "A shelf with assorted items"],
         44: [image('shelf_2'), None, "A shelf with assorted items"],
         45: [image('chair'), None, "A chair"],
@@ -544,30 +547,38 @@ science equipment"],
 equipment is hot!"],
         49: [image('fishtank'), None, "A fish tank"],
         50: [image('bed_1'), None, "A bed"],
-        51: [image('help'), None, None],
-        52: [image('desk'), None, "A desk"],
+        51: [image('bed_2'), None, "A bed"],
+        52: [image('bed_3'), None, "A bed"],
         53: [image('chair_3'), None, "A chair"],
         54: [image('chair_4'), None, "A chair"],
         55: [image('chair_5'), None, "A chair"],
         56: [image('table_2'), None, "A table"],
         57: [image('plant_pot'), None, "A potted plant"],
         58: [image('cupboard'), None, "Cupboards"],
-        59: [image('letter_1'), None, None],
-        60: [image('wall_of_achievements'), None, None],
-        61: [image('first_achievement'), None, None],
-        62: [image('bed_2'), None, "A bed"],
-        63: [image('bed_3'), None, "A bed"],
-        64: [image('table_3'), None, "A table with matches and fishing hooks"],
-        65: [image('chair_6'), None, "A chair"],
-        66: [image('shelf_3'), None, "Some cupboards and shelves"],
-        67: [image('fishing_rod'), None, "A collection of fishing rods"],
+        59: [image('shelf_3'), None, "Some cupboards and shelves"],
+        60: [image('table_3'), None, "A table with matches and fishing hooks"],
+        61: [image('chair_6'), None, "A chair"],
+        62: [image('access_card'), None, "An access card", "access card"],
+        63: [image('key'), None, "An old and rusty key", "key"],
+        64: [image('shovel'), None, "A shovel", "the shovel"],
 
+        100: [image('letter'), None, "A letter I wrote to myself",
+             "letter to self"],
+        101: [image('help'), None, None],
+        102: [image('letter_1'), None, None],
+        103: [image('wall_of_achievements'), None, None],
+        104: [image('first_achievement'), None, None],
+        #105: [image('second_achievement'), None, None],
+        
+        250: [image('transparent'), None, "A machine which is left running"],
+        251: [image('transparent'), None, "A table full of books and \
+research papers"],
         252: [image('transparent'), None, "Wall made of ice"],
         253: [image('transparent'), None, "A crowd of penguins"],
         254: [image('transparent'), None, "An open gate"]
         }
 
-    items_player_may_carry = list(range(39, 43))
+    items_player_may_carry = list(range(62, 65))
     items_player_may_stand_on = items_player_may_carry + [0, 1]
 
     #SCENERY#
@@ -576,8 +587,8 @@ equipment is hot!"],
         #room number: [[object number, y position, x position]...]
         1: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
             [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
-            [24, 14, 0], [26, 15, 0], [26, 3, 0], [24, 4, 22], [24, 5, 22],
-            [24, 11, 22], [24, 12, 22], [24, 13, 22], [24, 14, 22], [50, 11, 2],
+            [24, 14, 0], [24, 4, 22], [24, 5, 22], [24, 11, 22], [24, 12, 22],
+            [24, 13, 22], [24, 14, 22], [26, 15, 0], [26, 3, 0], [50, 11, 2],
             [49, 5, 19], [43, 5, 1], [44, 5, 7], [43, 5, 13], [45, 8, 10],
             [47, 8, 11], [46, 8, 15], [45, 11, 10], [48, 11, 11], [46, 11, 15]],
         2: [[3, 10, 8], [3, 11, 8], [3, 12, 8], [3, 13, 8], [3, 14, 8],
@@ -587,14 +598,20 @@ equipment is hot!"],
         3: [[24, 4, 22], [24, 5, 22], [24, 6, 22], [24, 7, 22], [24, 8, 22],
             [24, 9, 22], [24, 10, 22], [24, 11, 22], [24, 12, 22], [24, 13, 22],
             [24, 14, 22], [26, 15, 0], [26, 3, 0], [24, 4, 0], [24, 5, 0],
-            [24, 6, 0], [24, 12, 0], [24, 13, 0], [24, 14, 0],
-            [63, 11, 16], [65, 6, 15], [64, 6, 16], [66, 5, 1], [67, 4, 9]],
+            [24, 6, 0], [24, 12, 0], [24, 13, 0], [24, 14, 0], [52, 11, 16],
+            [61, 6, 15], [60, 6, 16], [59, 5, 1], [41, 4, 9]],
         4: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
             [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
             [24, 14, 0], [24, 4, 22], [24, 5, 22], [24, 6, 22], [24, 7, 22],
             [24, 8, 22], [24, 9, 22], [24, 10, 22], [24, 11, 22],
             [24, 12, 22], [24, 13, 22], [24, 14, 22], [26, 3, 0],
-            [33, 15, 0], [33, 15, 14]],
+            [33, 15, 0], [33, 15, 14], [36, 13, 2] , [38, 8, 15], [42, 3, 4],
+            [250, 4, 15], [250, 5, 15], [250, 6, 15], [250, 7, 15],
+            [251, 6, 2], [251, 6, 3], [251, 6, 4], [251, 7, 2],
+            [251, 7, 3], [251, 7, 4], [251, 8, 2], [251, 8, 3], [251, 8, 4],
+            [251, 9, 2], [251, 9, 3], [251, 9, 4], [251, 10, 2], [251, 10, 3],
+            [251, 10, 4], [251, 11, 2], [251, 11, 3], [251, 11, 4], [251, 12, 2],
+            [251, 12, 3], [251, 12, 4], ],
         5: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
             [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
             [24, 14, 0], [24, 15, 0], [24, 15, 1], [24, 15, 2], [24, 15, 3],
@@ -602,14 +619,14 @@ equipment is hot!"],
             [24, 15, 9], [24, 15, 13], [24, 15, 14], [24, 15, 15], [24, 15, 16],
             [24, 15, 17], [24, 15, 18], [24, 15, 19], [24, 15, 20], [24, 15, 21],
             [24, 15, 22], [252, 14, 9], [252, 13, 9], [252, 14, 13], [252, 13, 13], 
-            [26, 3, 0], [24, 4, 22], [24, 5, 22],
-            [24, 11, 22], [24, 12, 22], [24, 13, 22], [24, 14, 22],
-            [16, 4, 3], [17, 4, 5], [18, 4, 7], [19, 5, 11], [22, 12, 1],
-            [23, 12, 13], [27, 5, 2], [253, 10, 1], [253, 10, 2], [253, 10, 3],
-            [253, 10, 4], [253, 10, 5], [253, 10, 6], [253, 10, 7], [253, 10, 8],
-            [253, 10, 9], [253, 11, 9], [253, 12, 9], [253, 13, 9], [253, 11, 13],
-            [253, 10, 13], [253, 10, 14], [253, 10, 15], [253, 10, 16], [253, 10, 17],
-            [253, 10, 18], [253, 10, 19], [253, 10, 20]],
+            [26, 3, 0], [24, 4, 22], [24, 5, 22], [24, 11, 22], [24, 12, 22],
+            [24, 13, 22], [24, 14, 22], [17, 4, 3], [18, 4, 5], [19, 4, 7],
+            [20, 5, 11], [22, 12, 1], [23, 12, 13], [27, 5, 2], [253, 10, 1],
+            [253, 10, 2], [253, 10, 3], [253, 10, 4], [253, 10, 5],
+            [253, 10, 6], [253, 10, 7], [253, 10, 8], [253, 10, 9],
+            [253, 11, 9], [253, 12, 9], [253, 13, 9], [253, 11, 13],
+            [253, 10, 13], [253, 10, 14], [253, 10, 15], [253, 10, 16],
+            [253, 10, 17], [253, 10, 18], [253, 10, 19], [253, 10, 20]],
         6: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 1, 14],
             [3, 2, 14], [3, 3, 14], [3, 4, 14], [3, 12, 8], [3, 13, 8],
             [3, 14, 8], [3, 15, 8], [3, 12, 14], [3, 13, 14], [3, 14, 14],
@@ -619,8 +636,8 @@ equipment is hot!"],
             [24, 9, 22], [24, 10, 22], [24, 11, 22], [24, 12, 22], [24, 13, 22],
             [24, 14, 22], [26, 15, 0], [26, 3, 0], [24, 4, 0], [24, 5, 0],
             [24, 6, 0], [24, 12, 0], [24, 13, 0], [24, 14, 0], [58, 6, 1],
-            [58, 6, 14], [57, 5, 9], [57, 5, 13], [52, 5, 10], [53, 6, 11],
-            [54, 11, 3], [55, 11, 7], [56, 11, 4], [62, 11, 17]],
+            [58, 6, 14], [57, 5, 9], [57, 5, 13], [28, 5, 10], [53, 6, 11],
+            [54, 11, 3], [55, 11, 7], [56, 11, 4], [51, 11, 17]],
         8: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
             [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
             [24, 14, 0], [24, 4, 22], [24, 5, 22], [24, 6, 22], [24, 7, 22],
@@ -628,16 +645,24 @@ equipment is hot!"],
             [24, 12, 22], [24, 13, 22], [24, 14, 22], [33, 3, 0], [33, 3, 14],
             [33, 15, 0], [33, 15, 14], [34, 4, 2], [34, 4, 4], [34, 4, 6],
             [34, 4, 15], [34, 4, 17], [34, 4, 19], [35, 3, 9], [36, 13, 2],
-            [37, 13, 18]],
-        9: [[15, 10, 5], [20, 5, 0], [21, 5, 14]],
+            [37, 13, 18], [251, 6, 2], [251, 6, 3], [251, 6, 4], [251, 7, 2],
+            [251, 7, 3], [251, 7, 4], [251, 8, 2], [251, 8, 3], [251, 8, 4],
+            [251, 9, 2], [251, 9, 3], [251, 9, 4], [251, 10, 2], [251, 10, 3],
+            [251, 10, 4], [251, 11, 2], [251, 11, 3], [251, 11, 4], [251, 12, 2],
+            [251, 12, 3], [251, 12, 4], [251, 6, 18], [251, 6, 19], [251, 6, 20],
+            [251, 7, 18], [251, 7, 19], [251, 7, 20], [251, 8, 18], [251, 8, 19],
+            [251, 8, 20], [251, 9, 18], [251, 9, 19], [251, 9, 20], [251, 10, 18],
+            [251, 10, 19], [251, 10, 20], [251, 11, 18], [251, 11, 19], [251, 11, 20],
+            [251, 12, 18], [251, 12, 19], [251, 12, 20]],
+        9: [[21, 10, 5], [40, 5, 0], [39, 5, 14]],
         10: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 5, 8],
              [3, 6, 8], [3, 7, 8], [3, 8, 8], [3, 9, 8], [3, 10, 8],
              [3, 11, 8], [3, 12, 8], [3, 1, 14], [3, 2, 14], [3, 3, 14],
              [3, 4, 14], [3, 5, 14], [3, 6, 14], [4, 13, 0],
              [5, 7, 14], [12, 6, 15], [13, 15, 0]],
-        11: [[4, 7, 0], [4, 13, 0], [28, 15, 0]],
+        11: [[4, 7, 0], [4, 13, 0], [15, 15, 0], [16, 6, 0]],
         12: [[3, 8, 22], [3, 9, 22], [3, 10, 22], [3, 11, 22], [3, 12, 22],
-             [4, 13, 0], [28, 15, 0], [29, 7, 0], [254, 1, 9], [254, 2, 9],
+             [4, 13, 0], [15, 15, 0], [29, 7, 0], [254, 1, 9], [254, 2, 9],
              [254, 3, 9], [254, 4, 9], [254, 5, 9], [254, 6, 0], [254, 1, 13],
              [254, 2, 13], [254, 3, 13], [254, 4, 13], [254, 5, 13]]
         }
@@ -646,10 +671,10 @@ equipment is hot!"],
 
     props = {
         #object number: [room, y, x]
-        39: [8, 5, 2], 
-        40: [7, 5, 13],
-        41: [10, 12, 9],
-        42: [0, 0, 0]
+        62: [8, 5, 2], #access card
+        63: [7, 5, 13], #key
+        64: [10, 12, 9], #shovel
+        100: [0, 0, 0]
         }
 
     RECIPES = [
@@ -663,7 +688,7 @@ equipment is hot!"],
 
         use_message = "You fiddle around with it but don't get anywhere."
         standard_responses = {
-            42: "You read the letter you wrote to yourself."
+            100: "You read the letter you wrote to yourself."
             }
 
         item_player_is_on = get_item_under_player()
@@ -674,13 +699,13 @@ equipment is hot!"],
         if text_on_screen == True:
             use_message = "Please press Enter to continue."
 
-        if item_player_is_on == 42 or item_carrying == 42:
+        if item_player_is_on == 100 or item_carrying == 100:
             if letter_1 == False and text_on_screen == False:
-                self.scenery[current_room].append([59, 15, 0])
+                self.scenery[current_room].append([102, 15, 0])
                 letter_1 = True
                 text_on_screen = True
 
-        if item_player_is_on == 29 and item_carrying == 41:
+        if item_player_is_on == 29 and item_carrying == 64:
             use_message = "You shovel the snow away to reveal a hidden gate"
             self.scenery[current_room].remove([29, 7, 0])
             self.scenery[current_room].append([3, 7, 9])
@@ -690,14 +715,14 @@ equipment is hot!"],
             self.scenery[current_room].append([32, 6, 0])
             sound('combine')
 
-        if item_player_is_on == 32 and item_carrying == 40:
+        if item_player_is_on == 32 and item_carrying == 63:
             use_message = "You used the key to unlock the gate!"
             self.scenery[current_room].remove([32, 6, 0])
             self.scenery[current_room].append([30, 6, 0])
             self.scenery[current_room].append([31, 6, 13])
             sound('combine')
 
-        if item_player_is_on == 35 and item_carrying == 39:
+        if item_player_is_on == 35 and item_carrying == 62:
             use_message = "You used the access card to unlock the door!"
             self.scenery[current_room].remove([35, 3, 9])
             sound('combine')
@@ -726,7 +751,7 @@ speech_bubble = False
 speech_text = 53
 letter_1 = False
 wall_of_achievements = False
-achievement = 60
+achievement = 103
 
 #GAME PROGRESS#
 planet = planet2()
@@ -738,7 +763,7 @@ game_over = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [40, 41, 42]
+in_my_pockets = [100]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
@@ -897,7 +922,7 @@ def close_text_boxes():
     global speech_bubble, speech_text, letter_1
     
     if help_menu:
-        planet.scenery[current_room].remove([51, 15, 0])
+        planet.scenery[current_room].remove([101, 15, 0])
         help_menu = False
         text_on_screen = False
         
@@ -908,7 +933,7 @@ def close_text_boxes():
         text_on_screen = False
 
     elif letter_1:
-        planet.scenery[current_room].remove([59, 15, 0])
+        planet.scenery[current_room].remove([102, 15, 0])
         letter_1 = False
         text_on_screen = False
 
@@ -1052,7 +1077,7 @@ def game_loop():
 
     if keys[pygame.K_h] and help_menu == False:
         if text_on_screen == False:
-            planet.scenery[current_room].append([51, 15, 0])
+            planet.scenery[current_room].append([101, 15, 0])
             help_menu = True
             text_on_screen = True
         elif text_on_screen:
@@ -1061,7 +1086,7 @@ def game_loop():
     if keys[pygame.K_a] and wall_of_achievements == False:
         if text_on_screen == False:
             if treehouse_destroyed == False and planet1_completed:
-                achievement = 61
+                achievement = 104
             planet.scenery[current_room].append([achievement, 15, 0])
             wall_of_achievements = True
             text_on_screen = True
