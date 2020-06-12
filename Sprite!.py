@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 5 # Start at 6
+current_room = 9 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -64,6 +64,7 @@ class planet1:
 
     baby_raccoon_textbox_1, baby_raccoon_textbox_2 = False, False
     manual_page1, manual_page2 = False, False
+    speech_text = 53
     
     #MAP#
 
@@ -155,13 +156,15 @@ Needs seashell to make gunpowder",
         50: [image('mixture_3'), None, "Mixture of charcoal and seashell.\
 Needs sulfur to make gunpowder",
              "a mixture"],
-        52: [image('speech'), None, None],
+        #52: [image('speech'), None, None], # Changing speech bubble to 90
         53: [image('speech_1'), None, None], # raccoon 1
         54: [image('speech_2'), None, None], # baby raccoon
         55: [image('speech_3'), None, None], # baby raccoon
         56: [image('speech_4'), None, None], # raccoon 2
         57: [image('manual_page1'), None, None],
         58: [image('manual_page2'), None, None],
+
+        90: [image('speech'), None, None],
 
         100: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
@@ -210,7 +213,7 @@ Needs sulfur to make gunpowder",
             [8, 12, 22], [8, 13, 22], [8, 14, 22], [9, 6, 0], [9, 10, 0],
             [8, 2, 3], [8, 3, 3], [8, 4, 3], [8, 5, 3], [8, 11, 3],
             [8, 12, 3], [8, 13, 3], [8, 14, 3], [10, 1, 3], [10, 15, 3],
-            [19, 6, 9], [22, 4, 6], [52, 15, 1], [53, 15, 2]],
+            [19, 6, 9], [22, 4, 6], [90, 15, 0], [53, 15, 2]],
         7: [[12, 4, 0], [12, 4, 3], [12, 4, 6], [12, 4, 13], [12, 4, 16],
             [12, 4, 19], [12, 15, 0], [12, 15, 3], [12, 15, 6], [12, 15, 13],
             [12, 15, 16], [12, 15, 19], [12, 6, 0], [12, 8, 0], [12, 10, 0],
@@ -421,14 +424,14 @@ Needs sulfur to make gunpowder",
         if item_player_is_on in [19, 20, 21]: # dialogue with raccoons
             if speech_bubble == False:
                 if item_player_is_on == 19: # raccoon 1
-                    speech_text = 53
+                    self.speech_text = 53
                 elif item_player_is_on == 20: # raccoon 2
-                    speech_text = 56
+                    self.speech_text = 56
                 elif item_player_is_on == 21: # baby raccoon
-                    speech_text = 54
+                    self.speech_text = 54
                     self.baby_raccoon_textbox_1 = True
-                self.scenery[current_room].append([52, 15, 1]) # speech bubble
-                self.scenery[current_room].append([speech_text, 15, 2])
+                self.scenery[current_room].append([90, 15, 0]) # speech bubble
+                self.scenery[current_room].append([self.speech_text, 15, 2])
                 speech_bubble = True
                 text_on_screen = True
 
@@ -437,15 +440,15 @@ Needs sulfur to make gunpowder",
         
         if self.baby_raccoon_textbox_1:
             self.baby_raccoon_textbox_1 = False
-            speech_text = 55
-            self.scenery[current_room].append([52, 15, 1]) # speech bubble
-            self.scenery[current_room].append([speech_text, 15, 2])
+            self.speech_text = 55
+            self.scenery[current_room].append([90, 15, 0]) # speech bubble
+            self.scenery[current_room].append([self.speech_text, 15, 2])
             self.baby_raccoon_textbox_2 = True
 
         elif self.baby_raccoon_textbox_2:
-            self.scenery[current_room].remove([speech_text, 15, 2])
+            self.scenery[current_room].remove([self.speech_text, 15, 2])
             self.baby_raccoon_textbox_2 = False
-            self.scenery[current_room].remove([52, 15, 1]) # remove speech bubble
+            self.scenery[current_room].remove([90, 15, 0]) # remove speech bubble
             speech_bubble = False
             text_on_screen = False
             
@@ -463,6 +466,10 @@ Needs sulfur to make gunpowder",
         pygame.time.delay(500)
 
 class planet2():
+
+    mayor_speech_1, mayor_speech_2, mayor_speech_3 = False, False, False
+    speech_text = 91
+    visited_centre = True
     
     #MAP#
 
@@ -562,7 +569,19 @@ research papers"],
         65: [image('key'), None, "An old and rusty key", "a key"],
         66: [image('shovel'), None, "A shovel", "a shovel"],
         67: [image('fuel'), None, "A fuel tank", "a fuel tank"],
+        
 
+        89: [image('choose_culprit'), None, None],
+        90: [image('speech'), None, None],
+        91: [image('speech_5'), None, None], # Self
+        92: [image('speech_6'), None, None], # Mayor
+        93: [image('speech_7'), None, None],
+        94: [image('speech_8'), None, None],
+        95: [image('speech_9'), None, None], # Not convinced
+        96: [image('speech_10'), None, None], # Convinced
+        97: [image('speech_fisherman'), None, None],
+        98: [image('speech_scientist'), None, None],
+        99: [image('speech_student'), None, None],
         100: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
         101: [image('help'), None, None],
@@ -625,7 +644,7 @@ research papers"],
             [24, 15, 22], [252, 14, 9], [252, 13, 9], [252, 14, 13], [252, 13, 13], 
             [26, 3, 0], [24, 4, 22], [24, 5, 22], [24, 11, 22], [24, 12, 22],
             [24, 13, 22], [24, 14, 22], [17, 6, 3], [18, 6, 5], [19, 6, 7],
-            [20, 5, 11], [22, 12, 1], [23, 12, 13], [27, 6, 2], [253, 10, 1],
+            [20, 7, 11], [22, 12, 1], [23, 12, 13], [27, 6, 2], [253, 10, 1],
             [253, 10, 2], [253, 10, 3], [253, 10, 4], [253, 10, 5],
             [253, 10, 6], [253, 10, 7], [253, 10, 8], [253, 10, 9],
             [253, 11, 9], [253, 12, 9], [253, 13, 9], [253, 11, 13],
@@ -659,7 +678,7 @@ research papers"],
             [251, 8, 20], [251, 9, 18], [251, 9, 19], [251, 9, 20], [251, 10, 18],
             [251, 10, 19], [251, 10, 20], [251, 11, 18], [251, 11, 19], [251, 11, 20],
             [251, 12, 18], [251, 12, 19], [251, 12, 20]],
-        9: [[21, 10, 5], [40, 5, 0], [39, 5, 14]],
+        9: [[21, 10, 5], [39, 5, 0], [40, 5, 14], [90, 15, 0], [91, 15, 2]],
         10: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 5, 8],
              [3, 6, 8], [3, 7, 8], [3, 8, 8], [3, 9, 8], [3, 10, 8],
              [3, 11, 8], [3, 12, 8], [3, 1, 14], [3, 2, 14], [3, 3, 14],
@@ -738,6 +757,7 @@ research papers"],
             self.scenery[current_room].append([249, 1, 13])
             self.scenery[current_room].append([249, 2, 13])
             sound('combine')
+            planet.visited_centre = True
 
         show_text(use_message, 0)
     
@@ -751,16 +771,57 @@ research papers"],
         return room_map[old_y][old_x] in [0, 1]
 
     def speak(self):
-        return
+        global speech_bubble, text_on_screen
+
+        item_player_is_on = get_item_under_player()
+
+        if item_player_is_on in [17, 18, 19, 20]: # dialogue with penguins
+            if speech_bubble == False:
+                if item_player_is_on == 17: # fisherman
+                    planet.speech_text = 97
+                elif item_player_is_on == 18: # scientist
+                    planet.speech_text = 98
+                elif item_player_is_on == 19: # student
+                    planet.speech_text = 99
+                elif item_player_is_on == 20: # mayor
+                    if planet.visited_centre == False:
+                        planet.speech_text = 92
+                        self.mayor_speech_1 = True
+                    else:
+                        planet.speech_text = 89
+                self.scenery[current_room].append([90, 15, 0]) # speech bubble
+                self.scenery[current_room].append([self.speech_text, 15, 2])
+                speech_bubble = True
+                text_on_screen = True
 
     def close_textboxes(self):
-        return
+        global speech_bubble, text_on_screen
+        
+        if self.mayor_speech_1:
+            self.scenery[current_room].append([90, 15, 0]) # speech bubble
+            self.scenery[current_room].append([93, 15, 2])
+            self.mayor_speech_1 = False
+            self.mayor_speech_2 = True
+
+        elif self.mayor_speech_2:
+            self.scenery[current_room].remove([93, 15, 2])
+            self.scenery[current_room].append([94, 15, 2])
+            self.mayor_speech_2 = False
+            self.mayor_speech_3 = True
+
+        elif self.mayor_speech_3:
+            self.scenery[current_room].remove([94, 15, 2])
+            self.scenery[current_room].remove([90, 15, 0]) # remove speech bubble
+            self.mayor_speech_3 = False
+            speech_bubble = False
+            text_on_screen = False
+                
+        pygame.time.delay(500)
     
 #TEXT ON SCREEN#
-text_on_screen = False
+text_on_screen = True
 help_menu = False
-speech_bubble = False
-speech_text = 53
+speech_bubble = True
 letter_1 = False
 wall_of_achievements = False
 achievement = 103
@@ -931,7 +992,7 @@ def generate_map():
 
 def close_text_boxes():
     global text_on_screen, help_menu, wall_of_achievements, achievement
-    global speech_bubble, speech_text, letter_1
+    global speech_bubble, letter_1
     
     if help_menu:
         planet.scenery[current_room].remove([101, 15, 0])
@@ -939,8 +1000,8 @@ def close_text_boxes():
         text_on_screen = False
         
     elif speech_bubble:
-        planet.scenery[current_room].remove([speech_text, 15, 2])
-        planet.scenery[current_room].remove([52, 15, 1]) # remove speech bubble
+        planet.scenery[current_room].remove([planet.speech_text, 15, 2])
+        planet.scenery[current_room].remove([90, 15, 0]) # remove speech bubble
         speech_bubble = False
         text_on_screen = False
 
@@ -1104,6 +1165,22 @@ def game_loop():
             text_on_screen = True
         elif text_on_screen:
             show_text("Please press Enter to continue.", 0)
+
+    if keys[pygame.K_1] or keys[pygame.K_3]: 
+        if planet.visited_centre:
+            planet.scenery[current_room].append([90, 15, 0]) # speech bubble
+            planet.scenery[current_room].append([95, 15, 2])
+            speech_bubble = True
+            planet.speech_text = 95
+            text_on_screen = True
+
+    if keys[pygame.K_2]:
+        if planet.visited_centre:
+            planet.scenery[current_room].append([90, 15, 0]) # speech bubble
+            planet.scenery[current_room].append([96, 15, 2])
+            speech_bubble = True
+            planet.speech_text = 96
+            text_on_screen = True
 
     if keys[pygame.K_RETURN]:
         close_text_boxes()
