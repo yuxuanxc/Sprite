@@ -786,26 +786,32 @@ research papers"],
 
         if item_player_is_on in [17, 18, 19, 20]: # dialogue with penguins
             if speech_bubble == False:
-                if item_player_is_on == 17: # fisherman
-                    self.speech_text = 97
-                elif item_player_is_on == 18: # scientist
-                    self.speech_text = 98
-                elif item_player_is_on == 19: # student
-                    self.speech_text = 99
-                elif item_player_is_on == 20: # mayor
-                    if planet.visited_centre == False:
-                        planet.speech_text = 92
+                if self.visited_centre == False:
+                    if item_player_is_on == 17:  # fisherman
+                        self.speech_text = 97
+                    elif item_player_is_on == 18: # scientist
+                        self.speech_text = 98
+                    elif item_player_is_on == 19: # student
+                        self.speech_text = 99
+                    elif item_player_is_on == 20: # mayor
+                        self.speech_text = 92
                         self.mayor_speech_1 = True
+                    self.scenery[current_room].append([90, 15, 0]) # speech bubble
+                    self.scenery[current_room].append([self.speech_text, 15, 2])
+                    speech_bubble = True
+                    text_on_screen = True
+                else:
+                    if can_guess:
+                        planet.speech_text = 89
+                        self.scenery[current_room].append([90, 15, 0]) # speech bubble
+                        self.scenery[current_room].append([self.speech_text, 15, 2])
+                        speech_bubble = True
+                        text_on_screen = True
                     else:
-                        if can_guess:
-                            planet.speech_text = 89
-                        else:
+                        if item_player_is_on == 20:
                             show_text("You have used up your only chance to \
-identify the culprit", 1)
-                self.scenery[current_room].append([90, 15, 0]) # speech bubble
-                self.scenery[current_room].append([self.speech_text, 15, 2])
-                speech_bubble = True
-                text_on_screen = True
+identify the culprit", 0)
+
 
     def close_textboxes(self):
         global speech_bubble, text_on_screen
