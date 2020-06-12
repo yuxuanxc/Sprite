@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 8 # Start at 6
+current_room = 5 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -506,9 +506,9 @@ class planet2():
         14: [image('sea_with_ice_9'), None, None],
         15: [image('sea_with_ice_10'), None, None],
         16: [image('sea_with_ice_11'), None, None],
-        17: [image('penguin_1'), None, None],
-        18: [image('penguin_2'), None, None],
-        19: [image('penguin_3'), None, None],
+        17: [image('penguin_1'), None, "The fisherman"],
+        18: [image('penguin_2'), None, "The scientist"],
+        19: [image('penguin_3'), None, "The student"],
         20: [image('penguin_mayor'), None, "The Penguin Mayor"],
         21: [image('spaceship'), None, "Your spaceship"],
         22: [image('crowd_1'), None, "A crowd of penguins"],
@@ -571,7 +571,8 @@ research papers"],
         104: [image('achievement_1'), None, None],
         105: [image('achievement_1_2'), None, None],
         106: [image('achievement_2'), None, None],
-        
+
+        248: [image('transparent'), None, "A fence"],
         249: [image('transparent'), None, "An open door"],
         250: [image('transparent'), None, "A machine which is left running"],
         251: [image('transparent'), None, "A table full of books and \
@@ -623,13 +624,14 @@ research papers"],
             [24, 15, 17], [24, 15, 18], [24, 15, 19], [24, 15, 20], [24, 15, 21],
             [24, 15, 22], [252, 14, 9], [252, 13, 9], [252, 14, 13], [252, 13, 13], 
             [26, 3, 0], [24, 4, 22], [24, 5, 22], [24, 11, 22], [24, 12, 22],
-            [24, 13, 22], [24, 14, 22], [17, 4, 3], [18, 4, 5], [19, 4, 7],
-            [20, 5, 11], [22, 12, 1], [23, 12, 13], [27, 5, 2], [253, 10, 1],
+            [24, 13, 22], [24, 14, 22], [17, 6, 3], [18, 6, 5], [19, 6, 7],
+            [20, 5, 11], [22, 12, 1], [23, 12, 13], [27, 6, 2], [253, 10, 1],
             [253, 10, 2], [253, 10, 3], [253, 10, 4], [253, 10, 5],
             [253, 10, 6], [253, 10, 7], [253, 10, 8], [253, 10, 9],
             [253, 11, 9], [253, 12, 9], [253, 13, 9], [253, 11, 13],
             [253, 10, 13], [253, 10, 14], [253, 10, 15], [253, 10, 16],
-            [253, 10, 17], [253, 10, 18], [253, 10, 19], [253, 10, 20]],
+            [253, 10, 17], [253, 10, 18], [253, 10, 19], [253, 10, 20],
+            [248, 5, 2], [248, 4, 2], [248, 5, 8], [248, 4, 8]],
         6: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 1, 14],
             [3, 2, 14], [3, 3, 14], [3, 4, 14], [3, 12, 8], [3, 13, 8],
             [3, 14, 8], [3, 15, 8], [3, 12, 14], [3, 13, 14], [3, 14, 14],
