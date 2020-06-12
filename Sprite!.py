@@ -417,7 +417,7 @@ Needs sulfur to make gunpowder",
             return False
 
     def speak(self):
-        global speech_bubble, speech_text, text_on_screen
+        global speech_bubble, text_on_screen
 
         item_player_is_on = get_item_under_player()
 
@@ -436,7 +436,7 @@ Needs sulfur to make gunpowder",
                 text_on_screen = True
 
     def close_textboxes(self):
-        global speech_bubble, speech_text, text_on_screen
+        global speech_bubble, text_on_screen
         
         if self.baby_raccoon_textbox_1:
             self.baby_raccoon_textbox_1 = False
@@ -469,7 +469,7 @@ class planet2():
 
     mayor_speech_1, mayor_speech_2, mayor_speech_3 = False, False, False
     speech_text = 91
-    visited_centre = True
+    visited_centre = False
     
     #MAP#
 
@@ -565,10 +565,11 @@ equipment is hot!"],
 research papers"],
         63: [image('research_table_2'), None, "A table full of books and \
 research papers"],
-        64: [image('access_card'), None, "An access card", "an access card"],
-        65: [image('key'), None, "An old and rusty key", "a key"],
-        66: [image('shovel'), None, "A shovel", "a shovel"],
-        67: [image('fuel'), None, "A fuel tank", "a fuel tank"],
+        64: [image('trapdoor'), None, "A trapdoor"],
+        65: [image('access_card'), None, "An access card", "an access card"],
+        66: [image('key'), None, "An old and rusty key", "a key"],
+        67: [image('shovel'), None, "A shovel", "a shovel"],
+        68: [image('fuel'), None, "A fuel tank", "a fuel tank"],
         
 
         89: [image('choose_culprit'), None, None],
@@ -601,8 +602,8 @@ research papers"],
         254: [image('transparent'), None, "An open gate"]
         }
 
-    items_player_may_carry = list(range(64, 68))
-    items_player_may_stand_on = items_player_may_carry + [0, 1]
+    items_player_may_carry = list(range(65, 69))
+    items_player_may_stand_on = items_player_may_carry + [0, 1, 64]
 
     #SCENERY#
 
@@ -661,7 +662,7 @@ research papers"],
             [24, 14, 22], [26, 15, 0], [26, 3, 0], [24, 4, 0], [24, 5, 0],
             [24, 6, 0], [24, 12, 0], [24, 13, 0], [24, 14, 0], [58, 6, 1],
             [58, 6, 14], [57, 5, 9], [57, 5, 13], [28, 5, 10], [53, 6, 11],
-            [54, 11, 3], [55, 11, 7], [56, 11, 4], [51, 11, 17]],
+            [54, 11, 3], [55, 11, 7], [56, 11, 4], [51, 11, 17], [64, 9, 21]],
         8: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
             [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
             [24, 14, 0], [24, 4, 22], [24, 5, 22], [24, 6, 22], [24, 7, 22],
@@ -695,10 +696,10 @@ research papers"],
 
     props = {
         #object number: [room, y, x]
-        64: [8, 5, 2], #access card
-        65: [7, 5, 13], #key
-        66: [3, 5, 1], #shovel
-        67: [1, 5, 7], #fuel tank
+        65: [8, 5, 2], #access card
+        66: [7, 5, 13], #key
+        67: [3, 5, 1], #shovel
+        68: [1, 5, 7], #fuel tank
         100: [0, 0, 0] #letter
         }
 
@@ -730,7 +731,7 @@ research papers"],
                 letter_1 = True
                 text_on_screen = True
 
-        if item_player_is_on == 29 and item_carrying == 66:
+        if item_player_is_on == 29 and item_carrying == 67:
             use_message = "You shovel the snow away to reveal a hidden gate"
             self.scenery[current_room].remove([29, 7, 0])
             self.scenery[current_room].append([3, 7, 9])
@@ -740,14 +741,14 @@ research papers"],
             self.scenery[current_room].append([32, 6, 0])
             sound('combine')
 
-        if item_player_is_on == 32 and item_carrying == 65:
+        if item_player_is_on == 32 and item_carrying == 66:
             use_message = "You used the key to unlock the gate!"
             self.scenery[current_room].remove([32, 6, 0])
             self.scenery[current_room].append([30, 6, 0])
             self.scenery[current_room].append([31, 6, 13])
             sound('combine')
 
-        if item_player_is_on == 35 and item_carrying == 64:
+        if item_player_is_on == 35 and item_carrying == 65:
             use_message = "You used the access card to unlock the door!"
             self.scenery[current_room].remove([35, 3, 9])
             self.scenery[current_room].append([36, 3, 9])
@@ -757,7 +758,7 @@ research papers"],
             self.scenery[current_room].append([249, 1, 13])
             self.scenery[current_room].append([249, 2, 13])
             sound('combine')
-            planet.visited_centre = True
+            self.visited_centre = True
 
         show_text(use_message, 0)
     
@@ -778,11 +779,11 @@ research papers"],
         if item_player_is_on in [17, 18, 19, 20]: # dialogue with penguins
             if speech_bubble == False:
                 if item_player_is_on == 17: # fisherman
-                    planet.speech_text = 97
+                    self.speech_text = 97
                 elif item_player_is_on == 18: # scientist
-                    planet.speech_text = 98
+                    self.speech_text = 98
                 elif item_player_is_on == 19: # student
-                    planet.speech_text = 99
+                    self.speech_text = 99
                 elif item_player_is_on == 20: # mayor
                     if planet.visited_centre == False:
                         planet.speech_text = 92
@@ -836,7 +837,7 @@ game_over = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [100, 64]
+in_my_pockets = [100]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
@@ -1031,7 +1032,7 @@ def game_loop():
     global selected_item, item_carrying
     global player_offset_x, player_offset_y
     global player_frame, player_direction
-    global help_menu, speech_bubble, speech_text, letter_1
+    global help_menu, speech_bubble, letter_1
     global text_on_screen, wall_of_achievements, achievement
     
     if player_frame > 0:
@@ -1168,7 +1169,7 @@ def game_loop():
 
     if keys[pygame.K_1] or keys[pygame.K_3]: 
         if planet.visited_centre:
-            planet.scenery[current_room].append([90, 15, 0]) # speech bubble
+            planet.scenery[current_room].remove([planet.speech_text, 15, 2])
             planet.scenery[current_room].append([95, 15, 2])
             speech_bubble = True
             planet.speech_text = 95
@@ -1176,7 +1177,7 @@ def game_loop():
 
     if keys[pygame.K_2]:
         if planet.visited_centre:
-            planet.scenery[current_room].append([90, 15, 0]) # speech bubble
+            planet.scenery[current_room].remove([planet.speech_text, 15, 2])
             planet.scenery[current_room].append([96, 15, 2])
             speech_bubble = True
             planet.speech_text = 96
