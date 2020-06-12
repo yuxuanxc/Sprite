@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 9 # Start at 6
+current_room = 8 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -168,9 +168,7 @@ Needs sulfur to make gunpowder",
         101: [image('help'), None, None],
         102: [image('letter_1'), None, None],
         103: [image('wall_of_achievements'), None, None],
-        104: [image('first_achievement'), None, None],
-        #105: [image('second_achievement'), None, None],
-        #106: [image('third_achievement'), None, None],
+        104: [image('achievement_1'), None, None],
         
         250: [image('transparent'), None,"Not much to see here"],
         251: [image('transparent'), None, "The mountain"],
@@ -528,10 +526,8 @@ class planet2():
         34: [image('computer'), None, "Row of computers displaying strange \
 images"],
         35: [image('door_closed'), None, "A door which is locked"],
-        36: [image('research_table_1'), None, "A table full of books and \
-research papers"],
-        37: [image('research_table_2'), None, "A table full of books and \
-research papers"],
+        36: [image('door_open_1'), None, "An open door"],
+        37: [image('door_open_2'), None, "An open door"],
         38: [image('steam_machine'), None, "A machine which is left running"],
         39: [image('gate_left'), None, "A gate"],
         40: [image('gate_right'), None, "A gate"],
@@ -558,18 +554,25 @@ equipment is hot!"],
         59: [image('shelf_3'), None, "Some cupboards and shelves"],
         60: [image('table_3'), None, "A table with matches and fishing hooks"],
         61: [image('chair_6'), None, "A chair"],
-        62: [image('access_card'), None, "An access card", "access card"],
-        63: [image('key'), None, "An old and rusty key", "key"],
-        64: [image('shovel'), None, "A shovel", "the shovel"],
+        62: [image('research_table_1'), None, "A table full of books and \
+research papers"],
+        63: [image('research_table_2'), None, "A table full of books and \
+research papers"],
+        64: [image('access_card'), None, "An access card", "an access card"],
+        65: [image('key'), None, "An old and rusty key", "a key"],
+        66: [image('shovel'), None, "A shovel", "a shovel"],
+        67: [image('fuel'), None, "A fuel tank", "a fuel tank"],
 
         100: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
         101: [image('help'), None, None],
         102: [image('letter_1'), None, None],
         103: [image('wall_of_achievements'), None, None],
-        104: [image('first_achievement'), None, None],
-        #105: [image('second_achievement'), None, None],
+        104: [image('achievement_1'), None, None],
+        105: [image('achievement_1_2'), None, None],
+        106: [image('achievement_2'), None, None],
         
+        249: [image('transparent'), None, "An open door"],
         250: [image('transparent'), None, "A machine which is left running"],
         251: [image('transparent'), None, "A table full of books and \
 research papers"],
@@ -578,7 +581,7 @@ research papers"],
         254: [image('transparent'), None, "An open gate"]
         }
 
-    items_player_may_carry = list(range(62, 65))
+    items_player_may_carry = list(range(64, 68))
     items_player_may_stand_on = items_player_may_carry + [0, 1]
 
     #SCENERY#
@@ -605,7 +608,7 @@ research papers"],
             [24, 14, 0], [24, 4, 22], [24, 5, 22], [24, 6, 22], [24, 7, 22],
             [24, 8, 22], [24, 9, 22], [24, 10, 22], [24, 11, 22],
             [24, 12, 22], [24, 13, 22], [24, 14, 22], [26, 3, 0],
-            [33, 15, 0], [33, 15, 14], [36, 13, 2] , [38, 8, 15], [42, 3, 4],
+            [33, 15, 0], [33, 15, 14], [62, 13, 2] , [38, 8, 15], [42, 3, 4],
             [250, 4, 15], [250, 5, 15], [250, 6, 15], [250, 7, 15],
             [251, 6, 2], [251, 6, 3], [251, 6, 4], [251, 7, 2],
             [251, 7, 3], [251, 7, 4], [251, 8, 2], [251, 8, 3], [251, 8, 4],
@@ -644,8 +647,8 @@ research papers"],
             [24, 8, 22], [24, 9, 22], [24, 10, 22], [24, 11, 22],
             [24, 12, 22], [24, 13, 22], [24, 14, 22], [33, 3, 0], [33, 3, 14],
             [33, 15, 0], [33, 15, 14], [34, 4, 2], [34, 4, 4], [34, 4, 6],
-            [34, 4, 15], [34, 4, 17], [34, 4, 19], [35, 3, 9], [36, 13, 2],
-            [37, 13, 18], [251, 6, 2], [251, 6, 3], [251, 6, 4], [251, 7, 2],
+            [34, 4, 15], [34, 4, 17], [34, 4, 19], [35, 3, 9], [62, 13, 2],
+            [63, 13, 18], [251, 6, 2], [251, 6, 3], [251, 6, 4], [251, 7, 2],
             [251, 7, 3], [251, 7, 4], [251, 8, 2], [251, 8, 3], [251, 8, 4],
             [251, 9, 2], [251, 9, 3], [251, 9, 4], [251, 10, 2], [251, 10, 3],
             [251, 10, 4], [251, 11, 2], [251, 11, 3], [251, 11, 4], [251, 12, 2],
@@ -671,10 +674,11 @@ research papers"],
 
     props = {
         #object number: [room, y, x]
-        62: [8, 5, 2], #access card
-        63: [7, 5, 13], #key
-        64: [10, 12, 9], #shovel
-        100: [0, 0, 0]
+        64: [8, 5, 2], #access card
+        65: [7, 5, 13], #key
+        66: [3, 5, 1], #shovel
+        67: [1, 5, 7], #fuel tank
+        100: [0, 0, 0] #letter
         }
 
     RECIPES = [
@@ -705,7 +709,7 @@ research papers"],
                 letter_1 = True
                 text_on_screen = True
 
-        if item_player_is_on == 29 and item_carrying == 64:
+        if item_player_is_on == 29 and item_carrying == 66:
             use_message = "You shovel the snow away to reveal a hidden gate"
             self.scenery[current_room].remove([29, 7, 0])
             self.scenery[current_room].append([3, 7, 9])
@@ -715,16 +719,22 @@ research papers"],
             self.scenery[current_room].append([32, 6, 0])
             sound('combine')
 
-        if item_player_is_on == 32 and item_carrying == 63:
+        if item_player_is_on == 32 and item_carrying == 65:
             use_message = "You used the key to unlock the gate!"
             self.scenery[current_room].remove([32, 6, 0])
             self.scenery[current_room].append([30, 6, 0])
             self.scenery[current_room].append([31, 6, 13])
             sound('combine')
 
-        if item_player_is_on == 35 and item_carrying == 62:
+        if item_player_is_on == 35 and item_carrying == 64:
             use_message = "You used the access card to unlock the door!"
             self.scenery[current_room].remove([35, 3, 9])
+            self.scenery[current_room].append([36, 3, 9])
+            self.scenery[current_room].append([37, 3, 13])
+            self.scenery[current_room].append([249, 1, 9])
+            self.scenery[current_room].append([249, 2, 9])
+            self.scenery[current_room].append([249, 1, 13])
+            self.scenery[current_room].append([249, 2, 13])
             sound('combine')
 
         show_text(use_message, 0)
@@ -763,7 +773,7 @@ game_over = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [100]
+in_my_pockets = [100, 64]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
