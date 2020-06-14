@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 9 # Start at 6
+current_room = 12 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -136,7 +136,7 @@ with a staircase made from wooden planks"],
         37: [image('oxygen_tank'), None, "An oxygen tank, with a hole on \
 its side", "leaking O2 tank"],
         38: [image('oxygen_tank'), None, "A sealed oxygen tank",
-             "oxygen tank"],
+             "oxygen tank"], 
         39: [image('sulfur'), None, "Sulfur", "sulfur"],
         40: [image('gunpowder'), None, "Gunpowder", "gunpowder"],
         41: [image('sticky'), None, "Sticky goo", "sticky goo"],
@@ -172,7 +172,8 @@ Needs sulfur to make gunpowder",
         102: [image('letter_1'), None, None],
         103: [image('wall_of_achievements'), None, None],
         104: [image('achievement_1'), None, None],
-        
+
+        247: [image('space'), None, "Space"],
         250: [image('transparent'), None,"Not much to see here"],
         251: [image('transparent'), None, "The mountain"],
         252: [image('transparent'), None, "The sea"],
@@ -368,6 +369,11 @@ Needs sulfur to make gunpowder",
                     use_message = "You've fixed the spaceship and you can leave! The raccoons"
                     show_text("seem upset about the treehouse and did not give you a souvenir.", 1)
             sound('combine')
+
+        elif item_player_is_on == 25: # Fixed spaceship
+            use_message = "You're travelling through space!"
+            show_text("", 1)
+            planet_1_to_2()
 
         elif item_player_is_on == 43 or item_carrying == 43:
             if self.manual_page1 == False and text_on_screen == False:
@@ -593,6 +599,7 @@ research papers"],
         105: [image('achievement_1_2'), None, None],
         106: [image('achievement_2'), None, None],
 
+        247: [image('space'), None, "Space"],
         248: [image('transparent'), None, "A fence"],
         249: [image('transparent'), None, "An open door"],
         250: [image('transparent'), None, "A machine which is left running"],
@@ -844,24 +851,25 @@ identify the culprit", 0)
 #TEXT ON SCREEN#
 text_on_screen = True
 help_menu = False
-speech_bubble = True
+speech_bubble = False # Start with True
 letter_1 = False
 wall_of_achievements = False
 achievement = 103
 
 #GAME PROGRESS#
-planet = planet2()
+planet = planet1()
 treehouse_destroyed = False
 planet1_completed = False
 can_guess = True
 correct_culprit = False
 planet2_completed = False
 planet3_completed = False
+in_space = False
 game_over = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [100]
+in_my_pockets = [100, 38, 40, 45, 47]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
@@ -1018,6 +1026,7 @@ def generate_map():
 def close_text_boxes():
     global text_on_screen, help_menu, wall_of_achievements, achievement
     global speech_bubble, letter_1
+    global in_space
     
     if help_menu:
         planet.scenery[current_room].remove([101, 15, 0])
@@ -1039,6 +1048,12 @@ def close_text_boxes():
         planet.scenery[current_room].remove([achievement, 15, 0])
         wall_of_achievements = False
         text_on_screen = False
+
+    elif in_space:
+        planet.scenery[current_room].remove([247, 15, 0])
+        in_space = False
+        text_on_screen = True
+        speech_bubble = True
 
     planet.close_textboxes()
 
@@ -1287,6 +1302,18 @@ def show_text(text_to_show, line_number):
 
     pygame.draw.rect(screen, (0, 0, 0), (0, text_lines[line_number], 800, 35))
     screen.blit(textsurface,(20, text_lines[line_number]))
+
+def planet_1_to_2():
+    global in_space, text_on_screen
+    global planet, current_room
+    global player_y, player_x
+
+    in_space = True
+    text_on_screen = True
+    planet = planet2()
+    current_room = 9
+    player_y, player_x = 12, 6
+    planet.scenery[current_room].append([247, 15, 0])
 
 #mainloop#
     
