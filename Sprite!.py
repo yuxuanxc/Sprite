@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 12 # Start at 6
+current_room = 6 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -131,14 +131,14 @@ with a staircase made from wooden planks"],
         33: [image('pickaxe_stone'), None, "A long piece of stone",
              "long stone"],
         34: [image('pickaxe'), None, "A pickaxe", "pickaxe"],
-        35: [image('axe'), None, "An axe", "axe"],
+        35: [image('axe'), None, "An axe", "an axe"],
         36: [image('seashell'), None, "A seashell", "a seashell"],
         37: [image('oxygen_tank'), None, "An oxygen tank, with a hole on \
 its side", "leaking O2 tank"],
         38: [image('oxygen_tank'), None, "A sealed oxygen tank",
              "oxygen tank"], 
         39: [image('sulfur'), None, "Sulfur", "sulfur"],
-        40: [image('gunpowder'), None, "Gunpowder", "gunpowder"],
+        40: [image('gunpowder'), None, "Gunpowder", "gunpowder"], 
         41: [image('sticky'), None, "Sticky goo", "sticky goo"],
         43: [image('manual'), None, "The spaceship manual",
              "a manual to fix the spaceship"],
@@ -266,7 +266,6 @@ Needs sulfur to make gunpowder",
         39: [4, 7, 12], # Sulfur
         40: [0, 0, 0], # Gunpowder
         41: [10, 5, 5], # Sticky goo under sticky plant
-        42: [0, 0, 0], # Letter to self
         43: [12, 5, 3], # Manual under broken spaceship
         44: [0, 0, 0], # Log
         45: [0, 0, 0], # Plank
@@ -275,6 +274,7 @@ Needs sulfur to make gunpowder",
         48: [0, 0, 0], # Sulfur + Seashell mixture
         49: [0, 0, 0], # Sulfur + Charcoal mixture
         50: [0, 0, 0], # Charcoal + Seashell mixture
+        100: [0, 0, 0], # Letter to self
         }
 
     RECIPES = [
@@ -303,7 +303,7 @@ Needs sulfur to make gunpowder",
         standard_responses = {
             28: "Hot!",
             43: "You read the manual.",
-            42: "You read the letter you wrote to yourself."
+            100: "You read the letter you wrote to yourself."
             }
 
         item_player_is_on = get_item_under_player()
@@ -381,9 +381,9 @@ Needs sulfur to make gunpowder",
                 self.manual_page1 = True
                 text_on_screen = True
 
-        elif item_player_is_on == 42 or item_carrying == 42:
+        elif item_player_is_on == 100 or item_carrying == 100:
             if letter_1 == False and text_on_screen == False:
-                self.scenery[current_room].append([59, 15, 0])
+                self.scenery[current_room].append([102, 15, 0])
                 letter_1 = True
                 text_on_screen = True
                 
@@ -851,13 +851,13 @@ identify the culprit", 0)
 #TEXT ON SCREEN#
 text_on_screen = True
 help_menu = False
-speech_bubble = False # Start with True
+speech_bubble = True # Start with True
 letter_1 = False
 wall_of_achievements = False
 achievement = 103
 
 #GAME PROGRESS#
-planet = planet1()
+planet = planet1() # Start with planet1()
 treehouse_destroyed = False
 planet1_completed = False
 can_guess = True
@@ -869,7 +869,7 @@ game_over = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [100, 38, 40, 45, 47]
+in_my_pockets = [100]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
@@ -1030,6 +1030,7 @@ def close_text_boxes():
     
     if help_menu:
         planet.scenery[current_room].remove([101, 15, 0])
+        show_text("", 0)
         help_menu = False
         text_on_screen = False
         
@@ -1041,6 +1042,7 @@ def close_text_boxes():
 
     elif letter_1:
         planet.scenery[current_room].remove([102, 15, 0])
+        show_text("", 0)
         letter_1 = False
         text_on_screen = False
 
@@ -1200,6 +1202,7 @@ def game_loop():
             planet.scenery[current_room].append([101, 15, 0])
             help_menu = True
             text_on_screen = True
+            show_text("Help Menu", 0)
         elif text_on_screen:
             show_text("Please press Enter to continue.", 0)
 
@@ -1311,9 +1314,13 @@ def show_text(text_to_show, line_number):
 
 def planet_1_to_2():
     global in_space, text_on_screen, planet, current_room
-
+    global in_my_pockets, selected_item
+    
     planet = planet2()
     current_room = 9
+    selected_item = 0
+    in_my_pockets = [100]
+    item_highlighted = 0
     planet.scenery[current_room].append([247, 15, 0])
     show_text("Press enter to continue your journey~", 1)
     in_space = True
