@@ -1051,6 +1051,8 @@ def close_text_boxes():
 
     elif in_space:
         planet.scenery[current_room].remove([247, 15, 0])
+        show_text("You have arrived on a new planet!", 0)
+        show_text("", 1)
         in_space = False
         text_on_screen = True
         speech_bubble = True
@@ -1084,8 +1086,12 @@ def game_loop():
             player_offset_y = 0
     
     # save player's current position
-    old_player_x = player_x
-    old_player_y = player_y
+    if in_space:
+        old_player_x = 6
+        old_player_y = 11
+    else:
+        old_player_x = player_x
+        old_player_y = player_y
 
     keys = pygame.key.get_pressed()
     
@@ -1261,7 +1267,7 @@ def draw_image(image, y, x):
 def draw_player():
     player_image = PLAYER[player_direction][player_frame]
     draw_image(player_image, player_y + player_offset_y,
-               player_x + player_offset_x)
+               player_x + player_offset_x)   
     
 def draw():
     if game_over:
@@ -1304,16 +1310,14 @@ def show_text(text_to_show, line_number):
     screen.blit(textsurface,(20, text_lines[line_number]))
 
 def planet_1_to_2():
-    global in_space, text_on_screen
-    global planet, current_room
-    global player_y, player_x
+    global in_space, text_on_screen, planet, current_room
 
-    in_space = True
-    text_on_screen = True
     planet = planet2()
     current_room = 9
-    player_y, player_x = 12, 6
     planet.scenery[current_room].append([247, 15, 0])
+    show_text("Press enter to continue your journey~", 1)
+    in_space = True
+    text_on_screen = True
 
 #mainloop#
     
