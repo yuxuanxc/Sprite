@@ -847,7 +847,119 @@ identify the culprit", 0)
             text_on_screen = False
                 
         pygame.time.delay(500)
+
+class planet3():
+
+    speech_text = 91 # Initial speech bubble if any
     
+    #MAP#
+
+    map_width = 3
+    map_height = 3
+    map_size = map_width * map_height
+
+    game_map = [["Room 0 - where unused objects are kept"]]
+
+    game_map += [
+        #["Room name"]
+        ["River"], #room 1
+        ["Path"], #room 2
+        ["The shed"], #room 3
+        ["Forest"], #room 4
+        ["Forest"], #room 5
+        ["Forest"], #room 6
+        ["Spaceship Landing Area"], #room 7
+        ["Coastline"], #room 8
+        ["Forest"], #room 9
+        ]
+
+    objects = {
+        #Object number : [Image, Shadow, Description]
+        0: [image('road_tile'), None, None],
+        
+        100: [image('letter'), None, "A letter I wrote to myself",
+             "letter to self"],
+        101: [image('help'), None, None],
+        102: [image('letter_1'), None, None],
+        103: [image('wall_of_achievements'), None, None],
+        104: [image('achievement_1'), None, None],
+        105: [image('achievement_1_2'), None, None],
+        106: [image('achievement_2'), None, None],
+
+        247: [image('space'), None, "Space"],
+        }
+
+    items_player_may_carry = list(range(0,0))
+    items_player_may_stand_on = items_player_may_carry + [0]
+
+    #SCENERY#
+
+    scenery = {
+        #room number: [[object number, y position, x position]...]
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+        7: [],
+        8: [],
+        9: []
+        }
+
+    #PROPS#
+
+    props = {
+        #object number: [room, y, x]
+        }
+
+    RECIPES = [
+        ]
+
+    #USE OBJECTS#
+
+    def use_object(self):
+        global room_map, item_carrying, selected_item, in_my_pockets
+        global text_on_screen, letter_1
+
+        use_message = "You fiddle around with it but don't get anywhere."
+        standard_responses = {
+            100: "You read the letter you wrote to yourself."
+            }
+
+        item_player_is_on = get_item_under_player()
+        for this_item in [item_player_is_on, item_carrying]:
+            if this_item in standard_responses:
+                use_message = standard_responses[this_item]
+
+        if text_on_screen == True:
+            use_message = "Please press Enter to continue."
+
+        if item_player_is_on == 100 or item_carrying == 100:
+            if letter_1 == False and text_on_screen == False:
+                self.scenery[current_room].append([102, 15, 0])
+                letter_1 = True
+                text_on_screen = True
+
+        show_text(use_message, 0)
+
+    def get_floor_type(self):
+        return 0
+
+    def can_drop(self, old_y, old_x):
+        return room_map[old_y][old_x] in [0, 1]
+
+    def speak(self):
+        global speech_bubble, text_on_screen
+
+        item_player_is_on = get_item_under_player()
+
+    def close_textboxes(self):
+        global speech_bubble, text_on_screen
+                
+        pygame.time.delay(500)
+
+
 #TEXT ON SCREEN#
 text_on_screen = True
 help_menu = False
