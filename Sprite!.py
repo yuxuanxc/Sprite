@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 7 # Start at 6
+current_room = 2 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -865,7 +865,7 @@ class planet3():
         ["River"], #room 1
         ["Path"], #room 2
         ["The shed"], #room 3
-        ["Village"], #room 4
+        ["River"], #room 4
         ["Village"], #room 5
         ["Village"], #room 6
         ["Spaceship Landing Area"], #room 7
@@ -886,8 +886,16 @@ class planet3():
         9: [image('cat_jailer_1'), None, "A cat"],
         10: [image('cat_jailer_2'), None, "A cat"],
         11: [image('cat_river'), None, "A cat"],
-
-        
+        12: [image('river'), None, "The river bank"],
+        13: [image('tree_room1'), None, "A tree"],
+        14: [image('tree_room4'), None, "A tree"],
+        15: [image('tree_2'), None, "A tree"],
+        16: [image('wall'), None, "Wooden walls"],
+        17: [image('longwall'), None, "Wooden walls"],
+        18: [image('wooden_door'), None, "The door is locked and Scout is \
+inside!"],
+        19: [image('tree_room2_1'), None, "A tree"],
+        20: [image('tree_room2_2'), None, "A tree"],
         
         100: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
@@ -900,7 +908,8 @@ class planet3():
 
         247: [image('space'), None, "Space"],
 
-        255: [image('transparent'), None, "A tree"]
+        253: [image('transparent'), None, "The river bank"],
+        254: [image('transparent'), None, "A tree"]
         }
 
     items_player_may_carry = list(range(0,0))
@@ -910,10 +919,21 @@ class planet3():
 
     scenery = {
         #room number: [[object number, y position, x position]...]
-        1: [],
-        2: [],
+        1: [[11, 7, 9], [12, 15, 0], [13, 5, 8], [253, 6, 7], [253, 7, 7],
+            [253, 8, 7], [253, 9, 7], [253, 10, 7], [253, 11, 7], [253, 12, 7],
+            [253, 13, 7], [253, 14, 7]],
+        2: [[19, 3, 0], [20, 15, 0],
+            [16, 4, 13], [16, 5, 13], [16, 6, 13], [16, 7, 13], [16, 8, 13],
+            [16, 9, 13], [16, 10, 13], [16, 10, 14], [16, 10, 15], [16, 10, 18],
+            [16, 10, 19], [16, 10, 20], [16, 10, 21], [16, 10, 22], [17, 3, 13],
+            [18, 10, 16], [9, 11, 15], [10, 11, 18], [254, 11, 21], [254, 12, 21],
+            [254, 13, 21], [254, 14, 21]],
         3: [],
-        4: [],
+        4: [[12, 15, 0], [14, 15, 8], [15, 4, 15], [15, 4, 17], [15, 4, 19],
+            [15, 3, 14], [254, 2, 15], [254, 1, 15], [253, 1, 7], [253, 2, 7],
+            [253, 3, 7], [253, 4, 7], [253, 5, 7], [253, 6, 7], [253, 7, 7],
+            [253, 8, 7], [253, 9, 7], [253, 10, 7], [253, 11, 7], [253, 12, 7],
+            [253, 13, 7], [253, 14, 7]],
         5: [],
         6: [],
         7: [[3, 5, 0], [6, 15, 0], [7, 10, 6],
