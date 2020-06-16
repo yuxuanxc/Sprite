@@ -877,7 +877,8 @@ class planet3():
         #Object number : [Image, Shadow, Description]
         0: [image('floor_tile'), None, None],
 
-        4: [image('tree_2'), None, "A tree"],
+        3: [image('tree_room7'), None, "A tree"],
+        4: [image('tree_room8'), None, "A tree"],
         5: [image('rock_2'), None, "A rock"],
         6: [image('rock_2_long'), None, "A rock"],
         7: [image('spaceship'), None, "Your spaceship"],
@@ -885,6 +886,7 @@ class planet3():
         9: [image('cat_jailer_1'), None, "A cat"],
         10: [image('cat_jailer_2'), None, "A cat"],
         11: [image('cat_river'), None, "A cat"],
+
         
         
         100: [image('letter'), None, "A letter I wrote to myself",
@@ -914,14 +916,10 @@ class planet3():
         4: [],
         5: [],
         6: [],
-        7: [[4, 4, 3], [4, 4, 6], [4, 4, 9], [4, 4, 12], [4, 4, 15],
-            [4, 4, 18], [255, 4, 21], [255, 4, 22], [4, 6, 0],
-            [4, 10, 0], [4, 14, 0], [255, 4, 2], [255, 5, 2], [255, 6, 2],
-            [255, 7, 2], [255, 8, 2], [255, 9, 2], [255, 10, 2], [255, 11, 2],
-            [255, 12, 2], [255, 13, 2], [255, 14, 2], [7, 10, 7], 
-            [6, 15, 0]],
-        8: [[4, 4, 0], [4, 4, 3], [4, 4, 6], [4, 4, 9], [4, 4, 12], [4, 4, 15],
-            [4, 4, 18], [6, 15, 0], [8, 10, 10]],
+        7: [[3, 5, 0], [6, 15, 0], [7, 10, 6],
+            [5, 6, 0], [5, 7, 0], [5, 8, 0], [5, 9, 0], [5, 10, 0],
+            [5, 11, 0], [5, 12, 0], [5, 13, 0], [5, 14, 0]],
+        8: [[4, 5, 0], [6, 15, 0], [8, 10, 10]],
         9: [[6, 15, 0]]
         }
 
