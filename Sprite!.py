@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 6 # Start at 6
+current_room = 7 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -58,7 +58,7 @@ player_offset_x, player_offset_y = 0, 0
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-class planet1:
+class planet1():
     
     plank, navigation_system, gunpowder, oxygen_tank = False, False, False, False
 
@@ -865,17 +865,27 @@ class planet3():
         ["River"], #room 1
         ["Path"], #room 2
         ["The shed"], #room 3
-        ["Forest"], #room 4
-        ["Forest"], #room 5
-        ["Forest"], #room 6
+        ["Village"], #room 4
+        ["Village"], #room 5
+        ["Village"], #room 6
         ["Spaceship Landing Area"], #room 7
-        ["Coastline"], #room 8
-        ["Forest"], #room 9
+        ["Village"], #room 8
+        ["Village"], #room 9
         ]
 
     objects = {
         #Object number : [Image, Shadow, Description]
-        0: [image('road_tile'), None, None],
+        0: [image('floor_tile'), None, None],
+
+        4: [image('tree_2'), None, "A tree"],
+        5: [image('rock_2'), None, "A rock"],
+        6: [image('rock_2_long'), None, "A rock"],
+        7: [image('spaceship'), None, "Your spaceship"],
+        8: [image('spaceship_dog'), None, "A familiar-looking spaceship!"],
+        9: [image('cat_jailer_1'), None, "A cat"],
+        10: [image('cat_jailer_2'), None, "A cat"],
+        11: [image('cat_river'), None, "A cat"],
+        
         
         100: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
@@ -887,6 +897,8 @@ class planet3():
         106: [image('achievement_2'), None, None],
 
         247: [image('space'), None, "Space"],
+
+        255: [image('transparent'), None, "A tree"]
         }
 
     items_player_may_carry = list(range(0,0))
@@ -902,9 +914,15 @@ class planet3():
         4: [],
         5: [],
         6: [],
-        7: [],
-        8: [],
-        9: []
+        7: [[4, 4, 3], [4, 4, 6], [4, 4, 9], [4, 4, 12], [4, 4, 15],
+            [4, 4, 18], [255, 4, 21], [255, 4, 22], [4, 6, 0],
+            [4, 10, 0], [4, 14, 0], [255, 4, 2], [255, 5, 2], [255, 6, 2],
+            [255, 7, 2], [255, 8, 2], [255, 9, 2], [255, 10, 2], [255, 11, 2],
+            [255, 12, 2], [255, 13, 2], [255, 14, 2], [7, 10, 7], 
+            [6, 15, 0]],
+        8: [[4, 4, 0], [4, 4, 3], [4, 4, 6], [4, 4, 9], [4, 4, 12], [4, 4, 15],
+            [4, 4, 18], [6, 15, 0], [8, 10, 10]],
+        9: [[6, 15, 0]]
         }
 
     #PROPS#
@@ -961,15 +979,15 @@ class planet3():
 
 
 #TEXT ON SCREEN#
-text_on_screen = True
+text_on_screen = False # Start with True
 help_menu = False
-speech_bubble = True # Start with True
+speech_bubble = False # Start with True
 letter_1 = False
 wall_of_achievements = False
 achievement = 103
 
 #GAME PROGRESS#
-planet = planet1() # Start with planet1()
+planet = planet3() # Start with planet1()
 treehouse_destroyed = False
 planet1_completed = False
 can_guess = True
