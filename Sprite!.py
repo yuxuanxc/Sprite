@@ -48,7 +48,7 @@ PLAYER = {
         ]
 }
 
-current_room = 3 # Start at 6
+current_room = 4 # Start at 6
 player_y, player_x = 15, 11 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -896,7 +896,21 @@ class planet3():
 inside!"],
         19: [image('tree_room2_1'), None, "A tree"],
         20: [image('tree_room2_2'), None, "A tree"],
-        21: [image('maze_fence'), None, "A fence"],                   
+        21: [image('maze_fence'), None, "A fence"],
+        22: [image('tree_room5'), None, "A tree"],
+        23: [image('tree_room6_1'), None, "A tree"],
+        24: [image('tree_room6_2'), None, "A tree"],
+        25: [image('tree_room6_3'), None, "A tree"],
+        26: [image('tree_room6_4'), None, "A tree"],
+        27: [image('twine'), None, "A bunch of twines"],
+        28: [image('tree_room6_5'), None, "A tree"],
+        29: [image('tree_room6_6'), None, "A tree"],
+        
+        #props
+        50: [image('fishing_rod_2'), None, "A fishing rod", "fishing rod"],
+        51: [image('string'), None, "A piece of string", "string"],
+        52: [image('stick'), None, "A piece of stick", "the stick"],
+        53: [image('shears'), None, "A pair of shears", "the shears"],
         
         100: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
@@ -913,16 +927,16 @@ inside!"],
         254: [image('transparent'), None, "A tree"]
         }
 
-    items_player_may_carry = list(range(0,0))
+    items_player_may_carry = list(range(50,54)) + [100]
     items_player_may_stand_on = items_player_may_carry + [0]
 
     #SCENERY#
 
     scenery = {
         #room number: [[object number, y position, x position]...]
-        1: [[11, 7, 9], [12, 15, 0], [13, 5, 8], [253, 6, 7], [253, 7, 7],
+        1: [[11, 6, 9], [12, 15, 0], [13, 3, 8], [253, 6, 7], [253, 7, 7],
             [253, 8, 7], [253, 9, 7], [253, 10, 7], [253, 11, 7], [253, 12, 7],
-            [253, 13, 7], [253, 14, 7]],
+            [253, 13, 7], [253, 14, 7], [24, 15, 14]],
         2: [[19, 3, 0], [20, 15, 0],
             [16, 4, 13], [16, 5, 13], [16, 6, 13], [16, 7, 13], [16, 8, 13],
             [16, 9, 13], [16, 10, 13], [16, 10, 14], [16, 10, 15], [16, 10, 18],
@@ -962,13 +976,13 @@ inside!"],
             [21, 2, 12], [21, 2, 13], [21, 2, 14], [21, 2, 15], [21, 2, 16], 
             [21, 2, 17], [21, 2, 18], [21, 2, 19],  [21, 2, 20], [21, 2, 21],
             [21, 2, 22]],
-        4: [[12, 15, 0], [14, 15, 8], [15, 4, 15], [15, 4, 17], [15, 4, 19],
-            [15, 3, 14], [254, 2, 15], [254, 1, 15], [253, 1, 7], [253, 2, 7],
+        4: [[12, 15, 0], [14, 15, 8], [29, 5, 14], [254, 1, 14], [254, 2, 14],
+            [254, 3, 14], [254, 4, 14], [253, 1, 7], [253, 2, 7],
             [253, 3, 7], [253, 4, 7], [253, 5, 7], [253, 6, 7], [253, 7, 7],
             [253, 8, 7], [253, 9, 7], [253, 10, 7], [253, 11, 7], [253, 12, 7],
             [253, 13, 7], [253, 14, 7]],
-        5: [],
-        6: [],
+        5: [[3, 5, 0], [22, 15, 0]],
+        6: [[23, 15, 0], [24, 15, 14], [25, 5, 0], [26, 5, 14], [27, 5, 9]],
         7: [[3, 5, 0], [6, 15, 0], [7, 10, 6],
             [5, 6, 0], [5, 7, 0], [5, 8, 0], [5, 9, 0], [5, 10, 0],
             [5, 11, 0], [5, 12, 0], [5, 13, 0], [5, 14, 0]],
@@ -980,9 +994,14 @@ inside!"],
 
     props = {
         #object number: [room, y, x]
+        50: [0, 0, 0], #fishing rod
+        51: [1, 6, 8], #string
+        52: [5, 14, 5], #stick
+        53: [2, 11, 20] #shears
         }
 
     RECIPES = [
+        [51, 52, 50]
         ]
 
     #USE OBJECTS#
@@ -1010,6 +1029,33 @@ inside!"],
                 letter_1 = True
                 text_on_screen = True
 
+        if item_player_is_on == 27 and item_carrying == 53:
+            self.scenery[current_room].remove([25, 5, 0])
+            self.scenery[current_room].remove([26, 5, 14])
+            self.scenery[current_room].remove([27, 5, 9])
+            self.scenery[current_room].append([28, 5, 0])
+            self.scenery[current_room].append([29, 5, 14])
+            use_message = "You cut away the twines to reveal a hidden path"
+            sound('combine')
+
+        for recipe in self.RECIPES:
+            ingredient1 = recipe[0]
+            ingredient2 = recipe[1]
+            combination = recipe[2]
+            if (item_carrying == ingredient1
+                and item_player_is_on == ingredient2) \
+                or (item_carrying == ingredient2
+                    and item_player_is_on == ingredient1):
+                use_message = "You combine " + self.objects[ingredient1][3] \
+                              + " and " + self.objects[ingredient2][3] \
+                              + " to make " + self.objects[combination][3]
+                if item_player_is_on in self.props.keys():
+                    self.props[item_player_is_on][0] = 0
+                    room_map[player_y][player_x] = self.get_floor_type()
+                in_my_pockets.remove(item_carrying)
+                add_object(combination)
+                sound('combine')
+                
         show_text(use_message, 0)
 
     def get_floor_type(self):
