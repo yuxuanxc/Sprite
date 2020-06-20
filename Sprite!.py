@@ -851,7 +851,10 @@ identify the culprit", 0)
 
 class planet3():
 
-    speech_text = 91 # Initial speech bubble if any
+    river_cat_fish = False
+    jailer_fish = False
+    no_fish = True
+    one_fish, two_fish = False, False
     
     #MAP#
 
@@ -883,7 +886,7 @@ class planet3():
         5: [image('rock_2'), None, "A rock"],
         6: [image('rock_2_long'), None, "A rock"],
         7: [image('spaceship'), None, "Your spaceship"],
-        8: [image('spaceship_dog'), None, "A familiar-looking spaceship!"],
+        8: [image('spaceship_dog'), None, "Scout's spaceship! It needs to be attached to mine."],
         9: [image('cat_jailer_1'), None, "A cat"],
         10: [image('cat_jailer_2'), None, "A cat"],
         11: [image('cat_river'), None, "A cat"],
@@ -914,10 +917,19 @@ inside!"],
         #props
         50: [image('fishing_rod_2'), None, "A fishing rod", "fishing rod"],
         51: [image('string'), None, "A piece of string", "string"],
-        52: [image('stick'), None, "A piece of stick", "the stick"],
+        52: [image('stick'), None, "A stick", "the stick"],
         53: [image('shears'), None, "A pair of shears", "the shears"],
         54: [image('fish'), None, "A fish", "the fish"],
         55: [image('key_2'), None, "A rusty key", "the key"],
+
+        #speech
+        90: [image('speech'), None, None],
+        91: [image('speech_cat1'), None, None],
+        92: [image('speech_cat2'), None, None],
+        93: [image('speech_fish'), None, None],
+        94: [image('speech_fish2'), None, None],
+        95: [image('speech_jailer'), None, None],
+        96: [image('speech_jailer2'), None, None],
         
         100: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
@@ -927,6 +939,10 @@ inside!"],
         104: [image('achievement_1'), None, None],
         105: [image('achievement_1_2'), None, None],
         106: [image('achievement_2'), None, None],
+
+        120: [image('river_crop'), None, "The river bank"],
+        121: [image('tree_room2_2_crop'), None, "A tree"],
+        122: [image('tree_room6_2_crop'), None, "A tree"],
 
         247: [image('space'), None, "Space"],
 
@@ -1059,7 +1075,7 @@ inside!"],
                 add_object(54)
                 sound('combine')
             else:
-                use_message = "No fishes took the bait"
+                use_message = "No fishes took the bait."
 
         if item_player_is_on == 252 or item_player_is_on == 32:
             if item_carrying == 55:
@@ -1070,6 +1086,26 @@ inside!"],
                 use_message = "You unlocked the fence!"
                 sound('combine')
 
+        if item_player_is_on == 11 and item_carrying == 54: # river cat
+            use_message = "You gave a fish to the cat."
+            remove_object(54)
+            self.river_cat_fish = True
+
+        if item_player_is_on in [9, 10] and item_carrying == 54: # jailer cat
+            use_message = "You gave a fish to the jailer cats."
+            remove_object(54)
+            self.jailer_fish = True
+
+        if item_player_is_on == 33 and item_carrying == 54: # unfriendly cat
+            if self.one_fish == False:
+                self.no_fish = False
+                self.one_fish = True
+            else:
+                self.two_fish = True
+
+            use_message = "You gave a fish to the cats."
+            remove_object(54)
+        
         for recipe in self.RECIPES:
             ingredient1 = recipe[0]
             ingredient2 = recipe[1]
@@ -1101,9 +1137,59 @@ inside!"],
 
         item_player_is_on = get_item_under_player()
 
+        if item_player_is_on == 33: # unfriendly cats
+            if speech_bubble == False:
+                if self.no_fish:
+                    show_text("The cats stare at you but don't say anything.", 1)
+                    return
+                elif self.two_fish:
+                    self.speech_text = 94
+                    add_object(53)
+                elif self.one_fish:
+                    self.speech_text = 93
+
+                self.scenery[current_room].append([90, 15, 0]) # speech bubble
+                self.scenery[current_room].append([self.speech_text, 15, 2])
+                speech_bubble = True
+                text_on_screen = True
+
+        if item_player_is_on == 11: # river cat
+            if speech_bubble == False:
+                if self.river_cat_fish:
+                    self.speech_text = 92
+                else:
+                    self.speech_text = 91
+
+                self.scenery[current_room].append([90, 15, 0]) # speech bubble
+                self.scenery[current_room].append([self.speech_text, 15, 2])
+                self.scenery[current_room].append([120, 14, 0])
+                self.scenery[current_room].append([122, 14, 14])
+                speech_bubble = True
+                text_on_screen = True
+
+        if item_player_is_on in [9, 10]: # jailers
+            if speech_bubble == False:
+                if self.jailer_fish: 
+                    self.speech_text = 96
+                else:
+                    self.speech_text = 95
+
+                self.scenery[current_room].append([90, 15, 0]) # speech bubble
+                self.scenery[current_room].append([self.speech_text, 15, 2])
+                self.scenery[current_room].append([121, 14, 0])
+                speech_bubble = True
+                text_on_screen = True
+                    
+
     def close_textboxes(self):
         global speech_bubble, text_on_screen
-                
+
+        if current_room == 1:
+            self.scenery[current_room].remove([120, 14, 0])
+            self.scenery[current_room].remove([122, 14, 14])
+        if current_room == 2:
+            self.scenery[current_room].remove([121, 14, 0])
+        
         pygame.time.delay(500)
 
 
@@ -1128,7 +1214,7 @@ game_over = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [100, 50]
+in_my_pockets = [100, 50, 54, 54]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
@@ -1326,6 +1412,7 @@ def close_text_boxes():
                 
 def start_room():
     show_text("You are here: " + planet.game_map[current_room][0], 0)
+    show_text("", 1)
 
 def game_loop():
     global player_x, player_y, current_room
