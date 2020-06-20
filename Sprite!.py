@@ -49,7 +49,7 @@ PLAYER = {
         ]
 }
 
-current_room = 9 # Start at 6
+current_room = 8 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -886,7 +886,8 @@ class planet3():
         5: [image('rock_2'), None, "A rock"],
         6: [image('rock_2_long'), None, "A rock"],
         7: [image('spaceship'), None, "Your spaceship"],
-        8: [image('spaceship_dog'), None, "Scout's spaceship! It needs to be attached to mine."],
+        8: [image('spaceship_dog'), None, "Scout's spaceship! \
+It needs to be attached to mine."],
         9: [image('cat_jailer_1'), None, "A cat"],
         10: [image('cat_jailer_2'), None, "A cat"],
         11: [image('cat_river'), None, "A cat"],
@@ -913,6 +914,8 @@ inside!"],
         31: [image('tree_room9_2'), None, "A tree"],
         32: [image('fence_2'), None, "A locked fence"],
         33: [image('cats_unfriendly'), None, "A cat"],
+        34: [image('house'), None, "The villagers' house"],
+        35: [image('spaceships'), None, "You and Scout's spaceship"],
         
         #props
         50: [image('fishing_rod_2'), None, "A fishing rod", "fishing rod"],
@@ -921,6 +924,9 @@ inside!"],
         53: [image('shears'), None, "A pair of shears", "the shears"],
         54: [image('fish'), None, "A fish", "the fish"],
         55: [image('key_2'), None, "A rusty key", "the key"],
+        56: [image('scout'), None, "Scout", "Scout"],
+        57: [image('scout_in_spaceship'), None, "Scout in his spaceship",
+             "Scout's spaceship"],
 
         #speech
         90: [image('speech'), None, None],
@@ -946,12 +952,13 @@ inside!"],
 
         247: [image('space'), None, "Space"],
 
+        251: [image('transparent'), None, "The villagers' house"],
         252: [image('transparent'), None, "A locked fence"],
         253: [image('transparent'), None, "The river bank"],
         254: [image('transparent'), None, "A tree"]
         }
 
-    items_player_may_carry = list(range(50,56)) + [100]
+    items_player_may_carry = list(range(50,58)) + [100]
     items_player_may_stand_on = items_player_may_carry + [0]
 
     #SCENERY#
@@ -1013,9 +1020,10 @@ inside!"],
             [5, 6, 0], [5, 7, 0], [5, 8, 0], [5, 9, 0], [5, 10, 0],
             [5, 11, 0], [5, 12, 0], [5, 13, 0], [5, 14, 0]],
         8: [[4, 5, 0], [6, 15, 0], [8, 10, 10]],
-        9: [[30, 5, 0], [31, 5, 13], [6, 15, 0],
-            [5, 6, 22], [5, 7, 22], [5, 8, 22], [5, 9, 22], [5, 10, 22],
-            [5, 11, 22], [5, 12, 22], [5, 13, 22], [5, 14, 22], [33, 6, 16]]
+        9: [[30, 5, 0], [31, 5, 13], [6, 15, 0], [5, 6, 22], [5, 7, 22],
+            [5, 8, 22], [5, 9, 22], [5, 10, 22], [5, 11, 22], [5, 12, 22],
+            [5, 13, 22], [5, 14, 22], [33, 12, 17], [34, 11, 15],
+            [251, 6, 15], [251, 7, 15], [252, 8, 15], [252, 9, 15], [252, 10, 15]]
         }
 
     #PROPS#
@@ -1027,7 +1035,9 @@ inside!"],
         52: [5, 14, 5], #stick
         53: [0, 0, 0], #shears
         54: [0, 0, 0], #fish
-        55: [3, 9, 4] #key
+        55: [3, 9, 4], #key
+        56: [2, 6, 17], #scout
+        57: [0, 0, 0] #scout and his spaceship
         }
 
     RECIPES = [
@@ -1105,6 +1115,20 @@ inside!"],
 
             use_message = "You gave a fish to the cats."
             remove_object(54)
+
+        if item_player_is_on == 8 and item_carrying == 56:
+            use_message = "You placed Scout in his spaceship"
+            self.scenery[current_room].remove([8, 10, 10])
+            remove_object(56)
+            add_object(57)
+            sound('combine')
+
+        if item_player_is_on == 7 and item_carrying == 57:
+            use_message = "You attached Scout's spaceship to your own"
+            self.scenery[current_room].remove([7, 10, 6])
+            self.scenery[current_room].append([35, 10, 6])     
+            remove_object(57)
+            sound('combine')
         
         for recipe in self.RECIPES:
             ingredient1 = recipe[0]
@@ -1145,6 +1169,7 @@ inside!"],
                 elif self.two_fish:
                     self.speech_text = 94
                     add_object(53)
+                    sound('combine')
                 elif self.one_fish:
                     self.speech_text = 93
 
@@ -1214,7 +1239,7 @@ game_over = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [100, 50, 54, 54]
+in_my_pockets = [100, 50, 54, 54, 56]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
