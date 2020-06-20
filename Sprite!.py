@@ -1,5 +1,6 @@
 import pygame
 import os
+import random
 
 pygame.init()
 pygame.display.set_caption("Sprite!")
@@ -906,13 +907,14 @@ inside!"],
         28: [image('tree_room6_5'), None, "A tree"],
         29: [image('tree_room6_6'), None, "A tree"],
         30: [image('tree_room9_1'), None, "A tree"],
-        31: [image('tree_room9_2'), None, "A tree"], 
+        31: [image('tree_room9_2'), None, "A tree"],
         
         #props
         50: [image('fishing_rod_2'), None, "A fishing rod", "fishing rod"],
         51: [image('string'), None, "A piece of string", "string"],
         52: [image('stick'), None, "A piece of stick", "the stick"],
         53: [image('shears'), None, "A pair of shears", "the shears"],
+        54: [image('fish'), None, "A fish", "the fish"],
         
         100: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
@@ -929,7 +931,7 @@ inside!"],
         254: [image('transparent'), None, "A tree"]
         }
 
-    items_player_may_carry = list(range(50,54)) + [100]
+    items_player_may_carry = list(range(50,55)) + [100]
     items_player_may_stand_on = items_player_may_carry + [0]
 
     #SCENERY#
@@ -1003,7 +1005,8 @@ inside!"],
         50: [0, 0, 0], #fishing rod
         51: [1, 6, 8], #string
         52: [5, 14, 5], #stick
-        53: [2, 11, 20] #shears
+        53: [2, 11, 20], #shears
+        54: [0, 0, 0] #fish
         }
 
     RECIPES = [
@@ -1043,6 +1046,15 @@ inside!"],
             self.scenery[current_room].append([29, 5, 14])
             use_message = "You cut away the twines to reveal a hidden path"
             sound('combine')
+
+        if item_player_is_on == 253 and item_carrying == 50:
+            number = random.choice([1, 2, 3, 4])
+            if number == 1:
+                use_message = "You caught a fish!"
+                add_object(54)
+                sound('combine')
+            else:
+                use_message = "No fishes took the bait"
 
         for recipe in self.RECIPES:
             ingredient1 = recipe[0]
@@ -1102,7 +1114,7 @@ game_over = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [100]
+in_my_pockets = [100, 50]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
