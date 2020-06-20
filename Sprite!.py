@@ -49,7 +49,7 @@ PLAYER = {
         ]
 }
 
-current_room = 3 # Start at 6
+current_room = 9 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -909,6 +909,7 @@ inside!"],
         30: [image('tree_room9_1'), None, "A tree"],
         31: [image('tree_room9_2'), None, "A tree"],
         32: [image('fence_2'), None, "A locked fence"],
+        33: [image('cats_unfriendly'), None, "A cat"],
         
         #props
         50: [image('fishing_rod_2'), None, "A fishing rod", "fishing rod"],
@@ -998,7 +999,7 @@ inside!"],
         8: [[4, 5, 0], [6, 15, 0], [8, 10, 10]],
         9: [[30, 5, 0], [31, 5, 13], [6, 15, 0],
             [5, 6, 22], [5, 7, 22], [5, 8, 22], [5, 9, 22], [5, 10, 22],
-            [5, 11, 22], [5, 12, 22], [5, 13, 22], [5, 14, 22]]
+            [5, 11, 22], [5, 12, 22], [5, 13, 22], [5, 14, 22], [33, 6, 16]]
         }
 
     #PROPS#
