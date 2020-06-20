@@ -1114,6 +1114,7 @@ inside!"],
                 self.two_fish = True
 
             use_message = "You gave a fish to the cats."
+            show_text("", 1)
             remove_object(54)
 
         if item_player_is_on == 8 and item_carrying == 56:
@@ -1350,6 +1351,7 @@ def examine_object():
                 sound('combine')
     
     show_text(description, 0)
+    show_text("", 1)
     pygame.time.delay(500)
 
 #MAKE MAP#
