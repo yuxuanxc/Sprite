@@ -49,7 +49,7 @@ PLAYER = {
         ]
 }
 
-current_room = 4 # Start at 6
+current_room = 3 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -908,6 +908,7 @@ inside!"],
         29: [image('tree_room6_6'), None, "A tree"],
         30: [image('tree_room9_1'), None, "A tree"],
         31: [image('tree_room9_2'), None, "A tree"],
+        32: [image('fence_2'), None, "A locked fence"],
         
         #props
         50: [image('fishing_rod_2'), None, "A fishing rod", "fishing rod"],
@@ -915,6 +916,7 @@ inside!"],
         52: [image('stick'), None, "A piece of stick", "the stick"],
         53: [image('shears'), None, "A pair of shears", "the shears"],
         54: [image('fish'), None, "A fish", "the fish"],
+        55: [image('key_2'), None, "A rusty key", "the key"],
         
         100: [image('letter'), None, "A letter I wrote to myself",
              "letter to self"],
@@ -927,11 +929,12 @@ inside!"],
 
         247: [image('space'), None, "Space"],
 
+        252: [image('transparent'), None, "A locked fence"],
         253: [image('transparent'), None, "The river bank"],
         254: [image('transparent'), None, "A tree"]
         }
 
-    items_player_may_carry = list(range(50,55)) + [100]
+    items_player_may_carry = list(range(50,56)) + [100]
     items_player_may_stand_on = items_player_may_carry + [0]
 
     #SCENERY#
@@ -979,7 +982,7 @@ inside!"],
             [21, 2, 7], [21, 2, 8], [21, 2, 9], [21, 2, 10], [21, 2, 11], 
             [21, 2, 12], [21, 2, 13], [21, 2, 14], [21, 2, 15], [21, 2, 16], 
             [21, 2, 17], [21, 2, 18], [21, 2, 19],  [21, 2, 20], [21, 2, 21],
-            [21, 2, 22]],
+            [21, 2, 22], [32, 9, 0], [252, 6, 0], [252, 7, 0], [252, 8, 0]],
         4: [[12, 15, 0], [14, 15, 8], [29, 5, 14], [254, 1, 14], [254, 2, 14],
             [254, 3, 14], [254, 4, 14], [253, 1, 7], [253, 2, 7],
             [253, 3, 7], [253, 4, 7], [253, 5, 7], [253, 6, 7], [253, 7, 7],
@@ -1005,8 +1008,9 @@ inside!"],
         50: [0, 0, 0], #fishing rod
         51: [1, 6, 8], #string
         52: [5, 14, 5], #stick
-        53: [2, 11, 20], #shears
-        54: [0, 0, 0] #fish
+        53: [0, 0, 0], #shears
+        54: [0, 0, 0], #fish
+        55: [3, 9, 4] #key
         }
 
     RECIPES = [
@@ -1055,6 +1059,15 @@ inside!"],
                 sound('combine')
             else:
                 use_message = "No fishes took the bait"
+
+        if item_player_is_on == 252 or item_player_is_on == 32:
+            if item_carrying == 55:
+                self.scenery[current_room].remove([32, 9, 0])
+                self.scenery[current_room].remove([252, 6, 0])
+                self.scenery[current_room].remove([252, 7, 0])
+                self.scenery[current_room].remove([252, 8, 0])
+                use_message = "You unlocked the fence!"
+                sound('combine')
 
         for recipe in self.RECIPES:
             ingredient1 = recipe[0]
