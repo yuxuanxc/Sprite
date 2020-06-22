@@ -63,8 +63,8 @@ class earth():
 
     #MAP#
 
-    map_width = 4
-    map_height = 3
+    map_width = 1
+    map_height = 1
     map_size = map_width * map_height
 
     game_map = [["Room 0"]]
@@ -79,6 +79,7 @@ class earth():
         0: [image('earth_grass'), None, None],
         1: [image('spaceship_earth'), None, "You and Scout's spaceship"],
         2: [image('scout'), None, "Scout", "Scout"],
+        3: [image('transparent'), None, ""],
         90: [image('speech'), None, None],
 
         100: [image('letter'), None, "A letter I wrote to myself",
@@ -97,7 +98,6 @@ class earth():
         240: [image('space_1to2'), None, "Space"],
         241: [image('space_2to3'), None, "Space"],
         242: [image('space_3'), None, "Space"],
-        254: [image('transparent'), None, ""],
         }
 
     items_player_may_carry = [100]
@@ -105,26 +105,18 @@ class earth():
 
     scenery = {
         #room number: [[object number, y position, x position]...]
-        0: [[1, 9, 9], [2, 10, 10], [254, 10, 8], [254, 11, 9]]
+        0: [[1, 9, 9], [2, 10, 10], [3, 10, 8], [3, 11, 9]]
         }
-
-    #PROPS#
 
     props = {
         #object number: [room, y, x]
         }
 
-    RECIPES = [
-        ]
-
     def get_floor_type(self):
         return 0 # Grass
 
     def close_textboxes(self):
-        global speech_bubble, text_on_screen
-        
         return
-    
 
 class planet1():
     
@@ -1341,7 +1333,7 @@ can_guess = True
 correct_culprit = False
 planet2_completed = False # Start with False
 planet3_completed = False
-game_over = False
+at_earth = False
 
 #IN SPACE#
 in_space_1to2 = False
@@ -1508,7 +1500,7 @@ def generate_map():
 def close_text_boxes():
     global text_on_screen, help_menu, wall_of_achievements, achievement
     global speech_bubble, letter_1
-    global in_space_1to2, in_space_2to3, in_space_3
+    global in_space_1to2, in_space_2to3, in_space_3, at_earth
     
     if help_menu:
         planet.scenery[current_room].remove([101, 15, 0])
@@ -1556,6 +1548,7 @@ def close_text_boxes():
         in_space_3 = False
         text_on_screen = False
         speech_bubble = False
+        at_earth = True
 
     planet.close_textboxes()
 
@@ -1663,9 +1656,6 @@ def game_loop():
         start_room()
         return
 
-    if keys[pygame.K_g]:
-        pick_up_object()
-
     if keys[pygame.K_w] and len(in_my_pockets) > 0:
         selected_item += 1
         if selected_item > len(in_my_pockets) - 1:
@@ -1682,16 +1672,20 @@ def game_loop():
         display_inventory()
         pygame.time.delay(300)
 
-    if keys[pygame.K_d] and item_carrying:
-        drop_object(old_player_y, old_player_x)
+    if not at_earth:
+        if keys[pygame.K_g]:
+            pick_up_object()
+            
+        if keys[pygame.K_d] and item_carrying:
+            drop_object(old_player_y, old_player_x)
 
-    if keys[pygame.K_SPACE]:
-        examine_object()
-        planet.speak()
+        if keys[pygame.K_SPACE]:
+            examine_object()
+            planet.speak()
 
-    if keys[pygame.K_u]:
-        planet.use_object()
-        pygame.time.delay(300)
+        if keys[pygame.K_u]:
+            planet.use_object()
+            pygame.time.delay(300)
 
     if keys[pygame.K_h]:
         if text_on_screen == False:
@@ -1799,9 +1793,6 @@ def draw_player():
                player_x + player_offset_x)   
     
 def draw():
-    if game_over:
-        return
-
     pygame.draw.rect(screen, (0, 128, 0), (0, 100, 690, 450))
 
     screen.set_clip((0, 100, 690, 450))
@@ -1828,9 +1819,6 @@ def draw():
     screen.set_clip(None)
 
 def show_text(text_to_show, line_number):
-    if game_over:
-        return
-
     text_lines = [15, 50]
     myfont = pygame.font.SysFont('Verdana', 20)
     textsurface = myfont.render(text_to_show, False, (0, 255, 0))
@@ -1879,7 +1867,6 @@ def planet_3_to_earth():
     show_text("Press enter to continue your journey~", 1)
     in_space_3 = True
     text_on_screen = True
-    
 
 #mainloop#
     
