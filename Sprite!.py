@@ -89,6 +89,10 @@ class earth():
         104: [image('achievement_1'), None, None],
         105: [image('achievement_1_2'), None, None],
         106: [image('achievement_2'), None, None],
+        107: [image('achievement_1_2_3'), None, None],
+        108: [image('achievement_1_3'), None, None],
+        109: [image('achievement_2_3'), None, None],
+        110: [image('achievement_3'), None, None],
 
         240: [image('space_1to2'), None, "Space"],
         241: [image('space_2to3'), None, "Space"],
@@ -101,7 +105,7 @@ class earth():
 
     scenery = {
         #room number: [[object number, y position, x position]...]
-        0: [[1, 9, 8], [2, 10, 9], [254, 10, 7], [254, 11, 8]]
+        0: [[1, 9, 9], [2, 10, 10], [254, 10, 8], [254, 11, 9]]
         }
 
     #PROPS#
@@ -388,7 +392,7 @@ Needs sulfur to make gunpowder",
             self.props[item_player_is_on][0] = 0
             self.scenery[1].append([251, 11, 6])
 
-        if item_carrying == 35: # use axe
+        elif item_carrying == 35 and item_player_is_on in [12, 13, 14, 254]: # use axe
             if item_player_is_on in [12, 13, 254]:
                 use_message = "You chopped off a piece of log"
                 add_object(44)
@@ -401,13 +405,13 @@ Needs sulfur to make gunpowder",
                 self.scenery[5].append([26, 7, 6])
                 treehouse_destroyed = True
 
-        if item_carrying == 44 and item_player_is_on == 23: # use crafting table
+        elif item_carrying == 44 and item_player_is_on == 23: # use crafting table
             use_message = "You crafted planks from the log"
             add_object(45)
             remove_object(44)
             sound('combine')
 
-        if item_player_is_on in [24, 250]: # broken spaceship
+        elif item_player_is_on in [24, 250] and item_carrying in [38, 40, 45, 47]: # broken spaceship
             if item_carrying == 45: # fix plank
                 use_message = "You fix the plank to the spaceship"
                 self.plank = True
@@ -809,12 +813,6 @@ research papers"],
         if text_on_screen == True:
             use_message = "Please press Enter to continue."
 
-        if item_player_is_on == 100 or item_carrying == 100:
-            if letter_1 == False and text_on_screen == False:
-                self.scenery[current_room].append([102, 15, 0])
-                letter_1 = True
-                text_on_screen = True
-
         if item_player_is_on == 35 and item_carrying == 66:
             use_message = "You used the access card to unlock the door!"
             self.scenery[current_room].remove([35, 3, 9])
@@ -827,14 +825,14 @@ research papers"],
             sound('combine')
             visited_centre = True
 
-        if item_player_is_on == 32 and item_carrying == 67:
+        elif item_player_is_on == 32 and item_carrying == 67:
             use_message = "You used the key to unlock the gate!"
             self.scenery[current_room].remove([32, 6, 0])
             self.scenery[current_room].append([30, 6, 0])
             self.scenery[current_room].append([31, 6, 13])
             sound('combine')
 
-        if item_player_is_on == 29 and item_carrying == 68:
+        elif item_player_is_on == 29 and item_carrying == 68:
             use_message = "You shovel the snow away to reveal a hidden gate"
             self.scenery[current_room].remove([29, 7, 0])
             self.scenery[current_room].append([3, 7, 9])
@@ -844,20 +842,26 @@ research papers"],
             self.scenery[current_room].append([32, 6, 0])
             sound('combine')
 
-        if item_player_is_on == 21 and item_carrying == 69:
+        elif item_player_is_on == 21 and item_carrying == 69:
             use_message = "You add fuel to your spaceship"
             self.scenery[current_room].remove([21, 10, 5])
             self.scenery[current_room].append([65, 10, 5])
             remove_object(69)
             sound('combine')
 
-        if item_player_is_on == 65: # Fixed spaceship
+        elif item_player_is_on == 65: # Fixed spaceship
             use_message = "You're travelling through space!"
             show_text("", 1)
             planet2_completed = True
             letter_1 = False
             speech_bubble = False
             planet_2_to_3()
+
+        elif item_player_is_on == 100 or item_carrying == 100:
+            if letter_1 == False and text_on_screen == False:
+                self.scenery[current_room].append([102, 15, 0])
+                letter_1 = True
+                text_on_screen = True
 
         show_text(use_message, 0)
     
@@ -1034,6 +1038,10 @@ inside!"],
         104: [image('achievement_1'), None, None],
         105: [image('achievement_1_2'), None, None],
         106: [image('achievement_2'), None, None],
+        107: [image('achievement_1_2_3'), None, None],
+        108: [image('achievement_1_3'), None, None],
+        109: [image('achievement_2_3'), None, None],
+        110: [image('achievement_3'), None, None],
 
         120: [image('river_crop'), None, "The river bank"],
         121: [image('tree_room2_2_crop'), None, "A tree"],
@@ -1139,7 +1147,7 @@ inside!"],
 
     def use_object(self):
         global room_map, item_carrying, selected_item, in_my_pockets
-        global text_on_screen, letter_1
+        global text_on_screen, letter_1, planet3_completed
 
         use_message = "You fiddle around with it but don't get anywhere."
         standard_responses = {
@@ -1154,12 +1162,6 @@ inside!"],
         if text_on_screen == True:
             use_message = "Please press Enter to continue."
 
-        if item_player_is_on == 100 or item_carrying == 100:
-            if letter_1 == False and text_on_screen == False:
-                self.scenery[current_room].append([102, 15, 0])
-                letter_1 = True
-                text_on_screen = True
-
         if item_player_is_on == 27 and item_carrying == 53:
             self.scenery[current_room].remove([25, 5, 0])
             self.scenery[current_room].remove([26, 5, 14])
@@ -1169,7 +1171,7 @@ inside!"],
             use_message = "You cut away the twines to reveal a hidden path"
             sound('combine')
 
-        if item_player_is_on == 253 and item_carrying == 50:
+        elif item_player_is_on == 253 and item_carrying == 50:
             number = random.choice([1, 2, 3, 4])
             if number == 1:
                 use_message = "You caught a fish!"
@@ -1178,7 +1180,7 @@ inside!"],
             else:
                 use_message = "No fishes took the bait."
 
-        if item_player_is_on == 252 or item_player_is_on == 32:
+        elif item_player_is_on == 252 or item_player_is_on == 32:
             if item_carrying == 55:
                 self.scenery[current_room].remove([32, 9, 0])
                 self.scenery[current_room].remove([252, 6, 0])
@@ -1187,17 +1189,17 @@ inside!"],
                 use_message = "You unlocked the fence!"
                 sound('combine')
 
-        if item_player_is_on == 11 and item_carrying == 54: # river cat
+        elif item_player_is_on == 11 and item_carrying == 54: # river cat
             use_message = "You gave a fish to the cat."
             remove_object(54)
             self.river_cat_fish = True
 
-        if item_player_is_on in [9, 10] and item_carrying == 54: # jailer cat
+        elif item_player_is_on in [9, 10] and item_carrying == 54: # jailer cat
             use_message = "You gave a fish to the jailer cats."
             remove_object(54)
             self.jailer_fish = True
 
-        if item_player_is_on == 33 and item_carrying == 54: # unfriendly cat
+        elif item_player_is_on == 33 and item_carrying == 54: # unfriendly cat
             if self.one_fish == False:
                 self.no_fish = False
                 self.one_fish = True
@@ -1208,14 +1210,14 @@ inside!"],
             show_text("", 1)
             remove_object(54)
 
-        if item_player_is_on == 8 and item_carrying == 56:
+        elif item_player_is_on == 8 and item_carrying == 56:
             use_message = "You placed Scout in his spaceship"
             self.scenery[current_room].remove([8, 10, 10])
             remove_object(56)
             add_object(57)
             sound('combine')
 
-        if item_player_is_on == 7 and item_carrying == 57:
+        elif item_player_is_on == 7 and item_carrying == 57:
             use_message = "You attached Scout's spaceship to your own"
             self.scenery[current_room].remove([7, 10, 6])
             self.scenery[current_room].append([35, 10, 6])     
@@ -1226,8 +1228,13 @@ inside!"],
             use_message = "You're travelling back to Earth!"
             show_text("", 1)
             planet3_completed = True
-            letter_1 = False
             planet_3_to_earth()
+        
+        elif item_player_is_on == 100 or item_carrying == 100:
+            if letter_1 == False and text_on_screen == False:
+                self.scenery[current_room].append([102, 15, 0])
+                letter_1 = True
+                text_on_screen = True
         
         for recipe in self.RECIPES:
             ingredient1 = recipe[0]
@@ -1331,7 +1338,7 @@ treehouse_destroyed = False
 visited_centre = False
 planet1_completed = False # Start with False
 can_guess = True
-correct_culprit = True
+correct_culprit = False
 planet2_completed = False # Start with False
 planet3_completed = False
 game_over = False
@@ -1343,7 +1350,7 @@ in_space_3 = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [100]
+in_my_pockets = [100, 38, 40, 45, 47]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
@@ -1581,16 +1588,8 @@ def game_loop():
             player_offset_y = 0
     
     # save player's current position
-    if in_space_1to2:
-        old_player_x = 6
-        old_player_y = 11
-    elif in_space_3:
-        old_player_x = 8
-        old_player_y = 10
-        player_direction = "down"
-    else:
-        old_player_x = player_x
-        old_player_y = player_y
+    old_player_x = player_x
+    old_player_y = player_y
 
     keys = pygame.key.get_pressed()
     
@@ -1694,7 +1693,7 @@ def game_loop():
         planet.use_object()
         pygame.time.delay(300)
 
-    if keys[pygame.K_h] and help_menu == False:
+    if keys[pygame.K_h]:
         if text_on_screen == False:
             planet.scenery[current_room].append([101, 15, 0])
             help_menu = True
@@ -1703,20 +1702,32 @@ def game_loop():
         elif text_on_screen:
             show_text("Please press Enter to continue.", 0)
 
-    if keys[pygame.K_a] and wall_of_achievements == False:
+    if keys[pygame.K_a]:
         if text_on_screen == False:
-            if correct_culprit:
-                if treehouse_destroyed == False:
-                    achievement = 105
-                else:
-                    achievement = 106
-            elif planet1_completed:
+            if planet1_completed:
                 if treehouse_destroyed == False:
                     achievement = 104
+            if planet2_completed == True:
+                if correct_culprit:
+                    if treehouse_destroyed:
+                        achievement = 105
+                    else:
+                        achievement = 106
+            if planet3_completed == True:
+                if correct_culprit:
+                    if treehouse_destroyed:
+                        achievement = 109
+                    else:
+                        achievement = 107                        
+                else:
+                    if treehouse_destroyed:
+                        achievement = 110
+                    else:
+                        achievement = 108
             planet.scenery[current_room].append([achievement, 15, 0])
             wall_of_achievements = True
             text_on_screen = True
-        elif text_on_screen:
+        else:
             show_text("Please press Enter to continue.", 0)
 
     if keys[pygame.K_1] or keys[pygame.K_3]:
@@ -1749,7 +1760,17 @@ def game_loop():
         generate_map()
         start_room()
 
-    if room_map[player_y][player_x] not in planet.items_player_may_stand_on:
+    if in_space_1to2:
+        player_x = 6
+        player_y = 11
+    elif in_space_2to3:
+        player_x = 7
+        player_y = 11
+    elif in_space_3:
+        player_x = 9
+        player_y = 10
+        player_direction = "down"
+    elif room_map[player_y][player_x] not in planet.items_player_may_stand_on:
         player_x = old_player_x
         player_y = old_player_y
         player_frame = 0
@@ -1824,7 +1845,7 @@ def planet_1_to_2():
     planet = planet2()
     current_room = 9
     selected_item = 0
-    in_my_pockets = [100]
+    in_my_pockets = [100, 69]
     item_highlighted = 0
     planet.scenery[current_room].append([240, 15, 0])
     show_text("Press enter to continue your journey~", 1)
@@ -1838,7 +1859,7 @@ def planet_2_to_3():
     planet = planet3()
     current_room = 7
     selected_item = 0
-    in_my_pockets = [100]
+    in_my_pockets = [100, 57]
     item_highlighted = 0
     planet.scenery[current_room].append([241, 15, 0])
     show_text("Press enter to continue your journey~", 1)
