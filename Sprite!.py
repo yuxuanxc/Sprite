@@ -49,7 +49,7 @@ PLAYER = {
         ]
 }
 
-current_room = 8 # Start at 6
+current_room = 6 # Start at 6
 player_y, player_x = 8, 9 # Start at 8,9
 player_direction = "up"
 player_frame = 0
@@ -58,6 +58,69 @@ player_offset_x, player_offset_y = 0, 0
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+
+class earth():
+
+    #MAP#
+
+    map_width = 4
+    map_height = 3
+    map_size = map_width * map_height
+
+    game_map = [["Room 0"]]
+
+    game_map += [
+        #["Room name"]
+        ["Earth"] #room 1
+        ]
+
+    objects = {
+        #Object number : [Image, Shadow, Description]
+        0: [image('earth_grass'), None, None],
+        1: [image('spaceship_earth'), None, "You and Scout's spaceship"],
+        2: [image('scout'), None, "Scout", "Scout"],
+        90: [image('speech'), None, None],
+
+        100: [image('letter'), None, "A letter I wrote to myself",
+             "letter to self"],
+        101: [image('help'), None, None],
+        102: [image('letter_1'), None, None],
+        103: [image('wall_of_achievements'), None, None],
+        104: [image('achievement_1'), None, None],
+        105: [image('achievement_1_2'), None, None],
+        106: [image('achievement_2'), None, None],
+
+        240: [image('space_1to2'), None, "Space"],
+        241: [image('space_2to3'), None, "Space"],
+        242: [image('space_3'), None, "Space"],
+        254: [image('transparent'), None, ""],
+        }
+
+    items_player_may_carry = [100]
+    items_player_may_stand_on = items_player_may_carry + [0]
+
+    scenery = {
+        #room number: [[object number, y position, x position]...]
+        0: [[1, 9, 8], [2, 10, 9], [254, 10, 7], [254, 11, 8]]
+        }
+
+    #PROPS#
+
+    props = {
+        #object number: [room, y, x]
+        }
+
+    RECIPES = [
+        ]
+
+    def get_floor_type(self):
+        return 0 # Grass
+
+    def close_textboxes(self):
+        global speech_bubble, text_on_screen
+        
+        return
+    
 
 class planet1():
     
@@ -157,7 +220,8 @@ Needs seashell to make gunpowder",
         50: [image('mixture_3'), None, "Mixture of charcoal and seashell.\
 Needs sulfur to make gunpowder",
              "a mixture"],
-        #52: [image('speech'), None, None], # Changing speech bubble to 90
+
+        # speech
         53: [image('speech_1'), None, None], # raccoon 1
         54: [image('speech_2'), None, None], # baby raccoon
         55: [image('speech_3'), None, None], # baby raccoon
@@ -174,7 +238,9 @@ Needs sulfur to make gunpowder",
         103: [image('wall_of_achievements'), None, None],
         104: [image('achievement_1'), None, None],
 
-        247: [image('space'), None, "Space"],
+        240: [image('space_1to2'), None, "Space"],
+        241: [image('space_2to3'), None, "Space"],
+        242: [image('space_3'), None, "Space"],
         250: [image('transparent'), None,"Not much to see here"],
         251: [image('transparent'), None, "The mountain"],
         252: [image('transparent'), None, "The sea"],
@@ -323,7 +389,7 @@ Needs sulfur to make gunpowder",
             self.scenery[1].append([251, 11, 6])
 
         if item_carrying == 35: # use axe
-            if item_player_is_on in [12, 13]:
+            if item_player_is_on in [12, 13, 254]:
                 use_message = "You chopped off a piece of log"
                 add_object(44)
                 sound('combine')
@@ -476,7 +542,6 @@ class planet2():
 
     mayor_speech_1, mayor_speech_2, mayor_speech_3 = False, False, False
     speech_text = 91
-    visited_centre = False
     
     #MAP#
 
@@ -528,7 +593,7 @@ class planet2():
         22: [image('crowd_1'), None, "A crowd of penguins"],
         23: [image('crowd_2'), None, "A crowd of penguins"],
         24: [image('ice_wall'), None, "Wall made of ice"],
-        25: [image('Ice_wall_1'), None, "Wall made of ice"],
+        25: [image('ice_wall_1'), None, "Wall made of ice"],
         26: [image('ice_wall_long'), None, "Wall made of ice"],
         27: [image('fence'), None, "A fence"],
         28: [image('desk'), None, "A desk"],
@@ -600,7 +665,11 @@ research papers"],
         105: [image('achievement_1_2'), None, None],
         106: [image('achievement_2'), None, None],
 
-        247: [image('space'), None, "Space"],
+        240: [image('space_1to2'), None, "Space"],
+        241: [image('space_2to3'), None, "Space"],
+        242: [image('space_3'), None, "Space"],
+
+        247: [image('transparent'), None, "A trapdoor"],
         248: [image('transparent'), None, "A fence"],
         249: [image('transparent'), None, "An open door"],
         250: [image('transparent'), None, "A machine which is left running"],
@@ -612,7 +681,7 @@ research papers"],
         }
 
     items_player_may_carry = list(range(66, 70))
-    items_player_may_stand_on = items_player_may_carry + [0, 1, 64]
+    items_player_may_stand_on = items_player_may_carry + [0, 1, 64, 247]
 
     #SCENERY#
 
@@ -671,7 +740,8 @@ research papers"],
             [24, 14, 22], [26, 15, 0], [26, 3, 0], [24, 4, 0], [24, 5, 0],
             [24, 6, 0], [24, 12, 0], [24, 13, 0], [24, 14, 0], [58, 6, 1],
             [58, 6, 14], [57, 5, 9], [57, 5, 13], [28, 5, 10], [53, 6, 11],
-            [54, 11, 3], [55, 11, 7], [56, 11, 4], [51, 11, 17], [64, 9, 21]],
+            [54, 11, 3], [55, 11, 7], [56, 11, 4], [51, 11, 17], [64, 9, 21],
+            [247, 8, 21], [247, 7, 21]],
         8: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
             [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
             [24, 14, 0], [24, 4, 22], [24, 5, 22], [24, 6, 22], [24, 7, 22],
@@ -692,7 +762,8 @@ research papers"],
             [3, 8, 0], [3, 9, 0], [3, 10, 0], [3, 11, 0], [3, 12, 0], 
             [3, 13, 0], [3, 14, 0], [4, 15, 0], [3, 6, 22], [3, 7, 22], 
             [3, 8, 22], [3, 9, 22], [3, 10, 22], [3, 11, 22], [3, 12, 22],
-            [3, 13, 22], [3, 14, 22], [90, 15, 0], [91, 15, 2]],
+            [3, 13, 22], [3, 14, 22], [90, 15, 0], [91, 15, 2], [254, 1, 8],
+            [254, 2, 8], [254, 3, 8], [254, 1, 14], [254, 2, 14], [254, 3, 14]],
         10: [[3, 1, 8], [3, 2, 8], [3, 3, 8], [3, 4, 8], [3, 5, 8],
              [3, 6, 8], [3, 7, 8], [3, 8, 8], [3, 9, 8], [3, 10, 8],
              [3, 11, 8], [3, 12, 8], [3, 1, 14], [3, 2, 14], [3, 3, 14],
@@ -722,8 +793,8 @@ research papers"],
     #USE OBJECTS#
 
     def use_object(self):
-        global room_map, item_carrying, selected_item, in_my_pockets
-        global text_on_screen, letter_1
+        global room_map, item_carrying, selected_item, in_my_pockets, visited_centre
+        global text_on_screen, letter_1, speech_bubble
 
         use_message = "You fiddle around with it but don't get anywhere."
         standard_responses = {
@@ -754,7 +825,7 @@ research papers"],
             self.scenery[current_room].append([249, 1, 13])
             self.scenery[current_room].append([249, 2, 13])
             sound('combine')
-            self.visited_centre = True
+            visited_centre = True
 
         if item_player_is_on == 32 and item_carrying == 67:
             use_message = "You used the key to unlock the gate!"
@@ -780,6 +851,14 @@ research papers"],
             remove_object(69)
             sound('combine')
 
+        if item_player_is_on == 65: # Fixed spaceship
+            use_message = "You're travelling through space!"
+            show_text("", 1)
+            planet2_completed = True
+            letter_1 = False
+            speech_bubble = False
+            planet_2_to_3()
+
         show_text(use_message, 0)
     
     def get_floor_type(self):
@@ -796,18 +875,27 @@ research papers"],
 
         item_player_is_on = get_item_under_player()
 
-        if item_player_is_on in [17, 18, 19, 20]: # dialogue with penguins
+        if item_player_is_on in [17, 18, 19]: # dialogue with penguins
             if speech_bubble == False:
-                if self.visited_centre == False:
+                if visited_centre == False:
                     if item_player_is_on == 17:  # fisherman
                         self.speech_text = 97
                     elif item_player_is_on == 18: # scientist
                         self.speech_text = 98
                     elif item_player_is_on == 19: # student
                         self.speech_text = 99
-                    elif item_player_is_on == 20: # mayor
-                        self.speech_text = 92
-                        self.mayor_speech_1 = True
+                    self.scenery[current_room].append([90, 15, 0]) # speech bubble
+                    self.scenery[current_room].append([self.speech_text, 15, 2])
+                    speech_bubble = True
+                    text_on_screen = True
+                else:
+                    return
+
+        if item_player_is_on == 20: # dialogue with mayor
+            if speech_bubble == False:
+                if visited_centre == False:
+                    self.speech_text = 92
+                    self.mayor_speech_1 = True
                     self.scenery[current_room].append([90, 15, 0]) # speech bubble
                     self.scenery[current_room].append([self.speech_text, 15, 2])
                     speech_bubble = True
@@ -855,6 +943,7 @@ class planet3():
     jailer_fish = False
     no_fish = True
     one_fish, two_fish = False, False
+    #speech_text = 0
     
     #MAP#
 
@@ -950,7 +1039,9 @@ inside!"],
         121: [image('tree_room2_2_crop'), None, "A tree"],
         122: [image('tree_room6_2_crop'), None, "A tree"],
 
-        247: [image('space'), None, "Space"],
+        240: [image('space_1to2'), None, "Space"],
+        241: [image('space_2to3'), None, "Space"],
+        242: [image('space_3'), None, "Space"],
 
         251: [image('transparent'), None, "The villagers' house"],
         252: [image('transparent'), None, "A locked fence"],
@@ -1130,6 +1221,13 @@ inside!"],
             self.scenery[current_room].append([35, 10, 6])     
             remove_object(57)
             sound('combine')
+
+        elif item_player_is_on == 35: # Fixed spaceship
+            use_message = "You're travelling back to Earth!"
+            show_text("", 1)
+            planet3_completed = True
+            letter_1 = False
+            planet_3_to_earth()
         
         for recipe in self.RECIPES:
             ingredient1 = recipe[0]
@@ -1220,27 +1318,32 @@ inside!"],
 
 
 #TEXT ON SCREEN#
-text_on_screen = False # Start with True
+text_on_screen = True # Start with True
 help_menu = False
-speech_bubble = False # Start with True
+speech_bubble = True # Start with True
 letter_1 = False
 wall_of_achievements = False
 achievement = 103
 
 #GAME PROGRESS#
-planet = planet3() # Start with planet1()
+planet = planet1() # Start with planet1()
 treehouse_destroyed = False
-planet1_completed = False
+visited_centre = False
+planet1_completed = False # Start with False
 can_guess = True
-correct_culprit = False
-planet2_completed = False
+correct_culprit = True
+planet2_completed = False # Start with False
 planet3_completed = False
-in_space = False
 game_over = False
+
+#IN SPACE#
+in_space_1to2 = False
+in_space_2to3 = False
+in_space_3 = False
 
 #HANDLE OBJECTS#
 
-in_my_pockets = [100, 50, 54, 54, 56]
+in_my_pockets = [100]
 selected_item = 0
 item_carrying = in_my_pockets[selected_item]
 
@@ -1398,7 +1501,7 @@ def generate_map():
 def close_text_boxes():
     global text_on_screen, help_menu, wall_of_achievements, achievement
     global speech_bubble, letter_1
-    global in_space
+    global in_space_1to2, in_space_2to3, in_space_3
     
     if help_menu:
         planet.scenery[current_room].remove([101, 15, 0])
@@ -1423,13 +1526,29 @@ def close_text_boxes():
         wall_of_achievements = False
         text_on_screen = False
 
-    elif in_space:
-        planet.scenery[current_room].remove([247, 15, 0])
+    elif in_space_1to2: #Planet 1 to 2
+        planet.scenery[current_room].remove([240, 15, 0])
         show_text("You have arrived on a new planet!", 0)
         show_text("", 1)
-        in_space = False
+        in_space_1to2 = False
         text_on_screen = True
         speech_bubble = True
+
+    elif in_space_2to3: #Planet 2 to 3
+        planet.scenery[current_room].remove([241, 15, 0])
+        show_text("You have arrived on a new planet!", 0)
+        show_text("", 1)
+        in_space_2to3 = False
+        text_on_screen = False
+        speech_bubble = False
+
+    elif in_space_3: #Planet 3 to Earth
+        planet.scenery[current_room].remove([242, 15, 0])
+        show_text("Well done! You have arrived on Earth!", 0)
+        show_text("Press [A] to view your wall of achievements!", 1)
+        in_space_3 = False
+        text_on_screen = False
+        speech_bubble = False
 
     planet.close_textboxes()
 
@@ -1451,6 +1570,7 @@ def game_loop():
     global help_menu, speech_bubble, letter_1
     global text_on_screen, wall_of_achievements, achievement
     global can_guess, correct_culprit
+    global in_space_1to2, in_space_3
     
     if player_frame > 0:
         player_frame += 1
@@ -1461,9 +1581,13 @@ def game_loop():
             player_offset_y = 0
     
     # save player's current position
-    if in_space:
+    if in_space_1to2:
         old_player_x = 6
         old_player_y = 11
+    elif in_space_3:
+        old_player_x = 8
+        old_player_y = 10
+        player_direction = "down"
     else:
         old_player_x = player_x
         old_player_y = player_y
@@ -1595,8 +1719,8 @@ def game_loop():
         elif text_on_screen:
             show_text("Please press Enter to continue.", 0)
 
-    if keys[pygame.K_1] or keys[pygame.K_3]: 
-        if planet.visited_centre:
+    if keys[pygame.K_1] or keys[pygame.K_3]:
+        if visited_centre:
             planet.scenery[current_room].remove([planet.speech_text, 15, 2])
             planet.scenery[current_room].append([95, 15, 2])
             speech_bubble = True
@@ -1605,7 +1729,7 @@ def game_loop():
             can_guess = False
 
     if keys[pygame.K_2]:
-        if planet.visited_centre:
+        if visited_centre:
             planet.scenery[current_room].remove([planet.speech_text, 15, 2])
             planet.scenery[current_room].append([96, 15, 2])
             speech_bubble = True
@@ -1616,6 +1740,14 @@ def game_loop():
 
     if keys[pygame.K_RETURN]:
         close_text_boxes()
+
+    #TELEPORTER
+    if keys[pygame.K_x]:
+        current_room = int(input("Enter room number:"))
+        player_x = 10
+        player_y = 10
+        generate_map()
+        start_room()
 
     if room_map[player_y][player_x] not in planet.items_player_may_stand_on:
         player_x = old_player_x
@@ -1686,7 +1818,7 @@ def show_text(text_to_show, line_number):
     screen.blit(textsurface,(20, text_lines[line_number]))
 
 def planet_1_to_2():
-    global in_space, text_on_screen, planet, current_room
+    global in_space_1to2, text_on_screen, planet, current_room
     global in_my_pockets, selected_item
     
     planet = planet2()
@@ -1694,10 +1826,39 @@ def planet_1_to_2():
     selected_item = 0
     in_my_pockets = [100]
     item_highlighted = 0
-    planet.scenery[current_room].append([247, 15, 0])
+    planet.scenery[current_room].append([240, 15, 0])
     show_text("Press enter to continue your journey~", 1)
-    in_space = True
+    in_space_1to2 = True
     text_on_screen = True
+
+def planet_2_to_3():
+    global in_space_2to3, text_on_screen, planet, current_room
+    global in_my_pockets, selected_item
+    
+    planet = planet3()
+    current_room = 7
+    selected_item = 0
+    in_my_pockets = [100]
+    item_highlighted = 0
+    planet.scenery[current_room].append([241, 15, 0])
+    show_text("Press enter to continue your journey~", 1)
+    in_space_2to3 = True
+    text_on_screen = True
+
+def planet_3_to_earth():
+    global in_space_3, text_on_screen, planet, current_room
+    global in_my_pockets, selected_item
+    
+    planet = earth()
+    current_room = 0
+    selected_item = 0
+    in_my_pockets = [100]
+    item_highlighted = 0
+    planet.scenery[current_room].append([242, 15, 0])
+    show_text("Press enter to continue your journey~", 1)
+    in_space_3 = True
+    text_on_screen = True
+    
 
 #mainloop#
     
