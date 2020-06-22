@@ -1841,7 +1841,7 @@ def planet_1_to_2():
     in_my_pockets = [100, 69]
     item_highlighted = 0
     planet.scenery[current_room].append([240, 15, 0])
-    show_text("Press enter to continue your journey~", 1)
+    show_text("Press Enter to continue your journey~", 1)
     in_space_1to2 = True
     text_on_screen = True
 
@@ -1855,7 +1855,7 @@ def planet_2_to_3():
     in_my_pockets = [100, 57]
     item_highlighted = 0
     planet.scenery[current_room].append([241, 15, 0])
-    show_text("Press enter to continue your journey~", 1)
+    show_text("Press Enter to continue your journey~", 1)
     in_space_2to3 = True
     text_on_screen = True
 
@@ -1869,7 +1869,7 @@ def planet_3_to_earth():
     in_my_pockets = [100]
     item_highlighted = 0
     planet.scenery[current_room].append([242, 15, 0])
-    show_text("Press enter to continue your journey~", 1)
+    show_text("Press Enter to continue your journey~", 1)
     in_space_3 = True
     text_on_screen = True
 
