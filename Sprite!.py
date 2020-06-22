@@ -118,6 +118,10 @@ class earth():
     def close_textboxes(self):
         return
 
+    def use_object(self):
+        return
+
+
 class planet1():
     
     plank, navigation_system, gunpowder, oxygen_tank = False, False, False, False
@@ -532,7 +536,7 @@ Needs sulfur to make gunpowder",
             self.manual_page2 = False
             text_on_screen = False
                 
-        pygame.time.delay(500)
+        pygame.time.delay(200)
 
 class planet2():
 
@@ -931,7 +935,7 @@ identify the culprit", 0)
             speech_bubble = False
             text_on_screen = False
                 
-        pygame.time.delay(500)
+        pygame.time.delay(200)
 
 class planet3():
 
@@ -1313,7 +1317,7 @@ inside!"],
         if current_room == 2:
             self.scenery[current_room].remove([121, 14, 0])
         
-        pygame.time.delay(500)
+        pygame.time.delay(200)
 
 
 #TEXT ON SCREEN#
@@ -1522,6 +1526,7 @@ def close_text_boxes():
 
     elif wall_of_achievements:
         planet.scenery[current_room].remove([achievement, 15, 0])
+        show_text("", 0)
         wall_of_achievements = False
         text_on_screen = False
 
@@ -1552,7 +1557,7 @@ def close_text_boxes():
 
     planet.close_textboxes()
 
-    pygame.time.delay(500)
+    pygame.time.delay(200)
 
 #GAME LOOP#
                 
@@ -1687,15 +1692,15 @@ def game_loop():
             planet.use_object()
             pygame.time.delay(300)
 
-    if keys[pygame.K_h]:
-        if text_on_screen == False:
-            planet.scenery[current_room].append([101, 15, 0])
-            help_menu = True
-            text_on_screen = True
-            show_text("Help Menu", 0)
-        elif text_on_screen:
-            show_text("Please press Enter to continue.", 0)
-
+        if keys[pygame.K_h]:
+            if text_on_screen == False:
+                planet.scenery[current_room].append([101, 15, 0])
+                help_menu = True
+                text_on_screen = True
+                show_text("Help Menu", 0)
+            elif text_on_screen:
+                show_text("Please press Enter to continue.", 0)
+                
     if keys[pygame.K_a]:
         if text_on_screen == False:
             if planet1_completed:
