@@ -848,7 +848,6 @@ research papers"],
         elif item_player_is_on == 65: # Fixed spaceship
             use_message = "You're travelling through space!"
             show_text("", 1)
-            planet2_completed = True
             letter_1 = False
             speech_bubble = False
             planet_2_to_3()
@@ -1576,6 +1575,7 @@ def game_loop():
     global text_on_screen, wall_of_achievements, achievement
     global can_guess, correct_culprit
     global in_space_1to2, in_space_3
+    global planet2_completed, treehouse_destroyed
     
     if player_frame > 0:
         player_frame += 1
@@ -1706,13 +1706,13 @@ def game_loop():
             if planet1_completed:
                 if treehouse_destroyed == False:
                     achievement = 104
-            if planet2_completed == True:
+            if planet2_completed:
                 if correct_culprit:
                     if treehouse_destroyed:
-                        achievement = 105
-                    else:
                         achievement = 106
-            if planet3_completed == True:
+                    else:
+                        achievement = 105
+            if planet3_completed:
                 if correct_culprit:
                     if treehouse_destroyed:
                         achievement = 109
@@ -1731,22 +1731,30 @@ def game_loop():
 
     if keys[pygame.K_1] or keys[pygame.K_3]:
         if visited_centre:
-            planet.scenery[current_room].remove([planet.speech_text, 15, 2])
-            planet.scenery[current_room].append([95, 15, 2])
-            speech_bubble = True
-            planet.speech_text = 95
-            text_on_screen = True
-            can_guess = False
+            if can_guess:
+                planet.scenery[current_room].remove([planet.speech_text, 15, 2])
+                planet.scenery[current_room].append([95, 15, 2])
+                speech_bubble = True
+                planet.speech_text = 95
+                text_on_screen = True
+                can_guess = False
+                planet2_completed = True
+            else:
+                return        
 
     if keys[pygame.K_2]:
         if visited_centre:
-            planet.scenery[current_room].remove([planet.speech_text, 15, 2])
-            planet.scenery[current_room].append([96, 15, 2])
-            speech_bubble = True
-            planet.speech_text = 96
-            text_on_screen = True
-            can_guess = False
-            correct_culprit = True
+            if can_guess:
+                planet.scenery[current_room].remove([planet.speech_text, 15, 2])
+                planet.scenery[current_room].append([96, 15, 2])
+                speech_bubble = True
+                planet.speech_text = 96
+                text_on_screen = True
+                can_guess = False
+                correct_culprit = True
+                planet2_completed = True
+            else:
+                return
 
     if keys[pygame.K_RETURN]:
         close_text_boxes()
@@ -1867,6 +1875,7 @@ def planet_3_to_earth():
     current_room = 0
     selected_item = 0
     in_my_pockets = [100]
+    at_earth = True
     item_highlighted = 0
     planet.scenery[current_room].append([242, 15, 0])
     show_text("Press Enter to continue your journey~", 1)
