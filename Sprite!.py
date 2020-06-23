@@ -1503,7 +1503,7 @@ def generate_map():
 def close_text_boxes():
     global text_on_screen, help_menu, wall_of_achievements, achievement
     global speech_bubble, letter_1
-    global in_space_1to2, in_space_2to3, in_space_3, at_earth
+    global in_space_1to2, in_space_2to3, in_space_3
     
     if help_menu:
         planet.scenery[current_room].remove([101, 15, 0])
@@ -1552,7 +1552,6 @@ def close_text_boxes():
         in_space_3 = False
         text_on_screen = False
         speech_bubble = False
-        at_earth = True
 
     planet.close_textboxes()
 
@@ -1869,18 +1868,18 @@ def planet_2_to_3():
 
 def planet_3_to_earth():
     global in_space_3, text_on_screen, planet, current_room
-    global in_my_pockets, selected_item
+    global in_my_pockets, selected_item, at_earth
     
     planet = earth()
     current_room = 0
     selected_item = 0
     in_my_pockets = [100]
-    at_earth = True
     item_highlighted = 0
     planet.scenery[current_room].append([242, 15, 0])
     show_text("Press Enter to continue your journey~", 1)
     in_space_3 = True
     text_on_screen = True
+    at_earth = True
 
 #mainloop#
     
