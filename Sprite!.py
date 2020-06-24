@@ -270,8 +270,6 @@ Needs sulfur to make gunpowder",
             [8, 2, 3], [8, 3, 3], [8, 4, 3], [8, 5, 3], [8, 11, 3],
             [8, 12, 3], [8, 13, 3], [8, 14, 3], [10, 1, 3], [10, 15, 3],
             [19, 6, 9], [22, 4, 6], [90, 15, 0], [53, 15, 2]],
-##        3: [[12, 15, 0], [12, 15, 3], [12, 15, 6], [12, 15, 13],
-##            [12, 15, 16], [12, 15, 19], [13, 4, 0]],
         4: [[15, 7, 0], [15, 7, 5], [15, 7, 9], [15, 11, 0], [15, 15, 0],
             [18, 15, 16], [252, 0, 16], [252, 1, 16], [252, 2, 16], [252, 3, 16],
             [252, 4, 16], [252, 5, 16], [252, 6, 16], [252, 7, 16], [252, 8, 16],
@@ -293,7 +291,6 @@ Needs sulfur to make gunpowder",
              [252, 13, 16], [252, 14, 16], [250, 3, 3], [250, 3, 4],
              [250, 3, 5], [250, 3, 6], [250, 4, 3], [250, 4, 4], [250, 4, 5],
              [250, 4, 6]],
-##        9: [[13, 4, 0], [13, 15, 0]],
         10: [[12, 4, 7], [12, 4, 10], [12, 4, 13], [12, 4, 16], [12, 5, 19],
             [12, 15, 7], [12, 15, 10], [12, 15, 13], [12, 15, 16], [12, 14, 19],
             [17, 15, 0], [251, 5, 6], [251, 6, 6], [251, 7, 6], [251, 8, 6],
@@ -304,15 +301,6 @@ Needs sulfur to make gunpowder",
             [12, 4, 0], [12, 4, 3], [12, 4, 6], [12, 4, 13], [12, 4, 16], [12, 4, 19],
             [20, 8, 20], [23, 8, 18], [254, 5, 13], [253, 13, 13], [253, 14, 13],
             [254, 3, 9], [254, 2, 9], [254, 1, 9], [254, 3, 13], [254, 2, 13], [254, 1, 13]]
-##        12: [[12, 4, 0], [12, 4, 3], [12, 4, 6], [12, 4, 13], [12, 4, 16],
-##            [12, 4, 19], [12, 15, 0], [12, 15, 3], [12, 15, 6], [12, 15, 13],
-##            [12, 15, 16], [12, 15, 19], [12, 6, 0], [12, 8, 0], [12, 10, 0],
-##            [12, 12, 0], [12, 14, 0], [12, 6, 19], [12, 8, 19], [12, 10, 19],
-##            [12, 12, 19], [12, 14, 19], [254, 3, 8], [254, 1, 14],
-##            [254, 2, 14], [254, 3, 14], [254, 5, 3], [254, 7, 3],
-##            [254, 9, 3], [254, 13, 3], [254, 5, 19], [254, 7, 19],
-##            [254, 9, 19], [254, 11, 19], [254, 13, 19], [254, 1, 8],
-##            [254, 2, 8]]
         }
 
     #PROPS#
@@ -387,7 +375,7 @@ Needs sulfur to make gunpowder",
             add_object(31)
             sound('combine')
             self.props[item_player_is_on][0] = 0
-            self.scenery[1].append([251, 11, 6])
+            self.scenery[10].append([251, 11, 6])
 
         elif item_carrying == 35 and item_player_is_on in [12, 13, 14, 254]: # use axe
             if item_player_is_on in [12, 13, 254]:
@@ -398,8 +386,8 @@ Needs sulfur to make gunpowder",
                 use_message = "You chopped off a piece of plank"
                 add_object(45)
                 sound('combine')
-                self.scenery[5].remove([14, 7, 6])
-                self.scenery[5].append([26, 7, 6])
+                self.scenery[1].remove([14, 7, 6])
+                self.scenery[1].append([26, 7, 6])
                 treehouse_destroyed = True
 
         elif item_carrying == 44 and item_player_is_on == 23: # use crafting table
@@ -427,8 +415,8 @@ Needs sulfur to make gunpowder",
                 remove_object(38)
             if self.plank == True and self.navigation_system == True and \
             self.gunpowder == True and self.oxygen_tank == True:
-                self.scenery[12].remove([24, 5, 3])
-                self.scenery[12].append([25, 5, 3])
+                self.scenery[8].remove([24, 5, 3])
+                self.scenery[8].append([25, 5, 3])
                 planet1_completed = True
                 if treehouse_destroyed == False:
                     use_message = "You've fixed the spaceship and you can leave the planet!"
