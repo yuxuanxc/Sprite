@@ -132,7 +132,7 @@ class planet1():
     
     #MAP#
 
-    map_width = 4
+    map_width = 3
     map_height = 3
     map_size = map_width * map_height
 
@@ -142,16 +142,12 @@ class planet1():
         #["Room name"]
         ["Raccoon Treehouse"], #room 1
         ["Raccoon House"], #room 2
-        ["None"], #room 3
-        ["Beach"], #room 4
-        ["Jungle"], #room 5
-        ["Jungle"], #room 6
-        ["Jungle meets beach"], #room 7
-        ["Beach"], #room 8
-        ["None"], #room 9
-        ["Base of Mountain"], #room 10
-        ["Raccoon Workshop"], #room 11
-        ["None"] #room 12        
+        ["Beach"], #room 3
+        ["Jungle"], #room 4
+        ["Jungle meets beach"], #room 5
+        ["Beach"], #room 6
+        ["Base of Mountain"], #room 7
+        ["Raccoon Workshop"], #room 8     
         ]
 
     #OBJECTS#
@@ -270,32 +266,31 @@ Needs sulfur to make gunpowder",
             [8, 2, 3], [8, 3, 3], [8, 4, 3], [8, 5, 3], [8, 11, 3],
             [8, 12, 3], [8, 13, 3], [8, 14, 3], [10, 1, 3], [10, 15, 3],
             [19, 6, 9], [22, 4, 6], [90, 15, 0], [53, 15, 2]],
-        4: [[15, 7, 0], [15, 7, 5], [15, 7, 9], [15, 11, 0], [15, 15, 0],
+        3: [[15, 7, 0], [15, 7, 5], [15, 7, 9], [15, 11, 0], [15, 15, 0],
             [18, 15, 16], [252, 0, 16], [252, 1, 16], [252, 2, 16], [252, 3, 16],
             [252, 4, 16], [252, 5, 16], [252, 6, 16], [252, 7, 16], [252, 8, 16],
             [252, 9, 16], [252, 10, 16], [252, 11, 16], [252, 12, 16], [252, 13, 16],
             [252, 14, 16], [253, 8, 0], [253, 9, 0], [253, 10, 0], [253, 12, 0],
             [253, 13, 0], [253, 14, 0], [253, 16, 0]],
-        5: [[12, 3, 0], [12, 5, 0], [12, 7, 0], [12, 9, 0], [12, 11, 0],
+        4: [[12, 3, 0], [12, 5, 0], [12, 7, 0], [12, 9, 0], [12, 11, 0],
             [12, 13, 0], [12, 3, 19], [12, 5, 19], [12, 7, 19], [13, 15, 0],
             [254, 6, 3],[254, 8, 3], [254, 10, 3], [254, 12, 3], [254, 14, 3],
-            [254, 1, 19], [254, 2, 19], [254, 4, 19], [254, 6, 19]],
-        6: [[13, 4, 0], [13, 15, 0], [16, 5, 5]],
-        7: [[4, 15, 13], [3, 15, 16], [12, 15, 0], [12, 15, 3], [12, 15, 6], 
+            [254, 1, 19], [254, 2, 19], [254, 4, 19], [254, 6, 19], [16, 8, 20]],
+        5: [[4, 15, 13], [3, 15, 16], [12, 15, 0], [12, 15, 3], [12, 15, 6], 
             [12, 4, 0], [12, 4, 3], [12, 4, 6], [12, 4, 9], [12, 4, 12],
             [12, 4, 15], [12, 4, 18], [253, 4, 22]],
-        8: [[10, 15, 0], [18, 15, 16], [24, 5, 3], [252, 0, 16],
+        6: [[10, 15, 0], [18, 15, 16], [24, 5, 3], [252, 0, 16],
              [252, 1, 16], [252, 2, 16], [252, 3, 16], [252, 4, 16],
              [252, 5, 16], [252, 6, 16], [252, 7, 16], [252, 8, 16],
              [252, 9, 16], [252, 10, 16], [252, 11, 16], [252, 12, 16],
              [252, 13, 16], [252, 14, 16], [250, 3, 3], [250, 3, 4],
              [250, 3, 5], [250, 3, 6], [250, 4, 3], [250, 4, 4], [250, 4, 5],
              [250, 4, 6]],
-        10: [[12, 4, 7], [12, 4, 10], [12, 4, 13], [12, 4, 16], [12, 5, 19],
+        7: [[12, 4, 7], [12, 4, 10], [12, 4, 13], [12, 4, 16], [12, 5, 19],
             [12, 15, 7], [12, 15, 10], [12, 15, 13], [12, 15, 16], [12, 14, 19],
             [17, 15, 0], [251, 5, 6], [251, 6, 6], [251, 7, 6], [251, 8, 6],
             [251, 9, 6], [251, 10, 6], [251, 12, 6], [251, 13, 6], [251, 14, 6]],
-        11: [[5, 6, 13], [5, 7, 13], [5, 12, 13], [5, 6, 22], [5, 7, 22],
+        8: [[5, 6, 13], [5, 7, 13], [5, 12, 13], [5, 6, 22], [5, 7, 22],
             [5, 8, 22], [5, 9, 22], [5, 10, 22], [5, 11, 22], [5, 12, 22],
             [6, 11, 13], [7, 6, 13], [7, 12, 13], [5, 11, 13], [13, 15, 0],
             [12, 4, 0], [12, 4, 3], [12, 4, 6], [12, 4, 13], [12, 4, 16], [12, 4, 19],
@@ -307,25 +302,25 @@ Needs sulfur to make gunpowder",
 
     props = {
         #object number: [room, y, x]
-        27: [10, 11, 6], # Iron ore rock
+        27: [7, 11, 6], # Iron ore rock
         28: [2, 4, 6], # Charcoal
         29: [2, 4, 5], # Stick
         30: [2, 3, 5], # Stick
         31: [0, 0, 0], # Iron ore
-        32: [5, 10, 4], # Large stone for axe
-        33: [11, 11, 2], # Long stone for pickaxe
+        32: [4, 10, 4], # Large stone for axe
+        33: [8, 11, 2], # Long stone for pickaxe
         34: [0, 0, 0], # Pickaxe
         35: [0, 0, 0], # Axe
-        36: [4, 10, 8], # Seashell
-        37: [4, 8, 9], # Unsealed oxygen tank
+        36: [3, 10, 8], # Seashell
+        37: [3, 8, 9], # Unsealed oxygen tank
         38: [0, 0, 0], # Oxygen tank
-        39: [11, 7, 16], # Sulfur
+        39: [8, 7, 16], # Sulfur
         40: [0, 0, 0], # Gunpowder
-        41: [6, 5, 5], # Sticky goo under sticky plant
-        43: [8, 5, 3], # Manual under broken spaceship
+        41: [4, 8, 20], # Sticky goo under sticky plant
+        43: [6, 5, 3], # Manual under broken spaceship
         44: [0, 0, 0], # Log
         45: [0, 0, 0], # Plank
-        46: [8, 14, 14], # Navigation system missing a piece of magnet
+        46: [6, 14, 14], # Navigation system missing a piece of magnet
         47: [0, 0, 0], # Navigation system
         48: [0, 0, 0], # Sulfur + Seashell mixture
         49: [0, 0, 0], # Sulfur + Charcoal mixture
@@ -375,7 +370,7 @@ Needs sulfur to make gunpowder",
             add_object(31)
             sound('combine')
             self.props[item_player_is_on][0] = 0
-            self.scenery[10].append([251, 11, 6])
+            self.scenery[7].append([251, 11, 6])
 
         elif item_carrying == 35 and item_player_is_on in [12, 13, 14, 254]: # use axe
             if item_player_is_on in [12, 13, 254]:
@@ -415,8 +410,8 @@ Needs sulfur to make gunpowder",
                 remove_object(38)
             if self.plank == True and self.navigation_system == True and \
             self.gunpowder == True and self.oxygen_tank == True:
-                self.scenery[8].remove([24, 5, 3])
-                self.scenery[8].append([25, 5, 3])
+                self.scenery[6].remove([24, 5, 3])
+                self.scenery[6].append([25, 5, 3])
                 planet1_completed = True
                 if treehouse_destroyed == False:
                     use_message = "You've fixed the spaceship and you can leave the planet!"
@@ -464,14 +459,14 @@ Needs sulfur to make gunpowder",
         show_text(use_message, 0)
     
     def get_floor_type(self):
-        if current_room in [4, 8]:
+        if current_room in [3, 6]:
             return 2 # Sand
         else:
             return 0 # Grass
 
     def can_drop(self, old_y, old_x):
         if room_map[old_y][old_x] in [0, 1, 2]:
-            if current_room == 7 and old_x > 17:
+            if current_room == 5 and old_x > 17:
                 return False
             else:
                 return True
