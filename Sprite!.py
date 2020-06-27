@@ -1556,7 +1556,7 @@ def game_loop():
     global player_frame, player_direction
     global help_menu, speech_bubble, letter_1
     global text_on_screen, wall_of_achievements, achievement
-    global can_guess, correct_culprit
+    global correct_culprit, can_guess
     global in_space_1to2, in_space_3
     global planet2_completed, treehouse_destroyed
     
@@ -1711,31 +1711,34 @@ def game_loop():
             text_on_screen = True
         else:
             show_text("Please press Enter to continue.", 0)
+            show_text("", 1)
 
-    if keys[pygame.K_1] or keys[pygame.K_3]:
-        if visited_centre:
-            if can_guess:
-                planet.scenery[current_room].remove([planet.speech_text, 15, 2])
-                planet.scenery[current_room].append([95, 15, 2])
-                speech_bubble = True
-                planet.speech_text = 95
-                text_on_screen = True
-                can_guess = False
-                planet2_completed = True
+    if keys[pygame.K_1] or keys[pygame.K_3]: 
+        if visited_centre and current_room == 5:
+            if text_on_screen:
+                if can_guess:
+                    planet.scenery[current_room].remove([planet.speech_text, 15, 2])
+                    planet.scenery[current_room].append([95, 15, 2])
+                    speech_bubble = True
+                    planet.speech_text = 95
+                    text_on_screen = True
+                    can_guess = False
+                    planet2_completed = True
             else:
                 return        
 
     if keys[pygame.K_2]:
-        if visited_centre:
-            if can_guess:
-                planet.scenery[current_room].remove([planet.speech_text, 15, 2])
-                planet.scenery[current_room].append([96, 15, 2])
-                speech_bubble = True
-                planet.speech_text = 96
-                text_on_screen = True
-                can_guess = False
-                correct_culprit = True
-                planet2_completed = True
+        if visited_centre and current_room == 5:
+            if text_on_screen:
+                if can_guess:
+                    planet.scenery[current_room].remove([planet.speech_text, 15, 2])
+                    planet.scenery[current_room].append([96, 15, 2])
+                    speech_bubble = True
+                    planet.speech_text = 96
+                    text_on_screen = True
+                    can_guess = False
+                    correct_culprit = True
+                    planet2_completed = True
             else:
                 return
 
