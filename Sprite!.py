@@ -244,7 +244,7 @@ Needs sulfur to make gunpowder",
         254: [image('transparent'), None, "A tree with blue leaves"]
         }
 
-    items_player_may_carry = list(range(28, 51))
+    items_player_may_carry = list(range(28, 51)) + [100]
     items_player_may_stand_on = items_player_may_carry + list(range(0, 4))
 
     #SCENERY#
@@ -664,7 +664,7 @@ research papers"],
         254: [image('transparent'), None, "An open gate"]
         }
 
-    items_player_may_carry = list(range(66, 70))
+    items_player_may_carry = list(range(66, 70)) + [100]
     items_player_may_stand_on = items_player_may_carry + [0, 1, 64, 247]
 
     #SCENERY#
@@ -697,7 +697,7 @@ research papers"],
             [251, 7, 3], [251, 7, 4], [251, 8, 2], [251, 8, 3], [251, 8, 4],
             [251, 9, 2], [251, 9, 3], [251, 9, 4], [251, 10, 2], [251, 10, 3],
             [251, 10, 4], [251, 11, 2], [251, 11, 3], [251, 11, 4], [251, 12, 2],
-            [251, 12, 3], [251, 12, 4], ],
+            [251, 12, 3], [251, 12, 4], [36, 15, 9], [37, 15, 13]],
         5: [[24, 4, 0], [24, 5, 0], [24, 6, 0], [24, 7, 0], [24, 8, 0],
             [24, 9, 0], [24, 10, 0], [24, 11, 0], [24, 12, 0], [24, 13, 0],
             [24, 14, 0], [24, 15, 0], [24, 15, 1], [24, 15, 2], [24, 15, 3],
@@ -988,6 +988,7 @@ inside!"],
         33: [image('cats_unfriendly'), None, "A cat"],
         34: [image('house'), None, "The villagers' house"],
         35: [image('spaceships'), None, "You and Scout's spaceship"],
+        36: [image('fence_2_open'), None, "An open fence"],
         
         #props
         50: [image('fishing_rod_2'), None, "A fishing rod", "fishing rod"],
@@ -1165,6 +1166,7 @@ inside!"],
                 self.scenery[current_room].remove([252, 6, 0])
                 self.scenery[current_room].remove([252, 7, 0])
                 self.scenery[current_room].remove([252, 8, 0])
+                self.scenery[current_room].append([36, 6, 0])
                 use_message = "You unlocked the fence!"
                 sound('combine')
 
