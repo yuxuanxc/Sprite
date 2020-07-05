@@ -921,7 +921,7 @@ research papers"],
                     if can_guess:
                         planet.speech_text = 89
                         self.scenery[current_room].append([90, 15, 0]) # speech bubble
-                        self.scenery[current_room].append([self.speech_text, 15, 2])
+                        self.scenery[current_room].append([self.speech_text, 15, 0])
                         speech_bubble = True
                         text_on_screen = True
                     else:
@@ -1523,7 +1523,7 @@ def generate_map():
 
 def close_text_boxes():
     global text_on_screen, help_menu, wall_of_achievements, achievement
-    global speech_bubble, letter_1
+    global speech_bubble, letter_1, can_guess, visited_centre
     global in_space_1to2, in_space_2to3, in_space_3
     
     if help_menu:
@@ -1533,7 +1533,10 @@ def close_text_boxes():
         text_on_screen = False
         
     elif speech_bubble:
-        planet.scenery[current_room].remove([planet.speech_text, 15, 2])
+        if visited_centre and can_guess:
+            planet.scenery[current_room].remove([89, 15, 0])
+        else:
+            planet.scenery[current_room].remove([planet.speech_text, 15, 2])
         planet.scenery[current_room].remove([90, 15, 0]) # remove speech bubble
         speech_bubble = False
         text_on_screen = False
@@ -1754,7 +1757,7 @@ def game_loop():
         if visited_centre and current_room == 5:
             if text_on_screen:
                 if can_guess:
-                    planet.scenery[current_room].remove([planet.speech_text, 15, 2])
+                    planet.scenery[current_room].remove([89, 15, 0])
                     planet.scenery[current_room].append([95, 15, 2])
                     speech_bubble = True
                     planet.speech_text = 95
@@ -1768,7 +1771,7 @@ def game_loop():
         if visited_centre and current_room == 5:
             if text_on_screen:
                 if can_guess:
-                    planet.scenery[current_room].remove([planet.speech_text, 15, 2])
+                    planet.scenery[current_room].remove([89, 15, 0])
                     planet.scenery[current_room].append([96, 15, 2])
                     speech_bubble = True
                     planet.speech_text = 96
