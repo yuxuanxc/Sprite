@@ -159,7 +159,7 @@ objects = {
     13: [image('row_of_trees'), None, "A tree with blue leaves"],
     14: [image('treehouse'), image('treehouse_shadow'), "A treehouse, \
 with a staircase made from wooden planks"],
-    15: [image('palm_tree'), None, "A palm tree"],
+    15: [image('palm_tree'), image('palm_tree_shadow'), "A palm tree"],
     16: [image('sticky_plant'), image('sticky_plant_shadow'), "A sticky plant"],
     17: [image('mountain'), None, "The base of a mountain"],
     18: [image('sea'), None, "The sea"],
@@ -397,7 +397,6 @@ inside!"], #18
     241: [image('transparent'), None, "The sea"],
     242: [image('transparent'), None, "Not much to see here"],
     243: [image('transparent'), None, "A tree with blue leaves"],
-
     244: [image('transparent'), None, "A fence"],
     245: [image('transparent'), None, "An open door"],
     246: [image('transparent'), None, "A machine which is left running"],
@@ -461,7 +460,8 @@ scenery = {
     5: [[12, 3, 0], [12, 5, 0], [12, 7, 0], [12, 9, 0], [12, 11, 0],
         [12, 13, 0], [12, 3, 19], [12, 5, 19], [12, 7, 19], [13, 15, 0],
         [243, 6, 3],[243, 8, 3], [243, 10, 3], [243, 12, 3], [243, 14, 3],
-        [243, 1, 19], [243, 2, 19], [243, 4, 19], [243, 6, 19], [16, 8, 20]],
+        [243, 1, 19], [243, 2, 19], [243, 4, 19], [243, 6, 19], [243, 0, 3],
+        [243, 1, 3], [243, 2, 3], [243, 4, 3], [243, 0, 19], [16, 8, 20]],
     6: [[4, 15, 13], [3, 15, 16], [12, 15, 0], [12, 15, 3], [12, 15, 6], 
         [12, 4, 0], [12, 4, 3], [12, 4, 6], [12, 4, 9], [12, 4, 12],
         [12, 4, 15], [12, 4, 18], [242, 4, 22]],
@@ -1633,7 +1633,6 @@ def draw_shadow(image, y, x):
         (int(top_left_x + (x * TILE_SIZE)),
          int(top_left_y + (y * TILE_SIZE)))
         )
-        
 
 def draw_player():
     player_image = PLAYER[player_direction][player_frame]
