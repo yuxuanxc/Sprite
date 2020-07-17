@@ -90,7 +90,7 @@ MAP_SIZE = MAP_WIDTH * MAP_HEIGHT
 GAME_MAP = [["Room 0 - where unused objects are kept"]]
 
 GAME_MAP += [
-    #["Room name"]
+    #["Room name"] 
     
     #planet 1
     ["Raccoon Treehouse"], #room 1
@@ -164,10 +164,10 @@ with a staircase made from wooden planks"],
     17: [image('mountain'), None, "The base of a mountain"],
     18: [image('sea'), None, "The sea"],
     19: [image('raccoon'), image('raccoon_shadow'), "A friendly raccoon"],
-    20: [image('raccoon_2'), None, "A raccoon skilled at crafting"],
+    20: [image('raccoon_2'), image('raccoon_2_shadow'), "A raccoon skilled at crafting"],
     21: [image('baby_raccoon'), image('baby_raccoon_shadow'), "A baby raccoon"],
     22: [image('fireplace'), None, "A charcoal fireplace"],
-    23: [image('table'), None, "A crafting table"],
+    23: [image('table'), image('table_shadow'), "A crafting table"],
     24: [image('spaceship_broken'), None, "The remains of my spaceship"],
     25: [image('spaceship'), image('spaceship_shadow'), "The spaceship"],
     26: [image('destroyed_treehouse'), image('treehouse_shadow'), "A destroyed tree house"],
@@ -229,51 +229,52 @@ Needs sulfur to make gunpowder",
     70: [image('sea_with_ice_9'), None, None],
     71: [image('sea_with_ice_10'), None, None],
     72: [image('sea_with_ice_11'), None, None],
-    73: [image('penguin_1'), None, "The fisherman"],
-    74: [image('penguin_2'), None, "The scientist"],
-    75: [image('penguin_3'), None, "The student"],
-    76: [image('penguin_mayor'), None, "The Penguin Mayor"],
+    73: [image('penguin_1'), image('penguin_1_shadow'), "The fisherman"],
+    74: [image('penguin_2'), image('penguin_1_shadow'), "The scientist"],
+    75: [image('penguin_3'), image('penguin_3_shadow'), "The student"],
+    76: [image('penguin_mayor'), image('penguin_mayor_shadow'), "The Penguin Mayor"],
     77: [image('spaceship'), image('spaceship_shadow'), "Your spaceship. It needs fuel."],
     78: [image('crowd_1'), None, "A crowd of penguins"],
     79: [image('crowd_2'), None, "A crowd of penguins"],
     80: [image('ice_wall'), None, "Wall made of ice"],
     81: [image('ice_wall_long'), None, "Wall made of ice"],
-    82: [image('fence'), None, "A fence"],
-    83: [image('desk'), None, "A desk"],
+    82: [image('fence'), image('fence_shadow'), "A fence"],
+    83: [image('desk'), image('bed_shadow'), "A desk"],
     84: [image('pile_of_snow'), None, "Pile of snow"],
     85: [image('gate_unlocked_1'), None, "An open gate"],
     86: [image('gate_unlocked_2'), None, "An open gate"],
-    87: [image('gate_locked'), None, "A gate with a padlock"],
+    87: [image('gate_locked'), image('gate_locked_shadow'), "A gate with a padlock"],
     88: [image('ice_wall_short'), None, "Wall made of ice"],
     89: [image('computer'), None, "Row of computers displaying strange \
 images"],
     90: [image('door_closed'), None, "A door which is locked"],
     91: [image('door_open_1'), None, "An open door"],
     92: [image('door_open_2'), None, "An open door"],
-    93: [image('steam_machine'), None, "A machine which is left running"],
+    93: [image('steam_machine'), image('steam_machine_shadow'),
+         "A machine which is left running"],
     94: [image('gate_left'), None, "A gate"],
     95: [image('gate_right'), None, "A gate"],
     96: [image('fishing_rod'), None, "A collection of fishing rods"],
     97: [image('whiteboard'), None, "A whiteboard filled with calculations"],
-    98: [image('shelf_1'), None, "A shelf with assorted items"],
-    99: [image('shelf_2'), None, "A shelf with assorted items"],
+    98: [image('shelf_1'), image('shelf_shadow'), "A shelf with assorted items"],
+    99: [image('shelf_2'), image('shelf_shadow'), "A shelf with assorted items"],
     100: [image('chair'), None, "A chair"],
     101: [image('chair_2'), None, "A chair"],
     102: [image('science_table'), None, "A table full of burning hot \
 science equipment"],
     103: [image('science_table_2'), None, "Home experiments. The \
 equipment is hot!"],
-    104: [image('fishtank'), None, "A fish tank"],
-    105: [image('bed_1'), None, "A bed"],
-    106: [image('bed_2'), None, "A bed"],
-    107: [image('bed_3'), None, "A bed"],
-    108: [image('chair_3'), None, "A chair"],
+    104: [image('fishtank'), image('bed_shadow'), "A fish tank"],
+    105: [image('bed_1'), image('bed_shadow'), "A bed"],
+    106: [image('bed_2'), image('bed_shadow'), "A bed"],
+    107: [image('bed_3'), image('bed_shadow'), "A bed"],
+    108: [image('chair_3'), image('chair_3_shadow'), "A chair"],
     109: [image('chair_4'), None, "A chair"],
     110: [image('chair_5'), None, "A chair"],
     111: [image('table_2'), None, "A table"],
-    112: [image('plant_pot'), None, "A potted plant"],
-    113: [image('cupboard'), None, "Cupboards"],
-    114: [image('shelf_3'), None, "Some cupboards and shelves"],
+    112: [image('plant_pot'), image('plant_pot_shadow'), "A potted plant"],
+    113: [image('cupboard'), image('cupboard_shadow'), "Cupboards"],
+    114: [image('shelf_3'), image('cupboard_shadow'), "Some cupboards and shelves"],
     115: [image('table_3'), None, "A table with matches and fishing hooks"],
     116: [image('chair_6'), None, "A chair"],
     117: [image('research_table_1'), None, "A table full of books and \
@@ -299,62 +300,62 @@ take off."],
     134: [image('speech_student'), None, None],
 
     #planet 3
-    136: [image('floor_tile'), None, None], #0
-    137: [image('tree_room7'), None, "A tree"], #3
-    138: [image('tree_room8'), None, "A tree"], #4
-    139: [image('rock_2'), None, "A rock"], #5
-    140: [image('rock_2_long'), None, "A rock"], #6
-    141: [image('spaceship'), image('spaceship_shadow'), "Your spaceship"], #7
+    136: [image('floor_tile'), None, None], 
+    137: [image('tree_room7'), None, "A tree"], 
+    138: [image('tree_room8'), None, "A tree"], 
+    139: [image('rock_2'), None, "A rock"], 
+    140: [image('rock_2_long'), None, "A rock"], 
+    141: [image('spaceship'), image('spaceship_shadow'), "Your spaceship"], 
     142: [image('spaceship_dog'), None, "Scout's spaceship! \
-It needs to be attached to mine."], #8
-    143: [image('cat_jailer_1'), None, "A cat"], #9
-    144: [image('cat_jailer_2'), None, "A cat"], #10
-    145: [image('cat_river'), None, "A cat"], #11
-    146: [image('river'), None, "The river bank"], #12
-    147: [image('tree_room1'), None, "A tree"], #13
-    148: [image('tree_room4'), None, "A tree"], #14
-    149: [image('tree_2'), None, "A tree"], #15
-    150: [image('wall'), None, "Wooden walls"], #16
-    151: [image('longwall'), None, "Wooden walls"], #17
+It needs to be attached to mine."], 
+    143: [image('cat_jailer_1'), None, "A cat"], 
+    144: [image('cat_jailer_2'), None, "A cat"], 
+    145: [image('cat_river'), None, "A cat"], 
+    146: [image('river'), None, "The river bank"], 
+    147: [image('tree_room1'), None, "A tree"], 
+    148: [image('tree_room4'), None, "A tree"], 
+    149: [image('tree_2'), None, "A tree"], 
+    150: [image('wall'), None, "Wooden walls"], 
+    151: [image('longwall'), None, "Wooden walls"], 
     152: [image('wooden_door'), None, "The door is locked and Scout is \
-inside!"], #18
-    153: [image('tree_room2_1'), None, "A tree"], #19
-    154: [image('tree_room2_2'), None, "A tree"], #20
-    155: [image('maze_fence'), None, "A fence"], #21
-    156: [image('tree_room5'), None, "A tree"], #22
-    157: [image('tree_room6_1'), None, "A tree"], #23
-    158: [image('tree_room6_2'), None, "A tree"], #24
-    159: [image('tree_room6_3'), None, "A tree"], #25
-    160: [image('tree_room6_4'), None, "A tree"], #26
-    161: [image('twine'), None, "A bunch of twines"], #27
-    162: [image('tree_room6_5'), None, "A tree"], #28
-    163: [image('tree_room6_6'), None, "A tree"], #29
-    164: [image('tree_room9_1'), None, "A tree"], #30
-    165: [image('tree_room9_2'), None, "A tree"], #31
-    166: [image('fence_2'), None, "A locked fence"], #32
-    167: [image('cats_unfriendly'), None, "A cat"], #33
-    168: [image('house'), None, "The villagers' house"], #34
-    169: [image('spaceships'), None, "You and Scout's spaceship"], #35
-    170: [image('fence_2_open'), None, "An open fence"], #36
-    171: [image('fishing_rod_2'), None, "A fishing rod", "fishing rod"], #50
-    172: [image('string'), None, "A piece of string", "string"], #51
-    173: [image('stick'), None, "A stick", "the stick"], #52
-    174: [image('shears'), None, "A pair of shears", "the shears"], #53
-    175: [image('fish'), None, "A fish", "the fish"], #54
-    176: [image('key_2'), None, "A rusty key", "the key"], #55
-    177: [image('scout'), None, "Scout", "Scout"], #56
+inside!"], 
+    153: [image('tree_room2_1'), None, "A tree"], 
+    154: [image('tree_room2_2'), None, "A tree"], 
+    155: [image('maze_fence'), None, "A fence"], 
+    156: [image('tree_room5'), None, "A tree"], 
+    157: [image('tree_room6_1'), None, "A tree"], 
+    158: [image('tree_room6_2'), None, "A tree"], 
+    159: [image('tree_room6_3'), None, "A tree"], 
+    160: [image('tree_room6_4'), None, "A tree"], 
+    161: [image('twine'), None, "A bunch of twines"], 
+    162: [image('tree_room6_5'), None, "A tree"], 
+    163: [image('tree_room6_6'), None, "A tree"], 
+    164: [image('tree_room9_1'), None, "A tree"], 
+    165: [image('tree_room9_2'), None, "A tree"], 
+    166: [image('fence_2'), None, "A locked fence"], 
+    167: [image('cats_unfriendly'), None, "A cat"], 
+    168: [image('house'), None, "The villagers' house"], 
+    169: [image('spaceships'), None, "You and Scout's spaceship"], 
+    170: [image('fence_2_open'), None, "An open fence"], 
+    171: [image('fishing_rod_2'), None, "A fishing rod", "fishing rod"], 
+    172: [image('string'), None, "A piece of string", "string"], 
+    173: [image('stick'), None, "A stick", "the stick"], 
+    174: [image('shears'), None, "A pair of shears", "the shears"], 
+    175: [image('fish'), None, "A fish", "the fish"], 
+    176: [image('key_2'), None, "A rusty key", "the key"], 
+    177: [image('scout'), None, "Scout", "Scout"], 
     178: [image('scout_in_spaceship'), None, "Scout in his spaceship",
-         "Scout's spaceship"], #57
-    179: [image('speech'), None, None], #90
-    180: [image('speech_cat1'), None, None], #91
-    181: [image('speech_cat2'), None, None], #92
-    182: [image('speech_fish'), None, None], #93
-    183: [image('speech_fish2'), None, None], #94
-    184: [image('speech_jailer'), None, None], #95
-    185: [image('speech_jailer2'), None, None], #96
-    186: [image('river_crop'), None, "The river bank"], #120
-    187: [image('tree_room2_2_crop'), None, "A tree"], #121
-    188: [image('tree_room6_2_crop'), None, "A tree"], #122
+         "Scout's spaceship"], 
+    179: [image('speech'), None, None], 
+    180: [image('speech_cat1'), None, None], 
+    181: [image('speech_cat2'), None, None], 
+    182: [image('speech_fish'), None, None], 
+    183: [image('speech_fish2'), None, None], 
+    184: [image('speech_jailer'), None, None], 
+    185: [image('speech_jailer2'), None, None], 
+    186: [image('river_crop'), None, "The river bank"], 
+    187: [image('tree_room2_2_crop'), None, "A tree"], 
+    188: [image('tree_room6_2_crop'), None, "A tree"], 
 
     #earth
     189: [image('earth_grass'), None, None],
@@ -362,11 +363,11 @@ inside!"], #18
     191: [image('scout'), None, "Scout", "Scout"],
 
     #extra
-    192: [image('shelf_4'), None, "A bookshelf"],
-    193: [image('bed_4'), None, "A bed"],
-    194: [image('chair_7'), None, "Table and chairs"],
-    195: [image('shelf_5'), None, "A shelf with crafting materials"],
-    196: [image('barrels'), None, "Barrels"],
+    192: [image('shelf_4'), image('shelf_4_shadow'), "A bookshelf"],
+    193: [image('bed_4'), image('shelf_4_shadow'), "A bed"],
+    194: [image('chair_7'), image('chair_7_shadow'), "Table and chairs"],
+    195: [image('shelf_5'), image('shelf_4_shadow'), "A shelf with crafting materials"],
+    196: [image('barrels'), image('barrels_shadow'), "Barrels"],
     197: [image('raccoon_tile'), None, ""],
 
     #general
@@ -584,7 +585,8 @@ scenery = {
          [59, 13, 0], [59, 14, 0], [60, 15, 0], [59, 6, 22], [59, 7, 22], 
          [59, 8, 22], [59, 9, 22], [59, 10, 22], [59, 11, 22], [59, 12, 22],
          [59, 13, 22], [59, 14, 22], [200, 15, 0], [126, 15, 2], [244, 1, 8],
-         [244, 2, 8], [244, 3, 8], [244, 1, 14], [244, 2, 14], [244, 3, 14]],
+         [244, 2, 8], [244, 3, 8], [244, 1, 14], [244, 2, 14], [244, 3, 14],
+         [244, 0, 8]],
     22: [[59, 1, 8], [59, 2, 8], [59, 3, 8], [59, 4, 8], [59, 5, 8],
          [59, 6, 8], [59, 7, 8], [59, 8, 8], [59, 9, 8], [59, 10, 8],
          [59, 11, 8], [59, 12, 8], [59, 1, 14], [59, 2, 14], [59, 3, 14],
@@ -1580,6 +1582,7 @@ def game_loop():
         pickle.dump(props, open(path + "props.dat", "wb"))
         pickle.dump(scenery, open(path + "scenery.dat", "wb"))
         pickle.dump(new_game, open(path + "new_game.dat", "wb"))
+        show_text("Game progress saved.", 0)
 
     if keys[pygame.K_r]:
         new_game = True
@@ -1638,6 +1641,7 @@ def draw_player():
     player_image = PLAYER[player_direction][player_frame]
     draw_image(player_image, player_y + player_offset_y,
                player_x + player_offset_x)
+    
     player_image_shadow = PLAYER_SHADOW[player_direction][player_frame]
     draw_shadow(player_image_shadow, player_y + player_offset_y,
         player_x + player_offset_x)
