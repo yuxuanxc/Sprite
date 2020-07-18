@@ -314,7 +314,7 @@ take off."],
     146: [image('river'), None, "The river bank"], 
     147: [image('tree_room1'), None, "A tree"], 
     148: [image('tree_room4'), None, "A tree"], 
-    149: [image('tree_2'), None, "A tree"], 
+    149: [image('tree_2'), image('tree_2_shadow'), "A tree"], 
     150: [image('wall'), None, "Wooden walls"], 
     151: [image('longwall'), None, "Wooden walls"], 
     152: [image('wooden_door'), None, "The door is locked and Scout is \
