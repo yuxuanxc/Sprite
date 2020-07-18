@@ -54,19 +54,57 @@ PLAYER = {
 PLAYER_SHADOW = {
     "left": [image('astronaut_left_shadow'), image('astronaut_left_1_shadow'),
         image('astronaut_left_2_shadow'), image('astronaut_left_3_shadow'),
-        image('astronaut_left_3_shadow')
+        image('astronaut_left_4_shadow')
         ],
     "right": [image('astronaut_right_shadow'), image('astronaut_right_1_shadow'),
         image('astronaut_right_2_shadow'),
-        image('astronaut_right_3_shadow'), image('astronaut_right_3_shadow')
+        image('astronaut_right_3_shadow'), image('astronaut_right_4_shadow')
         ],
     "up": [image('astronaut_back_shadow'), image('astronaut_back_1_shadow'),
         image('astronaut_back_2_shadow'), image('astronaut_back_3_shadow'),
-        image('astronaut_back_3_shadow')
+        image('astronaut_back_4_shadow')
         ],
     "down": [image('astronaut_front_shadow'), image('astronaut_front_1_shadow'),
         image('astronaut_front_2_shadow'), image('astronaut_front_3_shadow'),
-        image('astronaut_front_3_shadow')
+        image('astronaut_front_4_shadow')
+        ]
+}
+
+PLAYER_DOG = {
+    "left": [image('astronaut_left_dog'), image('astronaut_left_dog_1'),
+        image('astronaut_left_dog_2'), image('astronaut_left_dog_3'),
+        image('astronaut_left_dog_4')
+        ],
+    "right": [image('astronaut_right_dog'), image('astronaut_right_dog_1'),
+        image('astronaut_right_dog_2'), image('astronaut_right_dog_3'),
+        image('astronaut_right_dog_4')
+        ],
+    "up": [image('astronaut_back_dog'), image('astronaut_back_dog_1'),
+        image('astronaut_back_dog_2'), image('astronaut_back_dog_3'),
+        image('astronaut_back_dog_4')
+        ],
+    "down": [image('astronaut_front'), image('astronaut_front_1'),
+        image('astronaut_front_2'), image('astronaut_front_3'),
+        image('astronaut_front_4')
+        ]
+}
+
+PLAYER_DOG_SHADOW = {
+    "left": [image('astronaut_left_dog_s'), image('astronaut_left_dog_1_s'),
+        image('astronaut_left_dog_2_s'), image('astronaut_left_dog_3_s'),
+        image('astronaut_left_dog_4_s')
+        ],
+    "right": [image('astronaut_right_shadow'), image('astronaut_right_1_shadow'),
+        image('astronaut_right_2_shadow'),
+        image('astronaut_right_3_shadow'), image('astronaut_right_4_shadow')
+        ],
+    "up": [image('astronaut_back_shadow'), image('astronaut_back_1_shadow'),
+        image('astronaut_back_2_shadow'), image('astronaut_back_3_shadow'),
+        image('astronaut_back_4_shadow')
+        ],
+    "down": [image('astronaut_front_shadow'), image('astronaut_front_1_shadow'),
+        image('astronaut_front_2_shadow'), image('astronaut_front_3_shadow'),
+        image('astronaut_front_4_shadow')
         ]
 }
 
@@ -80,6 +118,8 @@ PILLARS = {
 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+
+carry_scout = False
 
 #MAP#
 
@@ -1141,12 +1181,14 @@ def get_item_under_player():
     return item_player_is_on
 
 def pick_up_object():
-    global room_map
+    global room_map, carry_scout
     
     item_player_is_on = get_item_under_player()
     if item_player_is_on in items_player_may_carry:
         room_map[player_y][player_x] = get_floor_type()
         add_object(item_player_is_on)
+        if item_player_is_on == 177:
+            carry_scout = True
         show_text("Now carrying " + objects[item_player_is_on][3], 0)
         sound('pickup')
         pygame.time.delay(300)
@@ -1639,11 +1681,15 @@ def draw_shadow(image, y, x):
         )
 
 def draw_player():
-    player_image = PLAYER[player_direction][player_frame]
+    if carry_scout:
+        player_image = PLAYER_DOG[player_direction][player_frame]
+        player_image_shadow = PLAYER_DOG_SHADOW[player_direction][player_frame]
+    else:
+        player_image = PLAYER[player_direction][player_frame]
+        player_image_shadow = PLAYER_SHADOW[player_direction][player_frame]
+
     draw_image(player_image, player_y + player_offset_y,
                player_x + player_offset_x)
-    
-    player_image_shadow = PLAYER_SHADOW[player_direction][player_frame]
     draw_shadow(player_image_shadow, player_y + player_offset_y,
         player_x + player_offset_x)
     
