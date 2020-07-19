@@ -408,8 +408,6 @@ inside!"],
     195: [image('shelf_5'), image('shelf_4_shadow'), "A shelf with crafting materials"],
     196: [image('barrels'), image('barrels_shadow'), "Barrels"],
     197: [image('raccoon_tile'), None, ""],
-    198: [image('speech_mountain'), None, None],
-    199: [image('speech_help'), None, None],
 
     #general
     200: [image('speech'), None, None],
@@ -787,7 +785,7 @@ if new_game:
     game_progress = [True, True, False, False, False, False, False,
                      False, False, False, False, False, False, False]
     planet1_progress = [False, False, False, False,
-                        False, False, False, False, False]
+                        False, False, False]
     planet2_progress = [False, False, False, True, False]
     planet3_progress = [False, False, True, False, False, False, False]
     
@@ -1082,10 +1080,8 @@ def speak():
         if not game_progress[0]:
             if item_player_is_on == 19: # raccoon 1
                 speech_text = 53
-                planet1_progress[8] = True
             elif item_player_is_on == 20: # raccoon 2
                 speech_text = 56
-                planet1_progress[7] = True
             elif item_player_is_on == 21: # baby raccoon
                 speech_text = 54
                 planet1_progress[4] = True
@@ -1289,7 +1285,7 @@ def examine_object():
 #MAKE MAP#
 
 def generate_map():
-    global room_map, top_left_x, top_left_y
+    global room_map, top_left_x, top_left_y, hazard_map
     
     floor_type = get_floor_type()
     
@@ -1327,6 +1323,10 @@ def generate_map():
             for tile_number in range(1, image_width_in_tiles):
                 room_map[prop_y][prop_x + tile_number] = 255
 
+    hazard_map = []
+    for y in range(ROOM_HEIGHT):
+        hazard_map.append([0] * ROOM_WIDTH)
+
 def close_text_boxes():
     global speech_text, game_progress
     global planet1_progress, planet2_progress
@@ -1350,23 +1350,7 @@ def close_text_boxes():
     elif planet1_progress[6]:
         scenery[current_room].remove([52, 15, 0])
         planet1_progress[6] = False
-
-    elif planet1_progress[7]:
-        planet1_progress[7] = False
-        scenery[current_room].remove([speech_text, 15, 2])
-        speech_text = 198
-        scenery[current_room].append([speech_text, 15, 2])
-        pygame.time.delay(200)
-        return
-
-    elif planet1_progress[8]:
-        planet1_progress[8] = False
-        scenery[current_room].remove([speech_text, 15, 2])
-        speech_text = 199
-        scenery[current_room].append([speech_text, 15, 2])
-        pygame.time.delay(200)
-        return
-    
+        
     elif planet2_progress[0]:
         scenery[current_room].remove([speech_text, 15, 2])
         speech_text = 128
@@ -1389,23 +1373,17 @@ def close_text_boxes():
         planet2_progress[4] = False
  
     elif game_progress[1]:
-        if speech_text == 53:
-            scenery[current_room].remove([speech_text, 15, 2])
-            scenery[current_room].append([199, 15, 2])
-            speech_text = 199
+        scenery[current_room].remove([speech_text, 15, 2])    
+        scenery[current_room].remove([200, 15, 0]) # remove speech bubble
 
-        else:
-            scenery[current_room].remove([speech_text, 15, 2])    
-            scenery[current_room].remove([200, 15, 0]) # remove speech bubble
+        if current_room == 25:
+            scenery[current_room].remove([186, 14, 0])
+            scenery[current_room].remove([188, 14, 14])
 
-            if current_room == 25:
-                scenery[current_room].remove([186, 14, 0])
-                scenery[current_room].remove([188, 14, 14])
-
-            if current_room == 26:
-                scenery[current_room].remove([187, 14, 0])
+        if current_room == 26:
+            scenery[current_room].remove([187, 14, 0])
         
-            game_progress[1] = False
+        game_progress[1] = False
 
     elif game_progress[2]:
         scenery[current_room].remove([203, 15, 0])
@@ -1456,6 +1434,7 @@ def close_text_boxes():
 def start_room():
     show_text("You are here: " + GAME_MAP[current_room][0], 0)
     show_text("", 1)
+    hazard_start()
 
 def game_loop():
     global player_x, player_y, current_room
@@ -1511,6 +1490,7 @@ def game_loop():
     if player_x == ROOM_WIDTH: #goes through door on the right
         if game_progress[0]:
             close_text_boxes()
+        pygame.time.set_timer(25, 0)
         current_room += 1
         generate_map()
         player_x = 0
@@ -1522,6 +1502,7 @@ def game_loop():
     if player_x == -1: #goes through door on the left
         if game_progress[0]:
             close_text_boxes()
+        pygame.time.set_timer(25, 0)
         current_room -= 1
         generate_map()
         player_x = ROOM_WIDTH - 1
@@ -1533,6 +1514,7 @@ def game_loop():
     if player_y == ROOM_HEIGHT: #goes through door at the bottom
         if game_progress[0]:
             close_text_boxes()
+        pygame.time.set_timer(25, 0)
         current_room += MAP_WIDTH
         generate_map()
         player_y = 0
@@ -1544,6 +1526,7 @@ def game_loop():
     if player_y == -1: #goes through door at the top
         if game_progress[0]:
             close_text_boxes()
+        pygame.time.set_timer(25, 0)
         current_room -= MAP_WIDTH
         generate_map()
         player_y = ROOM_HEIGHT - 1
@@ -1666,7 +1649,8 @@ def game_loop():
         player_x = 9
         player_y = 10
         player_direction = "down"
-    elif room_map[player_y][player_x] not in items_player_may_stand_on:
+    elif room_map[player_y][player_x] not in items_player_may_stand_on \
+         or hazard_map[player_y][player_x] != 0:
         player_x = old_player_x
         player_y = old_player_y
         player_frame = 0
@@ -1749,6 +1733,10 @@ def draw():
                 if objects[item_here][1] is not None:
                     shadow_image = objects[item_here][1]
                     draw_shadow(shadow_image, y, x)
+
+            hazard_here = hazard_map[y][x]
+            if hazard_here != 0:
+                draw_image(objects[hazard_here][0], y, x)
         
         if (player_y == y):
             draw_player()
@@ -1760,7 +1748,7 @@ def show_text(text_to_show, line_number):
     myfont = pygame.font.SysFont('Verdana', 20)
     textsurface = myfont.render(text_to_show, False, (0, 255, 0))
 
-    pygame.draw.rect(screen, (0, 0, 0), (0, text_lines[line_number], 800, 35))
+    pygame.draw.rect(screen, (0, 0, 0), (0, text_lines[line_number], 690, 35))
     screen.blit(textsurface,(20, text_lines[line_number]))
 
 def planet_1_to_2():
@@ -1818,6 +1806,120 @@ def save_progress():
     pickle.dump(scenery, open(path + "scenery.dat", "wb"))
     pickle.dump(new_game, open(path + "new_game.dat", "wb"))
 
+#health bar#
+
+health = 100
+
+def draw_health():
+    myfont = pygame.font.SysFont('Verdana', 16)
+    textsurface = myfont.render("HEALTH BAR", False, (0, 128, 128))
+
+    screen.blit(textsurface,(570, 570))
+    
+    pygame.draw.rect(screen, BLACK, (570, 600, 100, 20))
+    
+    if health > 0:
+        pygame.draw.rect(screen, (0, 128, 128), (570, 600, health, 20))
+
+def end_the_game(reason):
+    global run
+    
+    show_text(reason, 1)
+    run = False
+    
+#hazards#
+
+hazard_data = {
+    # room number : [[y, x, direction, bounce addition, object]]
+    9: [[10, 15, 3, 2, 11], [9, 20, 1, 2, 11]]
+    }
+
+def deplete_health(penalty):
+    global health, run
+    
+    if not run:
+        return
+    
+    health = health - penalty
+    draw_health()
+    if health < 1:
+        end_the_game("You ran out of health!")
+        
+def hazard_start():
+    global current_room_hazards_list, hazard_map
+    if current_room in hazard_data.keys():
+        current_room_hazards_list = hazard_data[current_room]
+        for hazard in current_room_hazards_list:
+            hazard_y = hazard[0]
+            hazard_x = hazard[1]
+            hazard_map[hazard_y][hazard_x] = hazard[4]
+        pygame.time.set_timer(25, 10)
+
+def hazard_move():
+    global current_room_hazards_list, hazard_data, hazard_map
+    global old_player_x, old_player_y
+
+    if not run:
+        return
+    
+    for hazard in current_room_hazards_list:
+        hazard_y = hazard[0]
+        hazard_x = hazard[1]
+        hazard_direction = hazard[2]
+
+        old_hazard_x = hazard_x
+        old_hazard_y = hazard_y
+        hazard_map[old_hazard_y][old_hazard_x] = 0
+
+        if hazard_direction == 1: #up
+            hazard_y -= 1
+        if hazard_direction == 2: #right
+            hazard_x += 1
+        if hazard_direction == 3: #down
+            hazard_y += 1
+        if hazard_direction == 4: #left
+            hazard_x -= 1
+
+        hazard_should_bounce = False
+
+        if (hazard_y == player_y and hazard_x == player_x) or \
+           (hazard_y == from_player_y and hazard_x == from_player_x
+            and player_frame > 0):
+            deplete_health(10)
+            sound('ouch')
+            hazard_should_bounce = True
+
+        if hazard_x == ROOM_WIDTH:
+            hazard_should_bounce = True
+            hazard_x = ROOM_WIDTH - 1
+        if hazard_x == -1:
+            hazard_should_bounce = True
+            hazard_x = 0
+        if hazard_y == ROOM_HEIGHT:
+            hazard_should_bounce = True
+            hazard_y = ROOM_HEIGHT - 1
+        if hazard_y == -1:
+            hazard_should_bounce = True
+            hazard_y = 0
+
+        if room_map[hazard_y][hazard_x] not in items_player_may_stand_on \
+           or hazard_map[hazard_y][hazard_x] != 0:
+            hazard_should_bounce = True
+
+        if hazard_should_bounce:
+            hazard_y = old_hazard_y
+            hazard_x = old_hazard_x
+            hazard_direction += hazard[3]
+            if hazard_direction > 4:
+                hazard_direction -= 4
+            if hazard_direction < 1:
+                hazard_direction += 4
+            hazard[2] = hazard_direction
+    
+        hazard_map[hazard_y][hazard_x] = hazard[4]
+        hazard[0] = hazard_y
+        hazard[1] = hazard_x
+            
 #mainloop#
     
 clock = pygame.time.Clock()
@@ -1831,9 +1933,14 @@ while run:
     clock.tick(40)
     
     generate_map()
-    draw()
     display_inventory()
     game_loop()
+
+    if pygame.event.get(25):
+        hazard_move()
+
+    draw()
+    draw_health()
     
     pygame.display.update()
 
