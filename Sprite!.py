@@ -94,9 +94,9 @@ PLAYER_DOG_SHADOW = {
         image('astronaut_left_dog_2_s'), image('astronaut_left_dog_3_s'),
         image('astronaut_left_dog_4_s')
         ],
-    "right": [image('astronaut_right_shadow'), image('astronaut_right_1_shadow'),
-        image('astronaut_right_2_shadow'),
-        image('astronaut_right_3_shadow'), image('astronaut_right_4_shadow')
+    "right": [image('astronaut_right_dog_s'), image('astronaut_right_dog_1_s'),
+        image('astronaut_right_dog_2_s'),
+        image('astronaut_right_dog_3_s'), image('astronaut_right_dog_4_s')
         ],
     "up": [image('astronaut_back_shadow'), image('astronaut_back_1_shadow'),
         image('astronaut_back_2_shadow'), image('astronaut_back_3_shadow'),
@@ -812,7 +812,7 @@ player_image = PLAYER[player_direction][player_frame]
 
 def use_object():
     global room_map, item_carrying, selected_item, in_my_pockets
-    global speech_text, game_progress
+    global speech_text, game_progress, carry_scout
     global planet1_progress, planet2_progress, planet3_progress
 
     use_message = "You fiddle with it but nothing happens."
@@ -1004,6 +1004,7 @@ to view it.", 1)
         scenery[current_room].remove([142, 10, 10])
         remove_object(177)
         add_object(178)
+        carry_scout = False
         sound('combine')
 
     elif item_player_is_on == 141 and item_carrying == 178:
