@@ -408,6 +408,8 @@ inside!"],
     195: [image('shelf_5'), image('shelf_4_shadow'), "A shelf with crafting materials"],
     196: [image('barrels'), image('barrels_shadow'), "Barrels"],
     197: [image('raccoon_tile'), None, ""],
+    198: [image('speech_mountain'), None, None],
+    199: [image('speech_help'), None, None],
 
     #general
     200: [image('speech'), None, None],
@@ -765,7 +767,7 @@ RECIPES = [
     [39, 28, 49], # Sulfur + charcoal = Mixture 2
     [49, 36, 40], # Mixture 2 + Seashell = Gunpowder
     [28, 36, 50], # Charcoal + Seashell = Mixture 3
-    [50, 39, 40], # Mixtur,e 3 + Sulfur = Gunpowder
+    [50, 39, 40], # Mixture 3 + Sulfur = Gunpowder
     [172, 173, 171] # Planet 3 Fishing rod
     ]
 
@@ -785,7 +787,7 @@ if new_game:
     game_progress = [True, True, False, False, False, False, False,
                      False, False, False, False, False, False, False]
     planet1_progress = [False, False, False, False,
-                        False, False, False]
+                        False, False, False, False, False]
     planet2_progress = [False, False, False, True, False]
     planet3_progress = [False, False, True, False, False, False, False]
     
@@ -1080,8 +1082,10 @@ def speak():
         if not game_progress[0]:
             if item_player_is_on == 19: # raccoon 1
                 speech_text = 53
+                planet1_progress[8] = True
             elif item_player_is_on == 20: # raccoon 2
                 speech_text = 56
+                planet1_progress[7] = True
             elif item_player_is_on == 21: # baby raccoon
                 speech_text = 54
                 planet1_progress[4] = True
@@ -1211,9 +1215,9 @@ def display_inventory():
     if len(in_my_pockets) == 0:
         return
 
-    start_display = (selected_item // 14) * 14
-    list_to_show = in_my_pockets[start_display : start_display + 14]
-    selected_marker = selected_item % 14
+    start_display = (selected_item // 11) * 11
+    list_to_show = in_my_pockets[start_display : start_display + 11]
+    selected_marker = selected_item % 11
 
     for item_counter in range(len(list_to_show)):
         item_number = list_to_show[item_counter]
@@ -1350,6 +1354,22 @@ def close_text_boxes():
     elif planet1_progress[6]:
         scenery[current_room].remove([52, 15, 0])
         planet1_progress[6] = False
+
+    elif planet1_progress[7]:
+        planet1_progress[7] = False
+        scenery[current_room].remove([speech_text, 15, 2])
+        speech_text = 198
+        scenery[current_room].append([speech_text, 15, 2])
+        pygame.time.delay(200)
+        return
+
+    elif planet1_progress[8]:
+        planet1_progress[8] = False
+        scenery[current_room].remove([speech_text, 15, 2])
+        speech_text = 199
+        scenery[current_room].append([speech_text, 15, 2])
+        pygame.time.delay(200)
+        return
         
     elif planet2_progress[0]:
         scenery[current_room].remove([speech_text, 15, 2])
@@ -1373,17 +1393,23 @@ def close_text_boxes():
         planet2_progress[4] = False
  
     elif game_progress[1]:
-        scenery[current_room].remove([speech_text, 15, 2])    
-        scenery[current_room].remove([200, 15, 0]) # remove speech bubble
+        if speech_text == 53:
+            scenery[current_room].remove([speech_text, 15, 2])
+            scenery[current_room].append([199, 15, 2])
+            speech_text = 199
 
-        if current_room == 25:
-            scenery[current_room].remove([186, 14, 0])
-            scenery[current_room].remove([188, 14, 14])
+        else:
+            scenery[current_room].remove([speech_text, 15, 2])    
+            scenery[current_room].remove([200, 15, 0]) # remove speech bubble
 
-        if current_room == 26:
-            scenery[current_room].remove([187, 14, 0])
+            if current_room == 25:
+                scenery[current_room].remove([186, 14, 0])
+                scenery[current_room].remove([188, 14, 14])
+
+            if current_room == 26:
+                scenery[current_room].remove([187, 14, 0])
         
-        game_progress[1] = False
+            game_progress[1] = False
 
     elif game_progress[2]:
         scenery[current_room].remove([203, 15, 0])
@@ -1811,7 +1837,7 @@ def save_progress():
 health = 100
 
 def draw_health():
-    myfont = pygame.font.SysFont('Verdana', 16)
+    myfont = pygame.font.SysFont('segoeuiblack', 16)
     textsurface = myfont.render("HEALTH BAR", False, (0, 128, 128))
 
     screen.blit(textsurface,(570, 570))
@@ -1823,7 +1849,7 @@ def draw_health():
 
 def end_the_game(reason):
     global run
-    
+
     show_text(reason, 1)
     run = False
     
@@ -1944,4 +1970,5 @@ while run:
     
     pygame.display.update()
 
+pygame.time.delay(1000)
 pygame.quit()
