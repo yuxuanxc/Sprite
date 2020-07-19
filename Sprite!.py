@@ -119,8 +119,6 @@ PILLARS = {
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
-carry_scout = False
-
 #MAP#
 
 MAP_WIDTH = 4
@@ -787,7 +785,7 @@ if new_game:
     planet1_progress = [False, False, False, False,
                         False, False, False]
     planet2_progress = [False, False, False, True, False]
-    planet3_progress = [False, False, True, False, False, False]
+    planet3_progress = [False, False, True, False, False, False, False]
     
 else:  
     current_room = pickle.load(open(path + "current_room.dat", "rb"))
@@ -812,7 +810,7 @@ player_image = PLAYER[player_direction][player_frame]
 
 def use_object():
     global room_map, item_carrying, selected_item, in_my_pockets
-    global speech_text, game_progress, carry_scout
+    global speech_text, game_progress
     global planet1_progress, planet2_progress, planet3_progress
 
     use_message = "You fiddle with it but nothing happens."
@@ -1004,7 +1002,7 @@ to view it.", 1)
         scenery[current_room].remove([142, 10, 10])
         remove_object(177)
         add_object(178)
-        carry_scout = False
+        planet3_progress[6] = False
         sound('combine')
 
     elif item_player_is_on == 141 and item_carrying == 178:
@@ -1182,14 +1180,14 @@ def get_item_under_player():
     return item_player_is_on
 
 def pick_up_object():
-    global room_map, carry_scout
+    global room_map
     
     item_player_is_on = get_item_under_player()
     if item_player_is_on in items_player_may_carry:
         room_map[player_y][player_x] = get_floor_type()
         add_object(item_player_is_on)
         if item_player_is_on == 177:
-            carry_scout = True
+            planet3_progress[6] = True
         show_text("Now carrying " + objects[item_player_is_on][3], 0)
         sound('pickup')
         pygame.time.delay(300)
@@ -1403,6 +1401,7 @@ def close_text_boxes():
         game_progress[10] = False
         game_progress[1] = True
         game_progress[0] = True
+        save_progress()
         pygame.time.delay(200)
         return
 
@@ -1411,12 +1410,14 @@ def close_text_boxes():
         show_text("You have arrived on a new planet!", 0)
         show_text("", 1)
         game_progress[11] = False
+        save_progress()
 
     elif game_progress[12]: #Planet 3 to Earth
         scenery[current_room].remove([214, 15, 0])
         show_text("Well done! You have arrived on Earth!", 0)
         show_text("Press [A] to view your wall of achievements!", 1)
         game_progress[12] = False
+        save_progress()
 
     game_progress[0] = False
     
@@ -1611,21 +1612,7 @@ def game_loop():
         close_text_boxes()
 
     if keys[pygame.K_s]:
-        new_game = False
-        pickle.dump(current_room, open(path + "current_room.dat", "wb"))
-        pickle.dump(player_y, open(path + "player_y.dat", "wb"))
-        pickle.dump(player_x, open(path + "player_x.dat", "wb"))
-        pickle.dump(player_direction, open(path + "player_direction.dat", "wb"))
-        pickle.dump(achievement, open(path + "achievement.dat", "wb"))
-        pickle.dump(speech_text, open(path + "speech_text.dat", "wb"))
-        pickle.dump(in_my_pockets, open(path + "in_my_pockets.dat", "wb"))
-        pickle.dump(game_progress, open(path + "game_progress.dat", "wb"))
-        pickle.dump(planet1_progress, open(path + "planet1_progress.dat", "wb"))
-        pickle.dump(planet2_progress, open(path + "planet2_progress.dat", "wb"))
-        pickle.dump(planet3_progress, open(path + "planet3_progress.dat", "wb"))
-        pickle.dump(props, open(path + "props.dat", "wb"))
-        pickle.dump(scenery, open(path + "scenery.dat", "wb"))
-        pickle.dump(new_game, open(path + "new_game.dat", "wb"))
+        save_progress()
         show_text("Game progress saved.", 0)
 
     if keys[pygame.K_r]:
@@ -1682,7 +1669,7 @@ def draw_shadow(image, y, x):
         )
 
 def draw_player():
-    if carry_scout:
+    if planet3_progress[6]:
         player_image = PLAYER_DOG[player_direction][player_frame]
         player_image_shadow = PLAYER_DOG_SHADOW[player_direction][player_frame]
     else:
@@ -1785,6 +1772,23 @@ def planet_3_to_earth():
     game_progress[12] = True
     game_progress[0] = True
     game_progress[13] = True
+
+def save_progress():
+    new_game = False
+    pickle.dump(current_room, open(path + "current_room.dat", "wb"))
+    pickle.dump(player_y, open(path + "player_y.dat", "wb"))
+    pickle.dump(player_x, open(path + "player_x.dat", "wb"))
+    pickle.dump(player_direction, open(path + "player_direction.dat", "wb"))
+    pickle.dump(achievement, open(path + "achievement.dat", "wb"))
+    pickle.dump(speech_text, open(path + "speech_text.dat", "wb"))
+    pickle.dump(in_my_pockets, open(path + "in_my_pockets.dat", "wb"))
+    pickle.dump(game_progress, open(path + "game_progress.dat", "wb"))
+    pickle.dump(planet1_progress, open(path + "planet1_progress.dat", "wb"))
+    pickle.dump(planet2_progress, open(path + "planet2_progress.dat", "wb"))
+    pickle.dump(planet3_progress, open(path + "planet3_progress.dat", "wb"))
+    pickle.dump(props, open(path + "props.dat", "wb"))
+    pickle.dump(scenery, open(path + "scenery.dat", "wb"))
+    pickle.dump(new_game, open(path + "new_game.dat", "wb"))
 
 #mainloop#
     
