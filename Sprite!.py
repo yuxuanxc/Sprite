@@ -1655,7 +1655,7 @@ def game_loop():
     if keys[pygame.K_r]:
         new_game = True
         pickle.dump(new_game, open(path + "new_game.dat", "wb"))
-        pygame.quit()
+        end_the_game("Game restarting")
 
     #TELEPORTER
     if keys[pygame.K_x]:
@@ -1847,6 +1847,12 @@ def draw_health():
     if health > 0:
         pygame.draw.rect(screen, (0, 128, 128), (570, 600, health, 20))
 
+def replenish_health():
+    global health
+    
+    if health < 96:
+        health += 5
+        
 def end_the_game(reason):
     global run
 
@@ -1857,7 +1863,8 @@ def end_the_game(reason):
 
 hazard_data = {
     # room number : [[y, x, direction, bounce addition, object]]
-    9: [[10, 15, 3, 2, 11], [9, 20, 1, 2, 11]]
+    9: [[10, 17, 3, 2, 11], [9, 20, 1, 2, 11], [12, 14, 3, 2, 11],
+        [8, 11, 1, 2, 11]]
     }
 
 def deplete_health(penalty):
@@ -1879,7 +1886,7 @@ def hazard_start():
             hazard_y = hazard[0]
             hazard_x = hazard[1]
             hazard_map[hazard_y][hazard_x] = hazard[4]
-        pygame.time.set_timer(25, 10)
+        pygame.time.set_timer(25, 50)
 
 def hazard_move():
     global current_room_hazards_list, hazard_data, hazard_map
@@ -1949,6 +1956,8 @@ def hazard_move():
 #mainloop#
     
 clock = pygame.time.Clock()
+pygame.time.set_timer(26, 5000) #replenish health
+    
 run = True
 while run:
     
@@ -1956,7 +1965,7 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    clock.tick(40)
+    clock.tick(20)
     
     generate_map()
     display_inventory()
@@ -1964,6 +1973,8 @@ while run:
 
     if pygame.event.get(25):
         hazard_move()
+    if pygame.event.get(26):
+        replenish_health()
 
     draw()
     draw_health()
