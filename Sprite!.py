@@ -1837,12 +1837,12 @@ def save_progress():
 health = 100
 
 def draw_health():
-    myfont = pygame.font.SysFont('segoeuiblack', 16)
-    textsurface = myfont.render("HEALTH BAR", False, (0, 200, 0))
+    myfont = pygame.font.SysFont('Verdana', 20)
+    textsurface = myfont.render("Health", False, (0, 255, 0))
 
     screen.blit(textsurface,(570, 570))
     
-    pygame.draw.rect(screen, (200, 0, 100), (565, 595, 110, 30))
+    pygame.draw.rect(screen, (255, 255, 255), (565, 595, 110, 30))
     pygame.draw.rect(screen, BLACK, (570, 600, 100, 20))
     
     if health > 0:
