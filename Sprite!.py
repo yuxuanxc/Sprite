@@ -1838,14 +1838,15 @@ health = 100
 
 def draw_health():
     myfont = pygame.font.SysFont('segoeuiblack', 16)
-    textsurface = myfont.render("HEALTH BAR", False, (0, 128, 128))
+    textsurface = myfont.render("HEALTH BAR", False, (0, 200, 0))
 
     screen.blit(textsurface,(570, 570))
     
+    pygame.draw.rect(screen, (200, 0, 100), (565, 595, 110, 30))
     pygame.draw.rect(screen, BLACK, (570, 600, 100, 20))
     
     if health > 0:
-        pygame.draw.rect(screen, (0, 128, 128), (570, 600, health, 20))
+        pygame.draw.rect(screen, (0, 200, 0), (570, 600, health, 20))
 
 def replenish_health():
     global health
