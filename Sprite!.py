@@ -1922,7 +1922,7 @@ def hazard_start():
             hazard_y = hazard[0]
             hazard_x = hazard[1]
             hazard_map[hazard_y][hazard_x] = hazard[4]
-        pygame.time.set_timer(25, 50)
+        pygame.time.set_timer(25, 40)
 
 def hazard_move():
     global current_room_hazards_list, hazard_data, hazard_map
