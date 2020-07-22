@@ -1678,7 +1678,7 @@ def game_loop():
 
     if keys[pygame.K_s]:
         save_progress()
-        show_text("Game progress saved.", 0)
+        show_text("Game progress saved.", 1)
 
     if keys[pygame.K_r]:
         new_game = True
