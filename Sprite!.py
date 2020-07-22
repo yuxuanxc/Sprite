@@ -108,6 +108,25 @@ PLAYER_DOG_SHADOW = {
         ]
 }
 
+PLAYER_FISH = {
+    "left": [image('astronaut_fishing'), image('astronaut_left_1'),
+        image('astronaut_left_2'), image('astronaut_left_3'),
+        image('astronaut_left_4')
+        ],
+    "right": [image('astronaut_right'), image('astronaut_right_1'),
+        image('astronaut_right_2'), image('astronaut_right_3'),
+        image('astronaut_right_4')
+        ],
+    "up": [image('astronaut_back'), image('astronaut_back_1'),
+        image('astronaut_back_2'), image('astronaut_back_3'),
+        image('astronaut_back_4')
+        ],
+    "down": [image('astronaut_front'), image('astronaut_front_1'),
+        image('astronaut_front_2'), image('astronaut_front_3'),
+        image('astronaut_front_4')
+        ]
+}
+
 player_image_shadow = PLAYER_SHADOW["up"][0]
 
 PILLARS = {
@@ -336,6 +355,7 @@ take off."],
     132: [image('speech_fisherman'), None, None],
     133: [image('speech_scientist'), None, None],
     134: [image('speech_student'), None, None],
+    135: [image('hazard'), None, None],
 
     #planet 3
     136: [image('floor_tile'), None, None], 
@@ -567,7 +587,7 @@ scenery = {
          [247, 7, 3], [247, 7, 4], [247, 8, 2], [247, 8, 3], [247, 8, 4],
          [247, 9, 2], [247, 9, 3], [247, 9, 4], [247, 10, 2], [247, 10, 3],
          [247, 10, 4], [247, 11, 2], [247, 11, 3], [247, 11, 4], [247, 12, 2],
-         [247, 12, 3], [247, 12, 4],  [119, 13, 5]],
+         [247, 12, 3], [247, 12, 4], [119, 13, 5]],
     17: [[80, 4, 0], [80, 5, 0], [80, 6, 0], [80, 7, 0], [80, 8, 0],
          [80, 9, 0], [80, 10, 0], [80, 11, 0], [80, 12, 0], [80, 13, 0],
          [80, 14, 0], [80, 15, 0], [80, 15, 1], [80, 15, 2], [80, 15, 3],
@@ -620,7 +640,7 @@ scenery = {
          [247, 7, 20], [247, 8, 18], [247, 8, 19], [247, 8, 20],
          [247, 9, 18], [247, 9, 19], [247, 9, 20], [247, 10, 18],
          [247, 10, 19], [247, 10, 20], [247, 11, 18], [247, 11, 19],
-         [247, 11, 20], [247, 12, 18], [247, 12, 19], [247, 12, 20]],
+         [247, 11, 20], [247, 12, 18], [247, 12, 19], [247, 12, 20], [119, 13, 5]],
     21: [[77, 10, 5], [94, 5, 0], [95, 5, 14], [59, 6, 0], [59, 7, 0],
          [59, 8, 0], [59, 9, 0], [59, 10, 0], [59, 11, 0], [59, 12, 0], 
          [59, 13, 0], [59, 14, 0], [60, 15, 0], [59, 6, 22], [59, 7, 22], 
@@ -789,7 +809,8 @@ if new_game:
     planet1_progress = [False, False, False, False,
                         False, False, False, False, False]
     planet2_progress = [False, False, False, True, False]
-    planet3_progress = [False, False, True, False, False, False, False]
+    planet3_progress = [False, False, True, False, False, False, False,
+                        False]
     
 else:  
     current_room = pickle.load(open(path + "current_room.dat", "rb"))
@@ -959,16 +980,21 @@ to view it.", 1)
         sound('combine')
 
     elif item_player_is_on == 253 and item_carrying == 171:
-        number = random.choice(range(1, 10))
-        limit = random.choice(range(4, 7))
-        count = 0
-        if number == 1 or count > limit:
-            use_message = "You caught a fish!"
-            add_object(175)
-            sound('combine')
+        if planet3_progress[6]:
+            use_message = "You can't fish right now!" 
+            return
         else:
-            use_message = "No fishes took the bait."
-            count += 1
+            planet3_progress[7] = True
+            number = random.choice(range(1, 10))
+            limit = random.choice(range(4, 7))
+            count = 0
+            if number == 1 or count > limit:
+                use_message = "You caught a fish!"
+                add_object(175)
+                sound('combine')
+            else:
+                use_message = "No fishes took the bait."
+                count += 1
 
     elif item_player_is_on == 252 or item_player_is_on == 166:
         if item_carrying == 176:
@@ -1001,7 +1027,7 @@ to view it.", 1)
         show_text("", 1)
         remove_object(175)
 
-    elif item_player_is_on == 142 and item_carrying == 177:
+    elif item_player_is_on == 142 and planet3_progress[6]:
         use_message = "You placed Scout in his spaceship"
         scenery[current_room].remove([142, 10, 10])
         remove_object(177)
@@ -1063,7 +1089,9 @@ def get_floor_type():
         return 189 # Earth grass
 
 def can_drop(old_y, old_x):
-    if room_map[old_y][old_x] in [0, 1, 2, 57, 58, 136]:
+    if item_carrying == 177:
+        return False
+    elif room_map[old_y][old_x] in [0, 1, 2, 57, 58, 136]:
         if current_room == 6 and old_x > 17:
             return False
         else:
@@ -1710,6 +1738,9 @@ def draw_player():
     if planet3_progress[6]:
         player_image = PLAYER_DOG[player_direction][player_frame]
         player_image_shadow = PLAYER_DOG_SHADOW[player_direction][player_frame]
+    elif planet3_progress[7]:
+        player_image = PLAYER_FISH[player_direction][player_frame]
+        player_image_shadow = PLAYER_SHADOW[player_direction][player_frame]
     else:
         player_image = PLAYER[player_direction][player_frame]
         player_image_shadow = PLAYER_SHADOW[player_direction][player_frame]
@@ -1718,6 +1749,8 @@ def draw_player():
                player_x + player_offset_x)
     draw_shadow(player_image_shadow, player_y + player_offset_y,
         player_x + player_offset_x)
+
+    planet3_progress[7] = False
     
 def draw():
     
@@ -1865,7 +1898,9 @@ def end_the_game(reason):
 hazard_data = {
     # room number : [[y, x, direction, bounce addition, object]]
     9: [[10, 17, 3, 2, 11], [9, 20, 1, 2, 11], [12, 14, 3, 2, 11],
-        [8, 11, 1, 2, 11]]
+        [8, 11, 1, 2, 11]],
+    20: [[5, 13, 2, 2, 135], [7, 17, 2, 2, 135], [10, 8, 2, 2, 135],
+         [14, 13, 2, 2, 135]], 
     }
 
 def deplete_health(penalty):
