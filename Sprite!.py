@@ -253,14 +253,11 @@ its side", "leaking O2 tank"],
     46: [image('spoilt_machine'), None, "Navigation system. It is missing a \
 piece of magnet.", "spoilt system"],
     47: [image('machine'), None, "Navigation system", "navigation system"],
-    48: [image('mixture_1'), None, "Mixture of sulfur and seashell.\
-Needs charcoal to make gunpowder",
+    48: [image('mixture_1'), None, "Mixture of sulfur and seashell",
          "a mixture"],
-    49: [image('mixture_2'), None, "Mixture of sulfur and charcoal.\
-Needs seashell to make gunpowder",
+    49: [image('mixture_2'), None, "Mixture of sulfur and charcoal",
          "a mixture"],
-    50: [image('mixture_3'), None, "Mixture of charcoal and seashell.\
-Needs sulfur to make gunpowder",
+    50: [image('mixture_3'), None, "Mixture of charcoal and seashell",
          "a mixture"],
     51: [image('manual_page1'), None, None],
     52: [image('manual_page2'), None, None],
@@ -1464,8 +1461,6 @@ def close_text_boxes():
         game_progress[1] = True
         game_progress[0] = True
         save_progress()
-        pygame.time.delay(200)
-        return
 
     elif game_progress[11]: #Planet 2 to 3
         scenery[current_room].remove([213, 15, 0])
@@ -1680,12 +1675,12 @@ def game_loop():
 
     if keys[pygame.K_s]:
         save_progress()
-        show_text("Game progress saved.", 1)
+        show_text("Game progress saved.", 0)
 
     if keys[pygame.K_r]:
         new_game = True
         pickle.dump(new_game, open(path + "new_game.dat", "wb"))
-        end_the_game("Game restarting")
+        end_the_game("Game restarting...")
 
     #TELEPORTER
     if keys[pygame.K_x]:
@@ -1815,7 +1810,7 @@ def show_text(text_to_show, line_number):
 def planet_1_to_2():
     global current_room, game_progress
     global in_my_pockets, selected_item, speech_text
-    
+
     current_room = 21
     selected_item = 0
     in_my_pockets = [201, 124]
