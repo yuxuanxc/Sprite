@@ -1359,8 +1359,9 @@ def generate_map():
         hazard_map.append([0] * ROOM_WIDTH)
 
 def close_text_boxes():
-    global speech_text, game_progress
+    global speech_text, game_progress, current_room
     global planet1_progress, planet2_progress
+    global selected_item, in_my_pockets
         
     if planet1_progress[4]:
         planet1_progress[4] = False
@@ -1457,6 +1458,9 @@ def close_text_boxes():
         scenery[current_room].remove([212, 15, 0])
         show_text("You have arrived on a new planet!", 0)
         show_text("", 1)
+        current_room = 21
+        selected_item = 0
+        in_my_pockets = [201, 124]
         game_progress[10] = False
         game_progress[1] = True
         game_progress[0] = True
@@ -1466,6 +1470,9 @@ def close_text_boxes():
         scenery[current_room].remove([213, 15, 0])
         show_text("You have arrived on a new planet!", 0)
         show_text("", 1)
+        current_room = 33
+        selected_item = 0
+        in_my_pockets = [201, 178]
         game_progress[11] = False
         save_progress()
 
@@ -1473,6 +1480,9 @@ def close_text_boxes():
         scenery[current_room].remove([214, 15, 0])
         show_text("Well done! You have arrived on Earth!", 0)
         show_text("Press [A] to view your wall of achievements!", 1)
+        current_room = 36
+        selected_item = 0
+        in_my_pockets = [201]
         game_progress[12] = False
         save_progress()
 
@@ -1808,12 +1818,8 @@ def show_text(text_to_show, line_number):
     screen.blit(textsurface,(20, text_lines[line_number]))
 
 def planet_1_to_2():
-    global current_room, game_progress
-    global in_my_pockets, selected_item, speech_text
+    global game_progress, speech_text
 
-    current_room = 21
-    selected_item = 0
-    in_my_pockets = [201, 124]
     scenery[current_room].append([212, 15, 0])
     show_text("Press Enter to continue your journey~", 1)
     speech_text = 126
@@ -1821,24 +1827,16 @@ def planet_1_to_2():
     game_progress[0] = True
 
 def planet_2_to_3():
-    global current_room, game_progress
-    global in_my_pockets, selected_item, speech_text
+    global game_progress
     
-    current_room = 33
-    selected_item = 0
-    in_my_pockets = [201, 178]
     scenery[current_room].append([213, 15, 0])
     show_text("Press Enter to continue your journey~", 1)
     game_progress[11] = True
     game_progress[0] = True
 
 def planet_3_to_earth():
-    global current_room, game_progress
-    global in_my_pockets, selected_item
+    global game_progress
     
-    current_room = 36
-    selected_item = 0
-    in_my_pockets = [201]
     scenery[current_room].append([214, 15, 0])
     show_text("Press Enter to continue your journey~", 1)
     game_progress[12] = True
