@@ -1885,7 +1885,7 @@ def replenish_health():
 def end_the_game(reason):
     global run
 
-    show_text(reason, 1)
+    show_text(reason, 0)
     run = False
     
 #hazards#
