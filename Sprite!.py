@@ -1644,23 +1644,23 @@ def game_loop():
             show_text("Please press Enter to continue.", 0)
             show_text("", 1)
         else:
-            if game_progress[6]:
-                if game_progress[5] == False:
+            if game_progress[6]: 
+                if game_progress[5] == False: 
                     achievement = 205
-            if game_progress[8]:
-                if game_progress[7]:
-                    if game_progress[5]:
+            if game_progress[8]: 
+                if game_progress[7]: 
+                    if game_progress[5]: 
+                        achievement = 207
+                    else: 
                         achievement = 206
-                    else:
-                        achievement = 206
-            if game_progress[9]:
-                if game_progress[7]:
-                    if game_progress[5]:
+            if game_progress[9]: 
+                if game_progress[7]: 
+                    if game_progress[5]: 
                         achievement = 210
-                    else:
+                    else: 
                         achievement = 208                        
-                else:
-                    if game_progress[5]:
+                else: 
+                    if game_progress[5]: 
                         achievement = 211
                     else:
                         achievement = 209
