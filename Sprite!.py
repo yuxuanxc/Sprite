@@ -132,7 +132,8 @@ player_image_shadow = PLAYER_SHADOW["up"][0]
 PILLARS = {
     5: [image('wall_70')],
     80: [image('ice_wall_70')],
-    150: [image('wall_70')]
+    150: [image('wall_70')],
+    155: [image('maze_fence_70')]
     }
 
 BLACK = (0, 0, 0)
@@ -473,7 +474,7 @@ research papers"],
     254: [image('transparent'), None, "A tree"]
     }
 
-walls = [5, 80, 150]
+walls = [5, 80, 150, 155]
 items_player_may_carry = list(range(28, 51)) + list(range(121, 125)) + \
                          list(range(171, 179)) + [201]
 items_player_may_stand_on = items_player_may_carry + \
