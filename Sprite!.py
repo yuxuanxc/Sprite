@@ -241,7 +241,7 @@ with a staircase made from wooden planks"],
     35: [image('axe'), None, "An axe", "an axe"],
     36: [image('seashell'), None, "A seashell", "a seashell"],
     37: [image('oxygen_tank'), None, "An oxygen tank, with a hole on \
-its side", "leaking O2 tank"],
+its side", "leaking tank"],
     38: [image('oxygen_tank'), None, "A sealed oxygen tank",
          "oxygen tank"], 
     39: [image('sulfur'), None, "Sulfur", "sulfur"],
@@ -448,12 +448,11 @@ inside!"],
     212: [image('space_1to2'), None, "Space"],
     213: [image('space_2to3'), None, "Space"],
     214: [image('space_3'), None, "Space"],
-
+    
     215: [image('leaf'), None, None],
 
     #transparent images
     238: [image('transparent'), None, ""],
-    
     239: [image('transparent'), None,"Not much to see here"],
     240: [image('transparent'), None, "The mountain"],
     241: [image('transparent'), None, "The sea"],
@@ -813,8 +812,8 @@ if new_game:
     planet1_progress = [False, False, False, False,
                         False, False, False, False, False]
     planet2_progress = [False, False, False, True, False]
-    planet3_progress = [False, False, True, False, False, False, False,
-                        False]
+    planet3_progress = [False, False, True, False, False,
+                        False, False, False]
     
 else:  
     current_room = pickle.load(open(path + "current_room.dat", "rb"))
@@ -1534,7 +1533,7 @@ def game_loop():
             player_x += 1
             player_direction = "right"
             player_frame = 1
-        elif keys[pygame.K_LEFT]: #elif stops player making diagonal movements
+        elif keys[pygame.K_LEFT]: 
             from_player_x = player_x
             from_player_y = player_y
             player_x -= 1
