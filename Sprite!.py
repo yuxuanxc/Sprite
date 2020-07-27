@@ -806,7 +806,9 @@ if new_game:
     player_direction = "up"
     achievement = 204
     speech_text = 53
-    in_my_pockets = [201, 38, 40, 45, 47]
+    in_my_pockets = [201]
+    selected_item = 0
+    item_carrying = in_my_pockets[selected_item]
     game_progress = [True, True, False, False, False, False, False,
                      False, False, False, False, False, False, False]
     planet1_progress = [False, False, False, False,
@@ -823,6 +825,8 @@ else:
     achievement = pickle.load(open(path + "achievement.dat", "rb"))
     speech_text = pickle.load(open(path + "speech_text.dat", "rb"))
     in_my_pockets = pickle.load(open(path + "in_my_pockets.dat", "rb"))
+    selected_item = pickle.load(open(path + "selected_item.dat", "rb"))
+    item_carrying = pickle.load(open(path + "item_carrying.dat", "rb"))
     game_progress = pickle.load(open(path + "game_progress.dat", "rb"))
     planet1_progress = pickle.load(open(path + "planet1_progress.dat", "rb"))
     planet2_progress = pickle.load(open(path + "planet2_progress.dat", "rb"))
@@ -1202,9 +1206,6 @@ identify the culprit", 0)
 
 #HANDLE OBJECTS#
 
-selected_item = 0
-item_carrying = in_my_pockets[selected_item]
-
 def find_object_start_x():
     checker_x = player_x
     while room_map[player_y][checker_x] == 255:
@@ -1283,6 +1284,7 @@ def drop_object(old_y, old_x):
 
 def remove_object(item):
     global selected_item, in_my_pockets, item_carrying
+    
     in_my_pockets.remove(item)
     selected_item = selected_item - 1
     if selected_item < 0:
@@ -1464,7 +1466,7 @@ def close_text_boxes():
         show_text("", 1)
         current_room = 21
         selected_item = 0
-        in_my_pockets = [201, 124]
+        in_my_pockets = [201]
         game_progress[10] = False
         game_progress[1] = True
         game_progress[0] = True
@@ -1476,7 +1478,7 @@ def close_text_boxes():
         show_text("", 1)
         current_room = 33
         selected_item = 0
-        in_my_pockets = [201, 178]
+        in_my_pockets = [201]
         game_progress[11] = False
         save_progress()
 
@@ -1696,14 +1698,6 @@ def game_loop():
         pickle.dump(new_game, open(path + "new_game.dat", "wb"))
         end_the_game("Game restarting...")
 
-    #TELEPORTER
-    if keys[pygame.K_x]:
-        current_room = int(input("Enter room number:"))
-        player_x = 10
-        player_y = 10
-        generate_map()
-        start_room()
-
     if game_progress[10]:
         player_x = 6
         player_y = 11
@@ -1849,13 +1843,28 @@ def planet_3_to_earth():
 
 def save_progress():
     new_game = False
-    pickle.dump(current_room, open(path + "current_room.dat", "wb"))
-    pickle.dump(player_y, open(path + "player_y.dat", "wb"))
-    pickle.dump(player_x, open(path + "player_x.dat", "wb"))
+    if current_room == 9:
+        pickle.dump(10, open(path + "current_room.dat", "wb"))
+        pickle.dump(7, open(path + "player_y.dat", "wb"))
+        pickle.dump(1, open(path + "player_x.dat", "wb"))
+    elif current_room == 20:
+        pickle.dump(24, open(path + "current_room.dat", "wb"))
+        pickle.dump(2, open(path + "player_y.dat", "wb"))
+        pickle.dump(12, open(path + "player_x.dat", "wb"))
+    elif current_room == 30:
+        pickle.dump(31, open(path + "current_room.dat", "wb"))
+        pickle.dump(7, open(path + "player_y.dat", "wb"))
+        pickle.dump(1, open(path + "player_x.dat", "wb"))
+    else:
+        pickle.dump(current_room, open(path + "current_room.dat", "wb"))
+        pickle.dump(player_y, open(path + "player_y.dat", "wb"))
+        pickle.dump(player_x, open(path + "player_x.dat", "wb"))
     pickle.dump(player_direction, open(path + "player_direction.dat", "wb"))
     pickle.dump(achievement, open(path + "achievement.dat", "wb"))
     pickle.dump(speech_text, open(path + "speech_text.dat", "wb"))
     pickle.dump(in_my_pockets, open(path + "in_my_pockets.dat", "wb"))
+    pickle.dump(selected_item, open(path + "selected_item.dat", "wb"))
+    pickle.dump(item_carrying, open(path + "item_carrying.dat", "wb"))
     pickle.dump(game_progress, open(path + "game_progress.dat", "wb"))
     pickle.dump(planet1_progress, open(path + "planet1_progress.dat", "wb"))
     pickle.dump(planet2_progress, open(path + "planet2_progress.dat", "wb"))
