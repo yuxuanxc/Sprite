@@ -1844,14 +1844,17 @@ def planet_3_to_earth():
 def save_progress():
     new_game = False
     if current_room == 9:
+        close_text_boxes()
         pickle.dump(10, open(path + "current_room.dat", "wb"))
         pickle.dump(7, open(path + "player_y.dat", "wb"))
         pickle.dump(1, open(path + "player_x.dat", "wb"))
     elif current_room == 20:
+        close_text_boxes()
         pickle.dump(24, open(path + "current_room.dat", "wb"))
         pickle.dump(2, open(path + "player_y.dat", "wb"))
         pickle.dump(12, open(path + "player_x.dat", "wb"))
     elif current_room == 30:
+        close_text_boxes()
         pickle.dump(31, open(path + "current_room.dat", "wb"))
         pickle.dump(7, open(path + "player_y.dat", "wb"))
         pickle.dump(1, open(path + "player_x.dat", "wb"))
