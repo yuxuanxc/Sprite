@@ -848,7 +848,37 @@ def use_object():
     use_message = "You fiddle with it but nothing happens."
     standard_responses = {
         28: "Hot!",
+        31: "The iron ore is a smooth piece of metal.", 
+        32: "The rock could be useful to make a tool.", 
+        33: "The stone could be useful to make a tool.", 
+        36: "The seashell can be easily crushed.", 
+        37: "The oxygen tank is leaking.", 
+        38: "The oxygen tank is ready for use!", 
+        39: "The sulfur seems useful for gunpowder.", 
+        40: "The gunpowder is ready for use!", 
+        41: "The goo sticks to your hands.", 
         43: "You read the manual.",
+        44: "The log can be crafted into planks.", 
+        45: "The plank is ready for use!", 
+        46: "The navigation system does not work.", 
+        47: "The navigation system is ready for use!", 
+        48: "The mixture seems useful for gunpowder.", 
+        49: "The mixture seems useful for gunpowder.", 
+        50: "The mixture seems useful for gunpowder.",
+
+        121: "The access card seems useful.", 
+        122: "The key might be useful later.", 
+        123: "The shovel might be usful later.", 
+        124: "The fuel is perfect for the spaceship.", 
+
+        171: "This would be useful at the river.", 
+        172: "The string can be used in a fishing rod.", 
+        173: "The stick can be used to make a tool.", 
+        174: "The shears might be useful later.", 
+        175: "You caught a fish!", 
+        176: "The key might be useful later.", 
+        177: "You pet Scout on the head.", 
+        
         201: "You read the letter you wrote to yourself."
         }
 
