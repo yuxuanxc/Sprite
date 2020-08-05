@@ -450,6 +450,8 @@ inside!"],
     214: [image('space_3'), None, "Space"],
     
     215: [image('leaf'), None, None],
+    216: [image('reset'), None, None],
+    217: [image('game_over'), None, None],
 
     #transparent images
     238: [image('transparent'), None, ""],
@@ -810,7 +812,8 @@ if new_game:
     selected_item = 0
     item_carrying = in_my_pockets[selected_item]
     game_progress = [True, True, False, False, False, False, False,
-                     False, False, False, False, False, False, False]
+                     False, False, False, False, False, False, False, False,
+                     False]
     planet1_progress = [False, False, False, False,
                         False, False, False, False, False]
     planet2_progress = [False, False, False, True, False]
@@ -1522,6 +1525,11 @@ def close_text_boxes():
         game_progress[12] = False
         save_progress()
 
+    elif game_progress[14]:
+        scenery[current_room].remove([216, 15, 0])
+        show_text("", 0)
+        game_progress[14] = False
+        
     game_progress[0] = False
     
     pygame.time.delay(200)
@@ -1558,7 +1566,7 @@ def game_loop():
     keys = pygame.key.get_pressed()
     
     # move if key is pressed
-    if player_frame == 0:
+    if player_frame == 0 and not game_progress[15]:
         if keys[pygame.K_RIGHT]:
             from_player_x = player_x
             from_player_y = player_y
@@ -1631,102 +1639,117 @@ def game_loop():
         start_room()
         return
 
-    if keys[pygame.K_w] and len(in_my_pockets) > 0:
-        selected_item += 1
-        if selected_item > len(in_my_pockets) - 1:
-            selected_item = 0
-        item_carrying = in_my_pockets[selected_item]
-        display_inventory()
-        pygame.time.delay(300)
-
-    if keys[pygame.K_q] and len(in_my_pockets) > 0:
-        selected_item -= 1
-        if selected_item < 0:
-            selected_item = len(in_my_pockets) - 1
-        item_carrying = in_my_pockets[selected_item]
-        display_inventory()
-        pygame.time.delay(300)
-
-    if not game_progress[13]:
-        if keys[pygame.K_g]:
-            pick_up_object()
-            
-        if keys[pygame.K_d] and item_carrying:
-            drop_object(old_player_y, old_player_x)
-
-        if keys[pygame.K_SPACE]:
-            examine_object()
-            speak()
-
-        if keys[pygame.K_u]:
-            use_object()
+    if not game_progress[15]:
+        
+        if keys[pygame.K_w] and len(in_my_pockets) > 0:
+            selected_item += 1
+            if selected_item > len(in_my_pockets) - 1:
+                selected_item = 0
+            item_carrying = in_my_pockets[selected_item]
+            display_inventory()
             pygame.time.delay(300)
 
-    if keys[pygame.K_h]:
-        if game_progress[0]:
-            show_text("Please press Enter to continue.", 0)
-        else:
-            scenery[current_room].append([202, 15, 0])
-            game_progress[3] = True
-            game_progress[0] = True
-            show_text("Help Menu", 0)
+        if keys[pygame.K_q] and len(in_my_pockets) > 0:
+            selected_item -= 1
+            if selected_item < 0:
+                selected_item = len(in_my_pockets) - 1
+            item_carrying = in_my_pockets[selected_item]
+            display_inventory()
+            pygame.time.delay(300)
+
+        if not game_progress[13]:
+            if keys[pygame.K_g]:
+                pick_up_object()
                 
-    if keys[pygame.K_a]:
-        if game_progress[0]:
-            show_text("Please press Enter to continue.", 0)
-            show_text("", 1)
-        else:
-            if game_progress[6]: 
-                if game_progress[5] == False: 
-                    achievement = 205
-            if game_progress[8]: 
-                if game_progress[7]: 
-                    if game_progress[5]: 
-                        achievement = 207
-                    else: 
-                        achievement = 206
-            if game_progress[9]: 
-                if game_progress[7]: 
-                    if game_progress[5]: 
-                        achievement = 210
-                    else: 
-                        achievement = 208                        
-                else: 
-                    if game_progress[5]: 
-                        achievement = 211
-                    else:
-                        achievement = 209
-            scenery[current_room].append([achievement, 15, 0])
-            game_progress[4] = True
-            game_progress[0] = True
+            if keys[pygame.K_d] and item_carrying:
+                drop_object(old_player_y, old_player_x)
 
-    if keys[pygame.K_1] or keys[pygame.K_2] or keys[pygame.K_3]:
-        if planet2_progress[4]:   
-            if keys[pygame.K_2]:
-                speech_text = 131
-                game_progress[7] = True
+            if keys[pygame.K_SPACE]:
+                examine_object()
+                speak()
+
+            if keys[pygame.K_u]:
+                use_object()
+                pygame.time.delay(300)
+
+        if keys[pygame.K_h]:
+            if game_progress[0]:
+                show_text("Please press Enter to continue.", 0)
             else:
-                speech_text = 130
-            scenery[current_room].remove([125, 15, 0])
-            scenery[current_room].append([200, 15, 0]) #speech bubble
-            scenery[current_room].append([speech_text, 15, 2])
-            game_progress[1] = True
-            game_progress[0] = True
-            planet2_progress[3] = False
-            planet2_progress[4] = False
-            game_progress[8] = True   
+                scenery[current_room].append([202, 15, 0])
+                game_progress[3] = True
+                game_progress[0] = True
+                show_text("Help Menu", 0)
+                pygame.time.delay(200)
+                    
+        if keys[pygame.K_a]:
+            if game_progress[0]:
+                show_text("Please press Enter to continue.", 0)
+                show_text("", 1)
+            else:
+                if game_progress[6]: 
+                    if game_progress[5] == False: 
+                        achievement = 205
+                if game_progress[8]: 
+                    if game_progress[7]: 
+                        if game_progress[5]: 
+                            achievement = 207
+                        else: 
+                            achievement = 206
+                if game_progress[9]: 
+                    if game_progress[7]: 
+                        if game_progress[5]: 
+                            achievement = 210
+                        else: 
+                            achievement = 208                        
+                    else: 
+                        if game_progress[5]: 
+                            achievement = 211
+                        else:
+                            achievement = 209
+                scenery[current_room].append([achievement, 15, 0])
+                game_progress[4] = True
+                game_progress[0] = True
+                pygame.time.delay(200)
 
-    if keys[pygame.K_RETURN]:
-        close_text_boxes()
+        if keys[pygame.K_1] or keys[pygame.K_2] or keys[pygame.K_3]:
+            if planet2_progress[4]:   
+                if keys[pygame.K_2]:
+                    speech_text = 131
+                    game_progress[7] = True
+                else:
+                    speech_text = 130
+                scenery[current_room].remove([125, 15, 0])
+                scenery[current_room].append([200, 15, 0]) #speech bubble
+                scenery[current_room].append([speech_text, 15, 2])
+                game_progress[1] = True
+                game_progress[0] = True
+                planet2_progress[3] = False
+                planet2_progress[4] = False
+                game_progress[8] = True   
 
-    if keys[pygame.K_s]:
-        save_progress()
-        show_text("Game progress saved.", 0)
+        if keys[pygame.K_RETURN]:
+            close_text_boxes()
 
-    if keys[pygame.K_r]:
-        new_game = True
-        pickle.dump(new_game, open(path + "new_game.dat", "wb"))
-        end_the_game("Game restarting...")
+        if keys[pygame.K_s]:
+            save_progress()
+            show_text("Game progress saved.", 0)
+
+        if keys[pygame.K_r]:
+            if game_progress[0]:
+                show_text("Please press Enter to continue.", 0)
+            else:
+                game_progress[14] = True
+                game_progress[0] = True
+                scenery[current_room].append([216, 15, 0])
+                show_text("Resetting game", 0)
+                pygame.time.delay(200)
+
+        if game_progress[14]:
+            if keys[pygame.K_y]:
+                new_game = True
+                pickle.dump(new_game, open(path + "new_game.dat", "wb"))
+                end_the_game("Game restarting...")
 
     if game_progress[10]:
         player_x = 6
@@ -1947,15 +1970,13 @@ hazard_data = {
     }
 
 def deplete_health(penalty):
-    global health, run
-    
-    if not run:
-        return
+    global health, game_progress
     
     health = health - penalty
     draw_health()
     if health < 1:
-        end_the_game("You ran out of health!")
+        scenery[current_room].append([217, 15, 0])
+        game_progress[15] = True
         
 def hazard_start():
     global current_room_hazards_list, hazard_map
@@ -1998,8 +2019,9 @@ def hazard_move():
            (hazard_y == from_player_y and hazard_x == from_player_x
             and player_frame > 0):
             deplete_health(10)
-            sound('ouch')
             hazard_should_bounce = True
+            if not game_progress[15]:
+                sound('ouch')
 
         if hazard_x == ROOM_WIDTH:
             hazard_should_bounce = True
