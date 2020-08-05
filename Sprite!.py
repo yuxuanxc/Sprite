@@ -226,7 +226,7 @@ with a staircase made from wooden planks"],
     21: [image('baby_raccoon'), image('baby_raccoon_shadow'), "A baby raccoon"],
     22: [image('fireplace'), None, "A charcoal fireplace"],
     23: [image('table'), image('table_shadow'), "A crafting table"],
-    24: [image('spaceship_broken'), None, "The remains of my spaceship"],
+    24: [image('spaceship_broken'), None, "The remains of your spaceship"],
     25: [image('spaceship'), image('spaceship_shadow'), "The spaceship"],
     26: [image('destroyed_treehouse'), image('treehouse_shadow'), "A destroyed tree house"],
     27: [image('iron_ore'), None, "Something shiny"],
@@ -262,10 +262,10 @@ piece of magnet.", "spoilt system"],
          "a mixture"],
     51: [image('manual_page1'), None, None],
     52: [image('manual_page2'), None, None],
-    53: [image('speech_1'), None, None], # raccoon 1
-    54: [image('speech_2'), None, None], # baby raccoon
-    55: [image('speech_3'), None, None], # baby raccoon
-    56: [image('speech_4'), None, None], # raccoon 2
+    53: [image('speech_1'), None, None], 
+    54: [image('speech_2'), None, None], 
+    55: [image('speech_3'), None, None], 
+    56: [image('speech_4'), None, None], 
 
     #planet 2
     57: [image('road_tile'), None, None],
@@ -344,12 +344,12 @@ take off."],
     123: [image('shovel'), None, "A shovel", "a shovel"],
     124: [image('fuel'), None, "A fuel tank", "a fuel tank"],
     125: [image('choose_culprit'), None, None],
-    126: [image('speech_5'), None, None], # Self
-    127: [image('speech_6'), None, None], # Mayor
+    126: [image('speech_5'), None, None], 
+    127: [image('speech_6'), None, None], 
     128: [image('speech_7'), None, None],
     129: [image('speech_8'), None, None],
-    130: [image('speech_9'), None, None], # Not convinced
-    131: [image('speech_10'), None, None], # Convinced
+    130: [image('speech_9'), None, None], 
+    131: [image('speech_10'), None, None], 
     132: [image('speech_fisherman'), None, None],
     133: [image('speech_scientist'), None, None],
     134: [image('speech_student'), None, None],
@@ -431,7 +431,7 @@ inside!"],
 
     #general
     200: [image('speech'), None, None],
-    201: [image('letter'), None, "A letter I wrote to myself",
+    201: [image('letter'), None, "A letter you wrote to yourself",
          "letter to self"],
     202: [image('help'), None, None],
     203: [image('letter_1'), None, None],
@@ -848,12 +848,16 @@ def use_object():
     global speech_text, game_progress
     global planet1_progress, planet2_progress, planet3_progress
 
+    item_carrying = in_my_pockets[selected_item]
+
     use_message = "You fiddle with it but nothing happens."
     standard_responses = {
         28: "Hot!",
+        29: "The stick can be used to make a tool.",
+        30: "The stick can be used to make a tool.",
         31: "The iron ore is a smooth piece of metal.", 
-        32: "The rock could be useful to make a tool.", 
-        33: "The stone could be useful to make a tool.", 
+        32: "The rock can be used to make a tool.", 
+        33: "The stone can be used to make a tool.", 
         36: "The seashell can be easily crushed.", 
         37: "The oxygen tank is leaking.", 
         38: "The oxygen tank is ready for use!", 
@@ -871,7 +875,7 @@ def use_object():
 
         121: "The access card seems useful.", 
         122: "The key might be useful later.", 
-        123: "The shovel might be usful later.", 
+        123: "The shovel might be useful later.", 
         124: "The fuel is perfect for the spaceship.", 
 
         171: "This would be useful at the river.", 
@@ -903,11 +907,11 @@ def use_object():
 
     elif item_carrying == 35 and item_player_is_on in [12, 13, 14, 243]: # use axe
         if item_player_is_on in [12, 13, 243]:
-            use_message = "You chopped off a piece of log"
+            use_message = "You chopped off a piece of log."
             add_object(44)
             sound('combine')
         elif item_player_is_on == 14:
-            use_message = "You chopped off a piece of plank"
+            use_message = "You chopped off a piece of plank."
             add_object(45)
             sound('combine')
             scenery[current_room].remove([14, 7, 6])
@@ -915,26 +919,26 @@ def use_object():
             game_progress[5] = True
 
     elif item_carrying == 44 and item_player_is_on == 23: # use crafting table
-        use_message = "You crafted planks from the log"
+        use_message = "You crafted planks from the log."
         add_object(45)
         remove_object(44)
         sound('combine')
 
     elif item_player_is_on in [24, 242] and item_carrying in [38, 40, 45, 47]: # broken spaceship
         if item_carrying == 45: # fix plank
-            use_message = "You fix the plank to the spaceship"
+            use_message = "You fix the plank to the spaceship."
             planet1_progress[0] = True
             remove_object(45)
         elif item_carrying == 47: # fix navigation system
-            use_message = "You fix the navigation system to the spaceship"
+            use_message = "You fix the navigation system to the spaceship."
             planet1_progress[1] = True
             remove_object(47)
         elif item_carrying == 40: # add gunpowder
-            use_message = "You add gunpowder into the rocket booster"
+            use_message = "You add gunpowder into the rocket booster."
             planet1_progress[2] = True
             remove_object(40)
         elif item_carrying == 38: # fix oxygen tank
-            use_message = "You fix the oxygen tank to the spaceship"
+            use_message = "You fix the oxygen tank to the spaceship."
             planet1_progress[3] = True
             remove_object(38)
         if planet1_progress[0] and planet1_progress[1] and \
@@ -987,7 +991,7 @@ to view it.", 1)
         sound('combine')
 
     elif item_player_is_on == 84 and item_carrying == 123:
-        use_message = "You shovel the snow away to reveal a hidden gate"
+        use_message = "You shovel the snow away to reveal a hidden gate."
         scenery[current_room].remove([84, 7, 0])
         scenery[current_room].append([59, 7, 9])
         scenery[current_room].append([59, 7, 13])
@@ -997,7 +1001,7 @@ to view it.", 1)
         sound('combine')
 
     elif item_player_is_on == 77 and item_carrying == 124:
-        use_message = "You add fuel to your spaceship"
+        use_message = "You add fuel to your spaceship."
         scenery[current_room].remove([77, 10, 5])
         scenery[current_room].append([120, 10, 5])
         remove_object(124)
@@ -1016,7 +1020,7 @@ to view it.", 1)
         scenery[current_room].remove([161, 5, 9])
         scenery[current_room].append([162, 5, 0])
         scenery[current_room].append([163, 5, 14])
-        use_message = "You cut away the twines to reveal a hidden path"
+        use_message = "You cut away the twines to reveal a hidden path."
         sound('combine')
 
     elif item_player_is_on == 253 and item_carrying == 171:
@@ -1068,7 +1072,7 @@ to view it.", 1)
         remove_object(175)
 
     elif item_player_is_on == 142 and planet3_progress[6]:
-        use_message = "You placed Scout in his spaceship"
+        use_message = "You placed Scout in his spaceship."
         scenery[current_room].remove([142, 10, 10])
         remove_object(177)
         add_object(178)
@@ -1076,7 +1080,7 @@ to view it.", 1)
         sound('combine')
 
     elif item_player_is_on == 141 and item_carrying == 178:
-        use_message = "You attached Scout's spaceship to your own"
+        use_message = "You attached Scout's spaceship to your own."
         scenery[current_room].remove([141, 10, 6])
         scenery[current_room].append([169, 10, 6])     
         remove_object(178)
@@ -1192,7 +1196,7 @@ def speak():
                     planet2_progress[4] = True
                 else:
                     show_text("You have used up your only chance to \
-identify the culprit", 0)
+identify the culprit.", 0)
 
     # planet 3
     if item_player_is_on == 167: # unfriendly cats
@@ -1307,7 +1311,7 @@ def drop_object(old_y, old_x):
         props[item_carrying][1] = old_y
         props[item_carrying][2] = old_x
         room_map[old_y][old_x] = item_carrying
-        show_text("You have dropped " + objects[item_carrying][3], 0)
+        show_text("You have dropped " + objects[item_carrying][3] + ".", 0)
         sound('drop')
         remove_object(item_carrying)
         pygame.time.delay(300)
@@ -1512,6 +1516,7 @@ def close_text_boxes():
         current_room = 33
         selected_item = 0
         in_my_pockets = [201]
+        item_carrying = 201
         game_progress[11] = False
         save_progress()
 
@@ -1522,6 +1527,7 @@ def close_text_boxes():
         current_room = 36
         selected_item = 0
         in_my_pockets = [201]
+        item_carrying = 201
         game_progress[12] = False
         save_progress()
 
@@ -1749,7 +1755,7 @@ def game_loop():
             if keys[pygame.K_y]:
                 new_game = True
                 pickle.dump(new_game, open(path + "new_game.dat", "wb"))
-                end_the_game("Game restarting...")
+                end_the_game("Game progress resetting...")
 
     if game_progress[10]:
         player_x = 6
